@@ -10,7 +10,7 @@ version-androidx-lifecycle = "2.5.1"
 version-androidx-activity-compose = "1.5.1"
 
 version-compose-compiler = "1.3.2"
-version-compose-base = "1.3.0-beta01"
+version-compose-base = "1.3.0-rc01"
 
 version-material3 = "1.0.0-rc01"
 
