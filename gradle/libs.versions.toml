@@ -1,0 +1,63 @@
+[versions]
+version-android-application = "7.3.0"
+version-android-library = "7.3.0"
+version-kotlin = "1.7.20"
+
+version-androidx-core = "1.8.0"
+version-androidx-appcompat = "1.5.0"
+version-androidx-lifecycle = "2.5.1"
+
+version-androidx-activity-compose = "1.5.1"
+
+version-compose-compiler = "1.3.2"
+version-compose-base = "1.3.0-beta01"
+
+version-material3 = "1.0.0-rc01"
+
+version-junit4 = "4.13.2"
+version-androidx-junit-ext = "1.1.3"
+version-androidx-espresso-core = "3.4.0"
+
+[libraries]
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "version-androidx-core" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "version-androidx-appcompat" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "version-androidx-lifecycle" }
+androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "version-androidx-lifecycle" }
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "version-androidx-activity-compose" }
+
+compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "version-compose-compiler" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "version-compose-base" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "version-compose-base" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "version-compose-base" }
+compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "version-compose-base" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "version-compose-base" }
+compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "version-compose-base" }
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "version-compose-base" }
+compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "version-compose-base" }
+compose-material-icons = { module = "androidx.compose.material:material-icons-core", version.ref = "version-compose-base" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "version-compose-base" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "version-compose-base" }
+compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "version-compose-base" }
+compose-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "version-compose-base" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "version-compose-base" }
+
+material3 = { module = "androidx.compose.material3:material3", version.ref = "version-material3" }
+
+junit = { module = "junit:junit", version.ref = "version-junit4" }
+androidx-junit-ext = { module = "androidx.test.ext:junit", version.ref = "version-androidx-junit-ext" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "version-androidx-espresso-core" }
+
+[bundles]
+compose = ["compose-compiler", "compose-ui", "compose-ui-util", "compose-foundation", "compose-foundation-layout", "compose-runtime", "compose-runtime-livedata", "compose-material-icons", "compose-material-icons-extended", "compose-animation", "compose-animation-core", "compose-ui-tooling-preview"]
+compose-debug = ["compose-ui-tooling", "compose-ui-test"]
+androidx-base = ["androidx-core", "androidx-appcompat", "androidx-lifecycle", "androidx-lifecycle-livedata"]
+androidx-compose-ext = ["androidx-activity-compose"]
+
+android-test = ["androidx-junit-ext", "espresso-core", "compose-junit"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "version-android-application" }
+android-library = { id = "com.android.library", version.ref = "version-android-library" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "version-kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "version-kotlin" }
