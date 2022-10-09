@@ -1,4 +1,4 @@
-package com.marosseleng.compose.material3.datetimepickers
+package com.marosseleng.compose.material3.datetimepickers.time.ui
 
 import android.text.format.DateFormat
 import androidx.compose.animation.Crossfade
@@ -73,9 +73,12 @@ import kotlin.math.sqrt
 public fun TimePicker(
     modifier: Modifier = Modifier,
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
-    time: LocalTime,
+    initialTime: LocalTime,
     onTimeChange: (LocalTime) -> Unit,
 ) {
+    var time: LocalTime by rememberSaveable {
+        mutableStateOf(initialTime)
+    }
     val hourFormat: ClockDialMode by rememberSaveable(is24HourFormat) {
         mutableStateOf(ClockDialMode.Hours(is24HourFormat = is24HourFormat))
     }
@@ -96,11 +99,8 @@ public fun TimePicker(
         Column(
             modifier = Modifier
         ) {
-            // TODO:
-            Text(text = "Select time", style = MaterialTheme.typography.labelLarge)
             HorizontalClockDigits(
                 modifier = Modifier
-                    .padding(top = 24.dp)
                     .fillMaxWidth(),
                 time = time,
                 selectedMode = selectedMode,
@@ -109,12 +109,16 @@ public fun TimePicker(
                 onMinuteClick = { selectedMode = ClockDialMode.Minutes },
                 onAmClick = {
                     if (amPmMode == AmPmMode.PM) {
-                        onTimeChange(LocalTime.of(time.hour - 12, time.minute))
+                        val newTime = LocalTime.of(time.hour - 12, time.minute)
+                        time = newTime
+                        onTimeChange(newTime)
                     }
                 },
                 onPmClick = {
                     if (amPmMode == AmPmMode.AM) {
-                        onTimeChange(LocalTime.of(time.hour + 12, time.minute))
+                        val newTime = LocalTime.of(time.hour + 12, time.minute)
+                        time = newTime
+                        onTimeChange(newTime)
                     }
                 },
             )
@@ -129,16 +133,21 @@ public fun TimePicker(
                         MinutesDial(
                             value = time.minute,
                             onValueChange = {
-                                onTimeChange(LocalTime.of(time.hour, it))
+                                val newTime = LocalTime.of(time.hour, it)
+                                time = newTime
+                                onTimeChange(newTime)
                             },
                         )
                     }
+
                     is ClockDialMode.Hours -> {
                         if (dialMode.is24HourFormat) {
                             Hour24Dial(
                                 value = time.getHour(in24HourFormat = true),
                                 onValueChange = {
-                                    onTimeChange(LocalTime.of(it, time.minute))
+                                    val newTime = LocalTime.of(it, time.minute)
+                                    time = newTime
+                                    onTimeChange(newTime)
                                 },
                                 onDragStop = {
                                     selectedMode = ClockDialMode.Minutes
@@ -161,7 +170,9 @@ public fun TimePicker(
                                             it + 12
                                         }
                                     }
-                                    onTimeChange(LocalTime.of(hour, time.minute))
+                                    val newTime = LocalTime.of(hour, time.minute)
+                                    time = newTime
+                                    onTimeChange(newTime)
                                 },
                                 onDragStop = {
                                     selectedMode = ClockDialMode.Minutes
@@ -251,8 +262,6 @@ internal fun HorizontalClockDigits(
 }
 
 /**
- * FINAL
- *
  * Vertical AM/PM switch for use in vertical layout.
  */
 @Composable
@@ -312,11 +321,13 @@ internal fun VerticalAmPmSwitch(
 }
 
 /**
- * @param value minute value (0-59)
- * @param onValueChange called when minutes change (0-59)
+ * Minutes time picker dial.
+ *
+ * @param value minute value (0-59).
+ * @param onValueChange called when minutes change (0-59).
  */
 @Composable
-fun MinutesDial(
+internal fun MinutesDial(
     modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
@@ -336,7 +347,7 @@ fun MinutesDial(
             }
             onValueChange(minute)
         },
-        onDragStop = {},
+        onTouchStop = {},
     ) {
         Box(
             modifier = Modifier
@@ -391,11 +402,13 @@ fun MinutesDial(
 }
 
 /**
+ * Hours in 12-hour format time picker dial.
+ *
  * @param value hour value 1-12
  * @param onValueChange called when selected hour changes (1-12)
  */
 @Composable
-fun Hour12Dial(
+internal fun Hour12Dial(
     modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
@@ -416,7 +429,7 @@ fun Hour12Dial(
             }
             onValueChange(hour)
         },
-        onDragStop = onDragStop,
+        onTouchStop = onDragStop,
     ) {
         Box(
             modifier = Modifier
@@ -456,11 +469,13 @@ fun Hour12Dial(
 }
 
 /**
+ * Hours in 24-hour format time picker dial.
+ *
  * @param value 24h hour value (0-23)
  * @param onValueChange called when value changes (0-23)
  */
 @Composable
-fun Hour24Dial(
+internal fun Hour24Dial(
     modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
@@ -489,7 +504,7 @@ fun Hour24Dial(
             }
             onValueChange(hour)
         },
-        onDragStop = onDragStop,
+        onTouchStop = onDragStop,
     ) {
         Box(
             modifier = Modifier
@@ -550,11 +565,18 @@ fun Hour24Dial(
     }
 }
 
+/**
+ * Base for all dials. Registering taps ang drags.
+ *
+ * @param onAngleAndDistanceRatioChange changes when the touch angle and the ratio of touch's distance from center to
+ *                                      the radius in px changes. Angle of 0 degrees is at 12 o'clock.
+ * @param onTouchStop called when the touch event halts.
+ */
 @Composable
-fun TouchRegisteringDial(
+internal fun TouchRegisteringDial(
     modifier: Modifier = Modifier,
     onAngleAndDistanceRatioChange: (angle: Float, ratio: Float) -> Unit,
-    onDragStop: () -> Unit,
+    onTouchStop: () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val diameterDp = 256.dp
@@ -599,7 +621,7 @@ fun TouchRegisteringDial(
                 centerY = windowBounds.size.height / 2f
             }
             .pointerInput(Unit) {
-                detectDragGestures(onDragEnd = onDragStop, onDragCancel = onDragStop) { change, _ ->
+                detectDragGestures(onDragEnd = onTouchStop, onDragCancel = onTouchStop) { change, _ ->
                     touchX = change.position.x
                     touchY = change.position.y
                     onAngleAndDistanceRatioChange(angleFloat, distanceFromCenterRatio)
@@ -610,6 +632,7 @@ fun TouchRegisteringDial(
                     touchX = it.x
                     touchY = it.y
                     onAngleAndDistanceRatioChange(angleFloat, distanceFromCenterRatio)
+                    onTouchStop()
                 }
             }
             .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f)),
@@ -617,13 +640,19 @@ fun TouchRegisteringDial(
     )
 }
 
+/**
+ * Represents the single hour/minute number.
+ *
+ * @param isSelected whether this value is selected.
+ * @param value value to print. `null` if there is just a dot (for minutes that are not multipliers of 5).
+ */
 @Composable
-fun BoxScope.HourNumber(
+internal fun BoxScope.HourNumber(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
     value: Int?,
 ) {
-    // TODO
+    // TODO: try to draw the boundary
     val foregroundColor = if (isSelected) {
         MaterialTheme.colorScheme.onPrimary
     } else {

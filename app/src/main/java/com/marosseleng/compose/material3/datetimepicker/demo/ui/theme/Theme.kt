@@ -1,4 +1,4 @@
-package com.marosseleng.compose.material3.datetimepicker.ui.theme
+package com.marosseleng.compose.material3.datetimepicker.demo.ui.theme
 
 import android.app.Activity
 import android.os.Build

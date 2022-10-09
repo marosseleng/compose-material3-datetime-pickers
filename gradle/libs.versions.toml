@@ -50,6 +50,7 @@ espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref =
 
 [bundles]
 compose = ["compose-compiler", "compose-ui", "compose-ui-util", "compose-foundation", "compose-foundation-layout", "compose-runtime", "compose-runtime-livedata", "compose-material-icons", "compose-material-icons-extended", "compose-animation", "compose-animation-core", "compose-ui-tooling-preview"]
+compose-library = ["compose-compiler", "compose-ui", "compose-ui-util", "compose-foundation", "compose-foundation-layout", "compose-runtime", "compose-animation", "compose-animation-core", "compose-ui-tooling-preview"]
 compose-debug = ["compose-ui-tooling", "compose-ui-test"]
 androidx-base = ["androidx-core", "androidx-appcompat", "androidx-lifecycle", "androidx-lifecycle-livedata"]
 androidx-compose-ext = ["androidx-activity-compose"]
