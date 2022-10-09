@@ -23,10 +23,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,19 +37,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.marosseleng.compose.material3.datetimepickers.common.domain.roundToNearest
+import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.time.domain.AmPmMode
 import com.marosseleng.compose.material3.datetimepickers.time.domain.ClockDialMode
+import com.marosseleng.compose.material3.datetimepickers.time.domain.LocalTimePickerColors
+import com.marosseleng.compose.material3.datetimepickers.time.domain.LocalTimePickerShapes
+import com.marosseleng.compose.material3.datetimepickers.time.domain.LocalTimePickerTypography
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerColors
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerDefaults
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerShapes
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerTypography
 import com.marosseleng.compose.material3.datetimepickers.time.domain.getHour
 import java.text.DateFormatSymbols
 import java.time.LocalTime
@@ -71,10 +76,13 @@ import kotlin.math.sqrt
 @ExperimentalMaterial3Api
 @Composable
 public fun TimePicker(
-    modifier: Modifier = Modifier,
-    is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
     initialTime: LocalTime,
     onTimeChange: (LocalTime) -> Unit,
+    modifier: Modifier = Modifier,
+    is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
+    colors: TimePickerColors = TimePickerDefaults.colors,
+    shapes: TimePickerShapes = TimePickerDefaults.shapes,
+    typography: TimePickerTypography = TimePickerDefaults.typography,
 ) {
     var time: LocalTime by rememberSaveable {
         mutableStateOf(initialTime)
@@ -95,89 +103,95 @@ public fun TimePicker(
         }
         mutableStateOf(result)
     }
-    Surface(modifier = modifier) {
-        Column(
-            modifier = Modifier
-        ) {
-            HorizontalClockDigits(
+    CompositionLocalProvider(
+        LocalTimePickerColors provides colors,
+        LocalTimePickerShapes provides shapes,
+        LocalTimePickerTypography provides typography,
+    ) {
+        Surface(modifier = modifier) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                time = time,
-                selectedMode = selectedMode,
-                amPmMode = amPmMode,
-                onHourClick = { selectedMode = hourFormat },
-                onMinuteClick = { selectedMode = ClockDialMode.Minutes },
-                onAmClick = {
-                    if (amPmMode == AmPmMode.PM) {
-                        val newTime = LocalTime.of(time.hour - 12, time.minute)
-                        time = newTime
-                        onTimeChange(newTime)
-                    }
-                },
-                onPmClick = {
-                    if (amPmMode == AmPmMode.AM) {
-                        val newTime = LocalTime.of(time.hour + 12, time.minute)
-                        time = newTime
-                        onTimeChange(newTime)
-                    }
-                },
-            )
-            Crossfade(
-                modifier = Modifier
-                    .padding(top = 36.dp)
-                    .align(Alignment.CenterHorizontally),
-                targetState = selectedMode
-            ) { dialMode ->
-                when (dialMode) {
-                    is ClockDialMode.Minutes -> {
-                        MinutesDial(
-                            value = time.minute,
-                            onValueChange = {
-                                val newTime = LocalTime.of(time.hour, it)
-                                time = newTime
-                                onTimeChange(newTime)
-                            },
-                        )
-                    }
+            ) {
+                HorizontalClockDigits(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    time = time,
+                    selectedMode = selectedMode,
+                    amPmMode = amPmMode,
+                    onHourClick = { selectedMode = hourFormat },
+                    onMinuteClick = { selectedMode = ClockDialMode.Minutes },
+                    onAmClick = {
+                        if (amPmMode == AmPmMode.PM) {
+                            val newTime = LocalTime.of(time.hour - 12, time.minute)
+                            time = newTime
+                            onTimeChange(newTime)
+                        }
+                    },
+                    onPmClick = {
+                        if (amPmMode == AmPmMode.AM) {
+                            val newTime = LocalTime.of(time.hour + 12, time.minute)
+                            time = newTime
+                            onTimeChange(newTime)
+                        }
+                    },
+                )
+                Crossfade(
+                    modifier = Modifier
+                        .padding(top = 36.dp)
+                        .align(Alignment.CenterHorizontally),
+                    targetState = selectedMode
+                ) { dialMode ->
+                    when (dialMode) {
+                        is ClockDialMode.Minutes -> {
+                            MinutesDial(
+                                value = time.minute,
+                                onValueChange = {
+                                    val newTime = LocalTime.of(time.hour, it)
+                                    time = newTime
+                                    onTimeChange(newTime)
+                                },
+                            )
+                        }
 
-                    is ClockDialMode.Hours -> {
-                        if (dialMode.is24HourFormat) {
-                            Hour24Dial(
-                                value = time.getHour(in24HourFormat = true),
-                                onValueChange = {
-                                    val newTime = LocalTime.of(it, time.minute)
-                                    time = newTime
-                                    onTimeChange(newTime)
-                                },
-                                onTouchStop = {
-                                    selectedMode = ClockDialMode.Minutes
-                                },
-                            )
-                        } else {
-                            Hour12Dial(
-                                value = time.getHour(in24HourFormat = false),
-                                onValueChange = {
-                                    val hour = if (amPmMode == AmPmMode.AM) {
-                                        if (it == 12) {
-                                            0
+                        is ClockDialMode.Hours -> {
+                            if (dialMode.is24HourFormat) {
+                                Hour24Dial(
+                                    value = time.getHour(in24HourFormat = true),
+                                    onValueChange = {
+                                        val newTime = LocalTime.of(it, time.minute)
+                                        time = newTime
+                                        onTimeChange(newTime)
+                                    },
+                                    onTouchStop = {
+                                        selectedMode = ClockDialMode.Minutes
+                                    },
+                                )
+                            } else {
+                                Hour12Dial(
+                                    value = time.getHour(in24HourFormat = false),
+                                    onValueChange = {
+                                        val hour = if (amPmMode == AmPmMode.AM) {
+                                            if (it == 12) {
+                                                0
+                                            } else {
+                                                it
+                                            }
                                         } else {
-                                            it
+                                            if (it == 12) {
+                                                it
+                                            } else {
+                                                it + 12
+                                            }
                                         }
-                                    } else {
-                                        if (it == 12) {
-                                            it
-                                        } else {
-                                            it + 12
-                                        }
-                                    }
-                                    val newTime = LocalTime.of(hour, time.minute)
-                                    time = newTime
-                                    onTimeChange(newTime)
-                                },
-                                onTouchStop = {
-                                    selectedMode = ClockDialMode.Minutes
-                                },
-                            )
+                                        val newTime = LocalTime.of(hour, time.minute)
+                                        time = newTime
+                                        onTimeChange(newTime)
+                                    },
+                                    onTouchStop = {
+                                        selectedMode = ClockDialMode.Minutes
+                                    },
+                                )
+                            }
                         }
                     }
                 }
@@ -191,7 +205,6 @@ public fun TimePicker(
  */
 @Composable
 internal fun HorizontalClockDigits(
-    modifier: Modifier = Modifier,
     time: LocalTime,
     selectedMode: ClockDialMode,
     amPmMode: AmPmMode,
@@ -199,11 +212,17 @@ internal fun HorizontalClockDigits(
     onMinuteClick: () -> Unit,
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val selectedFieldColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.24f)
-    val selectedFieldFontColor = MaterialTheme.colorScheme.primary
-    val deselectedFieldColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f)
-    val deselectedFieldFontColor = MaterialTheme.colorScheme.onSurface
+    val selectedFieldColor = LocalTimePickerColors.current.clockDigitsSelectedBackgroundColor
+    val selectedFieldFontColor = LocalTimePickerColors.current.clockDigitsSelectedTextColor
+    val selectedFieldStroke = LocalTimePickerColors.current.clockDigitsSelectedBorderStroke
+
+    val deselectedFieldColor = LocalTimePickerColors.current.clockDigitsUnselectedBackgroundColor
+    val deselectedFieldFontColor = LocalTimePickerColors.current.clockDigitsUnselectedTextColor
+    val deselectedFieldStroke = LocalTimePickerColors.current.clockDigitsUnselectedBorderStroke
+
+    val clockDigitsShape = LocalTimePickerShapes.current.clockDigitsShape
 
     Box(
         modifier = modifier,
@@ -216,15 +235,21 @@ internal fun HorizontalClockDigits(
             Box(
                 modifier = Modifier
                     .size(width = 96.dp, height = 80.dp)
-                    .clip(shape = MaterialTheme.shapes.small)
+                    .clip(shape = clockDigitsShape)
                     .background(if (selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
+                    .withNotNull(if (selectedMode.isHours) selectedFieldStroke else deselectedFieldStroke) { stroke ->
+                        border(
+                            border = BorderStroke(stroke.thickness, stroke.color),
+                            shape = clockDigitsShape,
+                        )
+                    }
                     .clickable(onClick = onHourClick),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "%02d".format(time.getHour(amPmMode == AmPmMode.NONE)),
-                    style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-                    color = if (selectedMode.isHours) selectedFieldFontColor else deselectedFieldFontColor
+                    style = LocalTimePickerTypography.current.digitsHour,
+                    color = if (selectedMode.isHours) selectedFieldFontColor else deselectedFieldFontColor,
                 )
             }
             Box(
@@ -236,26 +261,36 @@ internal fun HorizontalClockDigits(
                 Text(
                     modifier = Modifier.align(Alignment.Center),
                     text = ":",
-                    style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = LocalTimePickerTypography.current.digitsColon,
+                    color = LocalTimePickerColors.current.clockDigitsColonTextColor,
                 )
             }
             Box(
                 modifier = Modifier
                     .size(width = 96.dp, height = 80.dp)
-                    .clip(shape = MaterialTheme.shapes.small)
+                    .clip(shape = clockDigitsShape)
                     .background(if (!selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
+                    .withNotNull(if (!selectedMode.isHours) selectedFieldStroke else deselectedFieldStroke) { stroke ->
+                        border(
+                            border = BorderStroke(stroke.thickness, stroke.color),
+                            shape = clockDigitsShape,
+                        )
+                    }
                     .clickable(onClick = onMinuteClick),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "%02d".format(time.minute),
-                    style = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+                    style = LocalTimePickerTypography.current.digitsMinute,
                     color = if (!selectedMode.isHours) selectedFieldFontColor else deselectedFieldFontColor
                 )
             }
             if (amPmMode != AmPmMode.NONE) {
-                VerticalAmPmSwitch(amPmMode = amPmMode, onAmClick = onAmClick, onPmClick = onPmClick)
+                VerticalAmPmSwitch(
+                    amPmMode = amPmMode,
+                    onAmClick = onAmClick,
+                    onPmClick = onPmClick,
+                )
             }
         }
     }
@@ -271,20 +306,24 @@ internal fun VerticalAmPmSwitch(
     onPmClick: () -> Unit,
 ) {
     val amPmStrings = DateFormatSymbols.getInstance(Locale.getDefault()).amPmStrings
-    val selectedFieldColor = MaterialTheme.colorScheme.tertiary.copy(0.24f)
-    val selectedFontColor = MaterialTheme.colorScheme.tertiary
-    val unselectedFieldColor = Color.Transparent
-    val unselectedFontColor = MaterialTheme.colorScheme.onSurface
+    val selectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedBackgroundColor
+    val selectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedTextColor
+    val unselectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedBackgroundColor
+    val unselectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedTextColor
+    val amPmSwitchShape = LocalTimePickerShapes.current.amPmSwitchShape
+
     Column(
         modifier = Modifier
             .padding(start = 12.dp)
             .fillMaxHeight()
             .width(52.dp)
-            .clip(MaterialTheme.shapes.small)
-            .border(
-                border = BorderStroke(Dp.Hairline, MaterialTheme.colorScheme.outline),
-                shape = MaterialTheme.shapes.small
-            )
+            .clip(amPmSwitchShape)
+            .withNotNull(LocalTimePickerColors.current.amPmSwitchBorderDividerStroke) { stroke ->
+                border(
+                    border = BorderStroke(stroke.thickness, stroke.color),
+                    shape = amPmSwitchShape,
+                )
+            }
     ) {
         Box(
             modifier = Modifier
@@ -297,11 +336,13 @@ internal fun VerticalAmPmSwitch(
                 modifier = Modifier
                     .align(Alignment.Center),
                 text = amPmStrings[Calendar.AM],
-                style = MaterialTheme.typography.titleMedium,
+                style = LocalTimePickerTypography.current.am,
                 color = if (amPmMode == AmPmMode.AM) selectedFontColor else unselectedFontColor
             )
         }
-        Divider(thickness = Dp.Hairline, color = MaterialTheme.colorScheme.outline)
+        LocalTimePickerColors.current.amPmSwitchBorderDividerStroke?.also { stroke ->
+            Divider(thickness = stroke.thickness, color = stroke.color)
+        }
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -313,7 +354,7 @@ internal fun VerticalAmPmSwitch(
                 modifier = Modifier
                     .align(Alignment.Center),
                 text = amPmStrings[Calendar.PM],
-                style = MaterialTheme.typography.titleMedium,
+                style = LocalTimePickerTypography.current.pm,
                 color = if (amPmMode == AmPmMode.PM) selectedFontColor else unselectedFontColor
             )
         }
@@ -328,9 +369,9 @@ internal fun VerticalAmPmSwitch(
  */
 @Composable
 internal fun MinutesDial(
-    modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TouchRegisteringDial(
         modifier = modifier,
@@ -354,7 +395,7 @@ internal fun MinutesDial(
                 .size(8.dp)
                 .align(Alignment.Center)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(LocalTimePickerColors.current.dialCenterColor)
         )
         val outerCircleOffset = (-104).dp
         val stickLength = outerCircleOffset.times(-1)
@@ -367,7 +408,7 @@ internal fun MinutesDial(
                 .rotate(selectedAngle.toFloat())
                 .offset(0.dp, stickLength / -2)
                 .zIndex(-10f)
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(LocalTimePickerColors.current.dialHandColor)
         )
         val has5MinSelected = (selectedAngle % 5) == 0
         for (number in (0 until 60 step 5)) {
@@ -409,10 +450,10 @@ internal fun MinutesDial(
  */
 @Composable
 internal fun Hour12Dial(
-    modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
     onTouchStop: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TouchRegisteringDial(
         modifier = modifier,
@@ -436,7 +477,7 @@ internal fun Hour12Dial(
                 .size(8.dp)
                 .align(Alignment.Center)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(LocalTimePickerColors.current.dialCenterColor)
         )
         val outerCircleOffset = (-104).dp
         val stickLength = outerCircleOffset.times(-1)
@@ -449,7 +490,7 @@ internal fun Hour12Dial(
                 .rotate(selectedAngle.toFloat())
                 .offset(0.dp, stickLength / -2)
                 .zIndex(-10f)
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(LocalTimePickerColors.current.dialHandColor)
         )
         for (number in (1..12)) {
             val angle = 360f / 12f * number
@@ -476,10 +517,10 @@ internal fun Hour12Dial(
  */
 @Composable
 internal fun Hour24Dial(
-    modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
     onTouchStop: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TouchRegisteringDial(
         modifier = modifier,
@@ -511,7 +552,7 @@ internal fun Hour24Dial(
                 .size(8.dp)
                 .align(Alignment.Center)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primary)
+                .background(LocalTimePickerColors.current.dialCenterColor)
         )
 
         val outerCircleOffset = (-104).dp
@@ -531,7 +572,7 @@ internal fun Hour24Dial(
                 .rotate(selectedAngle.toFloat())
                 .offset(0.dp, stickLength / -2)
                 .zIndex(-10f)
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(color = LocalTimePickerColors.current.dialHandColor)
         )
         for (number in (0..11)) {
             val angle = 360f / 12f * number
@@ -574,9 +615,9 @@ internal fun Hour24Dial(
  */
 @Composable
 internal fun TouchRegisteringDial(
-    modifier: Modifier = Modifier,
     onAngleAndDistanceRatioChange: (angle: Float, ratio: Float) -> Unit,
     onTouchStop: () -> Unit,
+    modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val diameterDp = 256.dp
@@ -635,7 +676,7 @@ internal fun TouchRegisteringDial(
                     onTouchStop()
                 }
             }
-            .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f)),
+            .background(LocalTimePickerColors.current.dialBackgroundColor),
         content = content,
     )
 }
@@ -648,26 +689,31 @@ internal fun TouchRegisteringDial(
  */
 @Composable
 internal fun BoxScope.HourNumber(
-    modifier: Modifier = Modifier,
     isSelected: Boolean,
     value: Int?,
+    modifier: Modifier = Modifier,
 ) {
     // TODO: try to draw the boundary
     val foregroundColor = if (isSelected) {
-        MaterialTheme.colorScheme.onPrimary
+        LocalTimePickerColors.current.dialNumberSelectedTextColor
     } else {
-        MaterialTheme.colorScheme.onSurface
+        LocalTimePickerColors.current.dialNumberUnselectedTextColor
+    }
+    val backgroundColor = if (isSelected) {
+        LocalTimePickerColors.current.dialNumberSelectedBackgroundColor
+    } else {
+        LocalTimePickerColors.current.dialNumberUnselectedBackgroundColor
     }
     Box(
         modifier = modifier
-            .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent)
+            .background(backgroundColor)
             .zIndex(if (isSelected) -1f else 0f),
         contentAlignment = Alignment.Center,
     ) {
         if (value != null) {
             Text(
                 text = "$value",
-                style = MaterialTheme.typography.titleSmall,
+                style = LocalTimePickerTypography.current.dialNumber,
                 color = foregroundColor,
             )
         } else {

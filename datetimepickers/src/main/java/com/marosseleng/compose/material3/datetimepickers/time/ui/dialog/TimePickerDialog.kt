@@ -1,6 +1,5 @@
 package com.marosseleng.compose.material3.datetimepickers.time.ui.dialog
 
-import android.R
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +14,10 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.DialogProperties
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerColors
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerDefaults
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerShapes
+import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerTypography
 import com.marosseleng.compose.material3.datetimepickers.time.ui.TimePicker
 import java.time.LocalTime
 
@@ -33,6 +36,9 @@ public fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     onTimeChange: (LocalTime) -> Unit,
     initialTime: LocalTime = LocalTime.now(),
+    colors: TimePickerColors = TimePickerDefaults.colors,
+    shapes: TimePickerShapes = TimePickerDefaults.shapes,
+    typography: TimePickerTypography = TimePickerDefaults.typography,
     modifier: Modifier = Modifier,
     icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
@@ -52,19 +58,25 @@ public fun TimePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { onTimeChange(time) }) {
-                Text(stringResource(id = R.string.ok))
+                Text(stringResource(id = android.R.string.ok))
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(stringResource(id = R.string.cancel))
+                Text(stringResource(id = android.R.string.cancel))
             }
         },
         icon = icon,
         title = title,
         text = {
-            TimePicker(initialTime = initialTime, onTimeChange = setTime)
+            TimePicker(
+                initialTime = initialTime,
+                onTimeChange = setTime,
+                colors = colors,
+                shapes = shapes,
+                typography = typography,
+            )
         },
         shape = shape,
         containerColor = containerColor,
