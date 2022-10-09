@@ -1,5 +1,6 @@
 package com.marosseleng.compose.material3.datetimepickers.common.domain
 
+import androidx.compose.ui.Modifier
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -14,4 +15,15 @@ internal fun Float.roundToNearest(increment: Float): Float {
         return 0f
     }
     return (this / increment).roundToInt() * increment
+}
+
+/**
+ * Calls the given [callback] only if [obj] is not `null`.
+ */
+public fun <T : Any?> Modifier.withNotNull(obj: T, callback: Modifier.(T & Any) -> Modifier): Modifier {
+    return if (obj == null) {
+        this
+    } else {
+        callback(obj)
+    }
 }
