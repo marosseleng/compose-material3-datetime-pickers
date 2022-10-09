@@ -149,7 +149,7 @@ public fun TimePicker(
                                     time = newTime
                                     onTimeChange(newTime)
                                 },
-                                onDragStop = {
+                                onTouchStop = {
                                     selectedMode = ClockDialMode.Minutes
                                 },
                             )
@@ -174,7 +174,7 @@ public fun TimePicker(
                                     time = newTime
                                     onTimeChange(newTime)
                                 },
-                                onDragStop = {
+                                onTouchStop = {
                                     selectedMode = ClockDialMode.Minutes
                                 },
                             )
@@ -412,7 +412,7 @@ internal fun Hour12Dial(
     modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
-    onDragStop: () -> Unit,
+    onTouchStop: () -> Unit,
 ) {
     TouchRegisteringDial(
         modifier = modifier,
@@ -429,7 +429,7 @@ internal fun Hour12Dial(
             }
             onValueChange(hour)
         },
-        onTouchStop = onDragStop,
+        onTouchStop = onTouchStop,
     ) {
         Box(
             modifier = Modifier
@@ -479,7 +479,7 @@ internal fun Hour24Dial(
     modifier: Modifier = Modifier,
     value: Int,
     onValueChange: (Int) -> Unit,
-    onDragStop: () -> Unit,
+    onTouchStop: () -> Unit,
 ) {
     TouchRegisteringDial(
         modifier = modifier,
@@ -504,7 +504,7 @@ internal fun Hour24Dial(
             }
             onValueChange(hour)
         },
-        onTouchStop = onDragStop,
+        onTouchStop = onTouchStop,
     ) {
         Box(
             modifier = Modifier
