@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    namespace = "com.marosseleng.compose.material3.datetimepicker"
+    namespace = "com.marosseleng.compose.material3.datetimepicker.demo"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.marosseleng.compose.material3.datetimepicker"
-        minSdk = 21
+        applicationId = "com.marosseleng.compose.material3.datetimepicker.demo"
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":datetimepickers"))
+
     implementation(libs.bundles.androidx.base)
 
     implementation(libs.material3)

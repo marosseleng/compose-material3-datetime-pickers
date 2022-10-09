@@ -27,6 +27,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += listOf("-Xexplicit-api=strict")
     }
     buildFeatures {
         compose = true
@@ -37,19 +38,14 @@ android {
 }
 
 dependencies {
-//    implementation(libs.bundles.androidx.base)
-
     implementation(libs.material3)
 
-    implementation(libs.bundles.androidx.compose.ext)
-
-    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.library)
 
     debugImplementation(libs.bundles.compose.debug)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.android.test)
-    debugImplementation(libs.bundles.compose.debug)
 }
 
 kotlin {
