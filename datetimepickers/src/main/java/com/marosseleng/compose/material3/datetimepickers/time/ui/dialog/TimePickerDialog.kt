@@ -1,7 +1,6 @@
 package com.marosseleng.compose.material3.datetimepickers.time.ui.dialog
 
 import android.R
-import android.util.Log
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,7 +19,9 @@ import com.marosseleng.compose.material3.datetimepickers.time.ui.TimePicker
 import java.time.LocalTime
 
 /**
- * Dialog containing time picker.
+ * Dialog containing time picker. This is an example minimal implementations.
+ *
+ * Users are free to create their own to suit their needs.
  *
  * @param onDismissRequest called when user wants to dismiss the dialog without selecting the time.
  * @param onTimeChange called when user taps the confirmation button.
@@ -43,7 +44,6 @@ public fun TimePickerDialog(
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(),
 ) {
-    Log.e("==>", "Dialog recomposing")
     val (time, setTime) = rememberSaveable(initialTime) {
         mutableStateOf(initialTime)
     }
