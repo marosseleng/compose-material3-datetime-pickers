@@ -1,7 +1,8 @@
 # Time picker
 
 A highly customizable time picker for Jetpack Compose. Material3 theme-compatible.
-![demo-video](resources/timepicker-demo.webm)
+
+![demo-video](resources/timepicker-demo.webm.mp4)
 
 ## Usage
 
