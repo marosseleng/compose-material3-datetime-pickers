@@ -22,6 +22,7 @@ import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerC
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerDefaults
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerShapes
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerTypography
+import com.marosseleng.compose.material3.datetimepickers.time.domain.noSeconds
 import com.marosseleng.compose.material3.datetimepickers.time.ui.TimePicker
 import java.time.LocalTime
 
@@ -40,7 +41,7 @@ public fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
-    initialTime: LocalTime = LocalTime.now(),
+    initialTime: LocalTime = LocalTime.now().noSeconds(),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
     typography: TimePickerTypography = TimePickerDefaults.typography,
