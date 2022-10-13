@@ -3,6 +3,13 @@ package com.marosseleng.compose.material3.datetimepickers.time.domain
 import java.time.LocalTime
 
 /**
+ * Constructs instance of [LocalTime] with hours and minutes only.
+ */
+public fun LocalTime.noSeconds(): LocalTime {
+    return LocalTime.of(hour, minute)
+}
+
+/**
  * Returns the hour portion of this [LocalTime].
  *
  * @param in24HourFormat if true returns value in range [0..23], otherwise returns value in range [1..12].

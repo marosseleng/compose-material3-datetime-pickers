@@ -1,13 +1,17 @@
 package com.marosseleng.compose.material3.datetimepickers.time.ui.dialog
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -35,11 +39,11 @@ import java.time.LocalTime
 public fun TimePickerDialog(
     onDismissRequest: () -> Unit,
     onTimeChange: (LocalTime) -> Unit,
+    modifier: Modifier = Modifier,
     initialTime: LocalTime = LocalTime.now(),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
     typography: TimePickerTypography = TimePickerDefaults.typography,
-    modifier: Modifier = Modifier,
     icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
     shape: Shape = AlertDialogDefaults.shape,
@@ -50,7 +54,7 @@ public fun TimePickerDialog(
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(),
 ) {
-    val (time, setTime) = rememberSaveable(initialTime) {
+    var time by rememberSaveable(initialTime) {
         mutableStateOf(initialTime)
     }
 
@@ -72,10 +76,11 @@ public fun TimePickerDialog(
         text = {
             TimePicker(
                 initialTime = initialTime,
-                onTimeChange = setTime,
+                onTimeChange = { time = it },
                 colors = colors,
                 shapes = shapes,
                 typography = typography,
+                modifier = Modifier.verticalScroll(rememberScrollState()),
             )
         },
         shape = shape,
