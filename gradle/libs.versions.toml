@@ -1,6 +1,6 @@
 [versions]
 version-android-application = "7.3.0"
-version-android-library = "7.3.0"
+version-android-library = "7.3.1"
 version-kotlin = "1.7.20"
 
 version-androidx-core = "1.9.0"
