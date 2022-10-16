@@ -4,7 +4,7 @@ A Jetpack Compose components with material3 support for date* & time picking.
 
 *Datepicker is currently a work in progress, but the time picker is ready for use!*
 
-![docs/timepicker/resources/time-picker-night.png](timepicker)
+![timepicker](docs/timepicker/resources/time-picker-night.png)
 
 ## Latest version
 
@@ -19,12 +19,14 @@ A Jetpack Compose components with material3 support for date* & time picking.
 #### Material3 version: `1.0.0-rc01`
 
 ## Usage
-In your app module's `build.gradle.kts`:
+To use this library in your project, in your app module's `build.gradle.kts` add:
 
 ```kotlin
 dependencies {
     implementation("com.marosseleng.android:compose-material3-datetime-pickers:<LATEST_VERSION>")
 }
 ```
+
+#### For timepicker instructions see its [readme](docs/timepicker/README.md)
 
 [^1]: Date picker is still a work in progress.
