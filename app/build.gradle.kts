@@ -70,13 +70,17 @@ dependencies {
 
     implementation(libs.material3)
 
+    implementation(platform(libs.compose.bom))
+
+    implementation(libs.bundles.compose)
+
     debugImplementation(libs.bundles.compose.debug)
 
     implementation(libs.bundles.androidx.compose.ext)
 
-    implementation(libs.bundles.compose)
 
     testImplementation(libs.junit)
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test)
     debugImplementation(libs.bundles.compose.debug)
 }
