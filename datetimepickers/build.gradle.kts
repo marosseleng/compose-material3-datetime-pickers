@@ -56,6 +56,8 @@ android {
 dependencies {
     implementation(libs.material3)
 
+    implementation(platform(libs.compose.bom))
+
     implementation(libs.bundles.compose.library)
 
     debugImplementation(libs.bundles.compose.debug)

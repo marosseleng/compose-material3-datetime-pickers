@@ -14,9 +14,9 @@ A Jetpack Compose components with material3 support for date* & time picking.
 
 #### Compose compiler version: `1.3.2`
 
-#### Compose version: `1.3.0-rc01`
+#### Compose BOM version: `2022.10.00`
 
-#### Material3 version: `1.0.0-rc01`
+#### Material3 version: `1.0.0`
 
 ## Usage
 To use this library in your project, in your app module's `build.gradle.kts` add:

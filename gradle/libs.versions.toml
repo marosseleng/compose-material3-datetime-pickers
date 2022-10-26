@@ -10,7 +10,7 @@ version-androidx-lifecycle = "2.5.1"
 version-androidx-activity-compose = "1.6.1"
 
 version-compose-compiler = "1.3.2"
-version-compose-base = "1.3.0"
+version-compose-bom = "2022.10.00"
 
 version-material3 = "1.0.0"
 
@@ -27,20 +27,21 @@ androidx-lifecycle-livedata = { module = "androidx.lifecycle:lifecycle-livedata-
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "version-androidx-activity-compose" }
 
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "version-compose-compiler" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "version-compose-base" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "version-compose-base" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "version-compose-base" }
-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "version-compose-base" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "version-compose-base" }
-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "version-compose-base" }
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "version-compose-base" }
-compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "version-compose-base" }
-compose-material-icons = { module = "androidx.compose.material:material-icons-core", version.ref = "version-compose-base" }
-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "version-compose-base" }
-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "version-compose-base" }
-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "version-compose-base" }
-compose-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "version-compose-base" }
-compose-ui-test = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "version-compose-base" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "version-compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-util = { module = "androidx.compose.ui:ui-util" }
+compose-foundation = { module = "androidx.compose.foundation:foundation" }
+compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+compose-runtime = { module = "androidx.compose.runtime:runtime" }
+compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+compose-material-icons = { module = "androidx.compose.material:material-icons-core" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+compose-animation = { module = "androidx.compose.animation:animation" }
+compose-animation-core = { module = "androidx.compose.animation:animation-core" }
+compose-junit = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test = { module = "androidx.compose.ui:ui-test-manifest" }
 
 material3 = { module = "androidx.compose.material3:material3", version.ref = "version-material3" }
 
