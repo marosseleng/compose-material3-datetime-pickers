@@ -2,6 +2,7 @@
 version-android-application = "7.3.1"
 version-android-library = "7.3.1"
 version-kotlin = "1.7.20"
+version-nexus-publish = "1.1.0"
 
 version-androidx-core = "1.9.0"
 version-androidx-appcompat = "1.5.1"
@@ -63,3 +64,4 @@ android-application = { id = "com.android.application", version.ref = "version-a
 android-library = { id = "com.android.library", version.ref = "version-android-library" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "version-kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "version-kotlin" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "version-nexus-publish" }

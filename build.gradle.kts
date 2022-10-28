@@ -20,8 +20,19 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    // publish plugin has to be applied here
+    alias(libs.plugins.nexus.publish) apply true
 }
 
 tasks.register("clean", type = Delete::class) {
     delete(rootProject.buildDir)
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
 }
