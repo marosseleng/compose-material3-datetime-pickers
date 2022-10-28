@@ -18,6 +18,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    `maven-publish`
+    signing
 }
 
 android {
@@ -51,6 +53,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.version.compose.compiler.get()
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -70,4 +78,64 @@ dependencies {
 
 kotlin {
     explicitApi()
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.marosseleng.android"
+            artifactId = "compose-material3-datetime-pickers"
+            version = "0.1.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+
+            pom {
+                name.set("Compose material3 Date & Time pickers")
+                description.set("A Jetpack Compose components with material3 support for date & time picking.")
+                inceptionYear.set("2022")
+                url.set("https://github.com/marosseleng/compose-material3-datetime-pickers")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("marosseleng")
+                        name.set("Maroš Šeleng")
+                        email.set("maros@marosseleng.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:github.com/marosseleng/compose-material3-datetime-pickers.git")
+                    developerConnection.set("scm:git:ssh://github.com/marosseleng/compose-material3-datetime-pickers.git")
+                    url.set("https://github.com/marosseleng/compose-material3-datetime-pickers/tree/main")
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "projectRepository"
+            url = uri("${project.buildDir}/repository")
+        }
+    }
+}
+
+signing {
+    useInMemoryPgpKeys(
+        project.findProperty("signing.keyId") as String? ?: System.getenv("SIGNING_KEY_ID"),
+        project.findProperty("signing.key") as String? ?: System.getenv("SIGNING_KEY"),
+        project.findProperty("signing.password") as String? ?: System.getenv("SIGNING_KEY_PASSWORD"),
+    )
+    sign(publishing.publications.getByName("release"))
+}
+
+tasks.register<Zip>("generateZippedArtifact") {
+    val publishTask = tasks.named("publishReleasePublicationToProjectRepositoryRepository", PublishToMavenRepository::class.java)
+    from(publishTask.map { it.repository.url })
+    archiveFileName.set("library.zip")
 }
