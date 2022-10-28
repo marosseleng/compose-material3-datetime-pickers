@@ -31,7 +31,7 @@ tasks.register("clean", type = Delete::class) {
 nexusPublishing {
     repositories {
         sonatype {  //only for users registered in Sonatype after 24 Feb 2021
-            stagingProfileId.set(project.findProperty("sonatypeProfileId") ?: System.getEnv("SONATYPE_PROFILE_ID"))
+            stagingProfileId.set(project.findProperty("sonatypeProfileId") as String? ?: System.getEnv("SONATYPE_PROFILE_ID"))
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
