@@ -8,7 +8,7 @@ A Jetpack Compose components with material3 support for date* & time picking.
 
 ## Latest version
 
-### x.y.z ([Changelog]())
+### 0.1.1 ([Changelog](https://github.com/marosseleng/compose-material3-datetime-pickers/compare/v0.1.0...v0.1.1))
 
 #### Kotlin version: `1.7.20`
 
