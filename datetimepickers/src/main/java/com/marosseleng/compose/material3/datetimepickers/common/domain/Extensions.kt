@@ -43,3 +43,11 @@ public fun <T : Any?> Modifier.withNotNull(obj: T, callback: Modifier.(T & Any) 
         callback(obj)
     }
 }
+
+public fun Modifier.applyIf(condition: Boolean, callback: Modifier.() -> Modifier): Modifier {
+    return if (condition) {
+        this.callback()
+    } else {
+        this
+    }
+}

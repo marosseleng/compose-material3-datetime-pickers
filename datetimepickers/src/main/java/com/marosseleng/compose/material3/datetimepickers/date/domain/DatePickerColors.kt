@@ -27,13 +27,19 @@ public interface DatePickerColors {
 
     public val weekDayLabelTextColor: Color
     public val previousMonthDayLabelTextColor: Color
+    public val previousMonthDayLabelBackgroundColor: Color
+    public val previousMonthDayLabelStroke: DatePickerStroke?
     public val nextMonthDayLabelTextColor: Color
+    public val nextMonthDayLabelBackgroundColor: Color
+    public val nextMonthDayLabelStroke: DatePickerStroke?
     public val monthDayLabelUnselectedTextColor: Color
     public val monthDayLabelUnselectedBackgroundColor: Color
-    public val monthDayLabelUnselectedStroke: DatePickerStroke
+    public val monthDayLabelUnselectedStroke: DatePickerStroke?
     public val monthDayLabelSelectedTextColor: Color
     public val monthDayLabelSelectedBackgroundColor: Color
-    public val monthDayLabelSelectedStroke: DatePickerStroke
+    public val monthDayLabelSelectedStroke: DatePickerStroke?
+    public val monthDayInRangeLabelTextColor: Color
+    public val monthDayInRangeBackgroundColor: Color
     public val todayLabelTextColor: Color
     public val todayLabelBackgroundColor: Color
     public val todayStroke: DatePickerStroke
@@ -42,13 +48,19 @@ public interface DatePickerColors {
 public data class DefaultDatePickerColors(
     override val weekDayLabelTextColor: Color,
     override val previousMonthDayLabelTextColor: Color,
+    override val previousMonthDayLabelBackgroundColor: Color,
+    override val previousMonthDayLabelStroke: DatePickerStroke?,
     override val nextMonthDayLabelTextColor: Color,
+    override val nextMonthDayLabelBackgroundColor: Color,
+    override val nextMonthDayLabelStroke: DatePickerStroke?,
     override val monthDayLabelUnselectedTextColor: Color,
     override val monthDayLabelUnselectedBackgroundColor: Color,
-    override val monthDayLabelUnselectedStroke: DatePickerStroke,
+    override val monthDayLabelUnselectedStroke: DatePickerStroke?,
     override val monthDayLabelSelectedTextColor: Color,
     override val monthDayLabelSelectedBackgroundColor: Color,
-    override val monthDayLabelSelectedStroke: DatePickerStroke,
+    override val monthDayLabelSelectedStroke: DatePickerStroke?,
+    override val monthDayInRangeLabelTextColor: Color,
+    override val monthDayInRangeBackgroundColor: Color,
     override val todayLabelTextColor: Color,
     override val todayLabelBackgroundColor: Color,
     override val todayStroke: DatePickerStroke,
@@ -64,13 +76,19 @@ internal val LocalDatePickerColors: ProvidableCompositionLocal<DatePickerColors>
     DefaultDatePickerColors(
         weekDayLabelTextColor = Color(0),
         previousMonthDayLabelTextColor = Color(0),
+        previousMonthDayLabelBackgroundColor = Color(0),
+        previousMonthDayLabelStroke = null,
         nextMonthDayLabelTextColor = Color(0),
+        nextMonthDayLabelBackgroundColor = Color(0),
+        nextMonthDayLabelStroke = null,
         monthDayLabelUnselectedTextColor = Color(0),
         monthDayLabelUnselectedBackgroundColor = Color(0),
-        monthDayLabelUnselectedStroke = DatePickerStroke(0.dp, Color(0)),
+        monthDayLabelUnselectedStroke = null,
         monthDayLabelSelectedTextColor = Color(0),
         monthDayLabelSelectedBackgroundColor = Color(0),
-        monthDayLabelSelectedStroke = DatePickerStroke(0.dp, Color(0)),
+        monthDayLabelSelectedStroke = null,
+        monthDayInRangeLabelTextColor = Color(0),
+        monthDayInRangeBackgroundColor = Color(0),
         todayLabelTextColor = Color(0),
         todayLabelBackgroundColor = Color(0),
         todayStroke = DatePickerStroke(0.dp, Color(0)),
