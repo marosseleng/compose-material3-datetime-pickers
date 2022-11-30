@@ -13,7 +13,7 @@ version-androidx-activity-compose = "1.6.1"
 version-compose-compiler = "1.3.2"
 version-compose-bom = "2022.10.00"
 
-version-material3 = "1.0.0"
+version-material3 = "1.0.1"
 
 version-junit4 = "4.13.2"
 version-androidx-junit-ext = "1.1.4"
