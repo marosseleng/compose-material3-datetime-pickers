@@ -17,11 +17,12 @@
 package com.marosseleng.compose.material3.datetimepickers.date.domain
 
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 public object DatePickerDefaults {
     /**
@@ -33,13 +34,13 @@ public object DatePickerDefaults {
         get() = DefaultDatePickerColors(
             weekDayLabelTextColor = MaterialTheme.colorScheme.onSurface,
             previousMonthDayLabelTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            previousMonthDayLabelBackgroundColor = Color.Transparent,
+            previousMonthDayLabelBackgroundColor = Color.Unspecified,
             previousMonthDayLabelStroke = null,
             nextMonthDayLabelTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            nextMonthDayLabelBackgroundColor = Color.Transparent,
+            nextMonthDayLabelBackgroundColor = Color.Unspecified,
             nextMonthDayLabelStroke = null,
             monthDayLabelUnselectedTextColor = MaterialTheme.colorScheme.onSurface,
-            monthDayLabelUnselectedBackgroundColor = Color.Transparent,
+            monthDayLabelUnselectedBackgroundColor = Color.Unspecified,
             monthDayLabelUnselectedStroke = null,
             monthDayLabelSelectedTextColor = MaterialTheme.colorScheme.onPrimary,
             monthDayLabelSelectedBackgroundColor = MaterialTheme.colorScheme.primary,
@@ -47,19 +48,33 @@ public object DatePickerDefaults {
             monthDayInRangeLabelTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
             monthDayInRangeBackgroundColor = MaterialTheme.colorScheme.primaryContainer,
             todayLabelTextColor = MaterialTheme.colorScheme.primary,
-            todayLabelBackgroundColor = Color.Transparent,
-            todayStroke = DatePickerStroke(Dp.Hairline, MaterialTheme.colorScheme.primary),
+            todayLabelBackgroundColor = Color.Unspecified,
+            todayStroke = DatePickerStroke(1.dp, MaterialTheme.colorScheme.primary),
+            unselectedYearTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unselectedYearBackgroundColor = Color.Unspecified,
+            unselectedYearStroke = null,
+            selectedYearTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedYearBackgroundColor = MaterialTheme.colorScheme.primary,
+            selectedYearStroke = null,
+            unselectedMonthTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unselectedMonthBackgroundColor = Color.Unspecified,
+            unselectedMonthStroke = null,
+            selectedMonthTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedMonthBackgroundColor = MaterialTheme.colorScheme.primary,
+            selectedMonthStroke = null,
         )
 
     public val shapes: DatePickerShapes
         @Composable
         @ReadOnlyComposable
         get() = DefaultDatePickerShapes(
-            previousMonthDay = null,
+            previousMonthDay = CircleShape,
             currentMonthDaySelected = CircleShape,
             currentMonthDayToday = CircleShape,
-            currentMonthDayUnselected = null,
-            nextMonthDay = null,
+            currentMonthDayUnselected = CircleShape,
+            nextMonthDay = CircleShape,
+            year = RoundedCornerShape(percent = 50),
+            month = RoundedCornerShape(percent = 50),
         )
 
     /**
@@ -71,5 +86,7 @@ public object DatePickerDefaults {
         get() = DefaultDatePickerTypography(
             weekDay = MaterialTheme.typography.bodySmall,
             day = MaterialTheme.typography.bodySmall,
+            year = MaterialTheme.typography.bodyLarge,
+            month = MaterialTheme.typography.bodyLarge,
         )
 }

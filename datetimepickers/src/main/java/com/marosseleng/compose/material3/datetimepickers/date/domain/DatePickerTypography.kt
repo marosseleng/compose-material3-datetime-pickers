@@ -24,16 +24,22 @@ public interface DatePickerTypography {
 
     public val weekDay: TextStyle
     public val day: TextStyle
+    public val year: TextStyle
+    public val month: TextStyle
 }
 
 internal data class DefaultDatePickerTypography(
     override val weekDay: TextStyle,
     override val day: TextStyle,
+    override val year: TextStyle,
+    override val month: TextStyle,
 ) : DatePickerTypography
 
 internal val LocalDatePickerTypography: ProvidableCompositionLocal<DatePickerTypography> = compositionLocalOf {
     DefaultDatePickerTypography(
         weekDay = TextStyle(),
         day = TextStyle(),
+        year = TextStyle(),
+        month = TextStyle(),
     )
 }

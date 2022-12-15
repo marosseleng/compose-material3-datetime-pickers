@@ -16,33 +16,40 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.domain
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Shape
 
 // By priority: Selected > In Range > Today > Unselected
 public interface DatePickerShapes {
-    public val previousMonthDay: Shape?
-    public val currentMonthDaySelected: Shape?
-    public val currentMonthDayToday: Shape?
-    public val currentMonthDayUnselected: Shape?
-    public val nextMonthDay: Shape?
+    public val previousMonthDay: Shape
+    public val currentMonthDaySelected: Shape
+    public val currentMonthDayToday: Shape
+    public val currentMonthDayUnselected: Shape
+    public val nextMonthDay: Shape
+    public val year: Shape
+    public val month: Shape
 }
 
 internal data class DefaultDatePickerShapes(
-    override val previousMonthDay: Shape?,
-    override val currentMonthDaySelected: Shape?,
-    override val currentMonthDayToday: Shape?,
-    override val currentMonthDayUnselected: Shape?,
-    override val nextMonthDay: Shape?,
+    override val previousMonthDay: Shape,
+    override val currentMonthDaySelected: Shape,
+    override val currentMonthDayToday: Shape,
+    override val currentMonthDayUnselected: Shape,
+    override val nextMonthDay: Shape,
+    override val year: Shape,
+    override val month: Shape,
 ) : DatePickerShapes
 
 internal val LocalDatePickerShapes: ProvidableCompositionLocal<DatePickerShapes> = compositionLocalOf {
     DefaultDatePickerShapes(
-        previousMonthDay = null,
-        currentMonthDaySelected = null,
-        currentMonthDayToday = null,
-        currentMonthDayUnselected = null,
-        nextMonthDay = null,
+        previousMonthDay = CircleShape,
+        currentMonthDaySelected = CircleShape,
+        currentMonthDayToday = CircleShape,
+        currentMonthDayUnselected = CircleShape,
+        nextMonthDay = CircleShape,
+        year = CircleShape,
+        month = CircleShape,
     )
 }

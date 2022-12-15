@@ -36,8 +36,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.marosseleng.compose.material3.datetimepicker.demo.ui.theme.ComposeMaterial3DatetimePickerTheme
+import com.marosseleng.compose.material3.datetimepickers.date.ui.DatePickerDialog
 import com.marosseleng.compose.material3.datetimepickers.time.domain.noSeconds
 import com.marosseleng.compose.material3.datetimepickers.time.ui.dialog.TimePickerDialog
+import java.time.LocalDate
 import java.time.LocalTime
 
 @ExperimentalComposeUiApi
@@ -54,32 +56,67 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(32.dp),
                     ) {
-                        var isDialogShown: Boolean by rememberSaveable {
-                            mutableStateOf(false)
-                        }
-                        val (selectedTime, setSelectedTime) = rememberSaveable {
-                            mutableStateOf(LocalTime.now().noSeconds())
-                        }
-                        if (isDialogShown) {
-                            TimePickerDialog(
-                                onDismissRequest = { isDialogShown = false },
-                                initialTime = selectedTime,
-                                onTimeChange = {
-                                    setSelectedTime(it)
-                                    isDialogShown = false
-                                },
-                                title = { Text(text = "Select time") }
+                        Column(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            var isTimeDialogShown: Boolean by rememberSaveable {
+                                mutableStateOf(false)
+                            }
+                            val (selectedTime, setSelectedTime) = rememberSaveable {
+                                mutableStateOf(LocalTime.now().noSeconds())
+                            }
+                            if (isTimeDialogShown) {
+                                TimePickerDialog(
+                                    onDismissRequest = { isTimeDialogShown = false },
+                                    initialTime = selectedTime,
+                                    onTimeChange = {
+                                        setSelectedTime(it)
+                                        isTimeDialogShown = false
+                                    },
+                                    title = { Text(text = "Select time") }
+                                )
+                            }
+                            Text(
+                                text = "Selected time: $selectedTime",
+                                style = MaterialTheme.typography.displaySmall,
                             )
+                            FilledTonalButton(onClick = { isTimeDialogShown = true }) {
+                                Text("Click me to change time")
+                            }
                         }
-                        Text(
-                            text = "Selected time: $selectedTime",
-                            style = MaterialTheme.typography.displaySmall,
-                        )
-                        FilledTonalButton(onClick = { isDialogShown = true }) {
-                            Text("Click me to change time")
+
+                        Column(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            var isDateDialogShown: Boolean by rememberSaveable {
+                                mutableStateOf(false)
+                            }
+                            val (selectedDate, setSelectedDate) = rememberSaveable {
+                                mutableStateOf(LocalDate.now())
+                            }
+                            if (isDateDialogShown) {
+                                DatePickerDialog(
+                                    onDismissRequest = { isDateDialogShown = false },
+                                    onDateChange = {
+                                        setSelectedDate(it)
+                                        isDateDialogShown = false
+                                    },
+                                    title = { Text(text = "Select time") },
+                                )
+                            }
+                            Text(
+                                text = "Selected Date: $selectedDate",
+                                style = MaterialTheme.typography.displaySmall,
+                            )
+                            FilledTonalButton(onClick = { isDateDialogShown = true }) {
+                                Text("Click me to change date")
+                            }
                         }
                     }
                 }

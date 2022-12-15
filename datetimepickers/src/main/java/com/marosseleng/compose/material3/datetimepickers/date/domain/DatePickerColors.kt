@@ -43,6 +43,18 @@ public interface DatePickerColors {
     public val todayLabelTextColor: Color
     public val todayLabelBackgroundColor: Color
     public val todayStroke: DatePickerStroke
+    public val unselectedYearTextColor: Color
+    public val unselectedYearBackgroundColor: Color
+    public val unselectedYearStroke: DatePickerStroke?
+    public val selectedYearTextColor: Color
+    public val selectedYearBackgroundColor: Color
+    public val selectedYearStroke: DatePickerStroke?
+    public val unselectedMonthTextColor: Color
+    public val unselectedMonthBackgroundColor: Color
+    public val unselectedMonthStroke: DatePickerStroke?
+    public val selectedMonthTextColor: Color
+    public val selectedMonthBackgroundColor: Color
+    public val selectedMonthStroke: DatePickerStroke?
 }
 
 public data class DefaultDatePickerColors(
@@ -64,6 +76,18 @@ public data class DefaultDatePickerColors(
     override val todayLabelTextColor: Color,
     override val todayLabelBackgroundColor: Color,
     override val todayStroke: DatePickerStroke,
+    override val unselectedYearTextColor: Color,
+    override val unselectedYearBackgroundColor: Color,
+    override val unselectedYearStroke: DatePickerStroke?,
+    override val selectedYearTextColor: Color,
+    override val selectedYearBackgroundColor: Color,
+    override val selectedYearStroke: DatePickerStroke?,
+    override val unselectedMonthTextColor: Color,
+    override val unselectedMonthBackgroundColor: Color,
+    override val unselectedMonthStroke: DatePickerStroke?,
+    override val selectedMonthTextColor: Color,
+    override val selectedMonthBackgroundColor: Color,
+    override val selectedMonthStroke: DatePickerStroke?,
 ) : DatePickerColors
 
 @Immutable
@@ -92,5 +116,17 @@ internal val LocalDatePickerColors: ProvidableCompositionLocal<DatePickerColors>
         todayLabelTextColor = Color(0),
         todayLabelBackgroundColor = Color(0),
         todayStroke = DatePickerStroke(0.dp, Color(0)),
+        unselectedYearTextColor = Color(0),
+        unselectedYearBackgroundColor = Color(0),
+        unselectedYearStroke = null,
+        selectedYearTextColor = Color(0),
+        selectedYearBackgroundColor = Color(0),
+        selectedYearStroke = null,
+        unselectedMonthTextColor = Color(0),
+        unselectedMonthBackgroundColor = Color(0),
+        unselectedMonthStroke = null,
+        selectedMonthTextColor = Color(0),
+        selectedMonthBackgroundColor = Color(0),
+        selectedMonthStroke = null,
     )
 }
