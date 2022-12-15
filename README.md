@@ -1,8 +1,8 @@
 # Compose material3 Date[^1] and Time pickers
 
 ![Build status](https://github.com/marosseleng/compose-material3-datetime-pickers/actions/workflows/gradle.yml/badge.svg)
-
 ![Maven Central](https://img.shields.io/maven-central/v/com.marosseleng.android/compose-material3-datetime-pickers)
+![License](https://img.shields.io/github/license/marosseleng/compose-material3-datetime-pickers)
 
 A Jetpack Compose components with material3 support for date* & time picking.
 
