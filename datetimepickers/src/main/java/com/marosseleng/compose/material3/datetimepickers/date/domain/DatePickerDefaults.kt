@@ -84,6 +84,8 @@ public object DatePickerDefaults {
         @Composable
         @ReadOnlyComposable
         get() = DefaultDatePickerTypography(
+            dialogSingleSelectionTitle = MaterialTheme.typography.labelMedium,
+            headlineSingleSelection = MaterialTheme.typography.headlineLarge,
             weekDay = MaterialTheme.typography.bodySmall,
             day = MaterialTheme.typography.bodySmall,
             year = MaterialTheme.typography.bodyLarge,

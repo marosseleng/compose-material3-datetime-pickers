@@ -21,7 +21,8 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.text.TextStyle
 
 public interface DatePickerTypography {
-
+    public val dialogSingleSelectionTitle: TextStyle
+    public val headlineSingleSelection: TextStyle
     public val weekDay: TextStyle
     public val day: TextStyle
     public val year: TextStyle
@@ -29,6 +30,8 @@ public interface DatePickerTypography {
 }
 
 internal data class DefaultDatePickerTypography(
+    override val dialogSingleSelectionTitle: TextStyle,
+    override val headlineSingleSelection: TextStyle,
     override val weekDay: TextStyle,
     override val day: TextStyle,
     override val year: TextStyle,
@@ -37,6 +40,8 @@ internal data class DefaultDatePickerTypography(
 
 internal val LocalDatePickerTypography: ProvidableCompositionLocal<DatePickerTypography> = compositionLocalOf {
     DefaultDatePickerTypography(
+        dialogSingleSelectionTitle = TextStyle(),
+        headlineSingleSelection = TextStyle(),
         weekDay = TextStyle(),
         day = TextStyle(),
         year = TextStyle(),
