@@ -21,7 +21,7 @@ Example of `DatePickerDialog` usage:
 var isDialogShown: Boolean by rememberSaveable {
     mutableStateOf(false)
 }
-val date: LocalDate? by remember {
+var date: LocalDate? by remember {
     mutableStateOf(null)
 }
 if (isDialogShown) {
