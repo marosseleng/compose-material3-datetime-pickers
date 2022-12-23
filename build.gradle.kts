@@ -13,6 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -20,12 +21,27 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.junit5.plugin) apply false
     // publish plugin has to be applied here
     alias(libs.plugins.nexus.publish) apply true
 }
 
 tasks.register("clean", type = Delete::class) {
     delete(rootProject.buildDir)
+}
+
+subprojects {
+    tasks.withType<Test>().configureEach {
+        useJUnitPlatform()
+        testLogging {
+            if (System.getenv("CI") == "true") {
+                events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+            }
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+
+        maxParallelForks = (java.lang.Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
+    }
 }
 
 nexusPublishing {

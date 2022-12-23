@@ -77,7 +77,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.marosseleng.compose.material3.datetimepickers.R
-import com.marosseleng.compose.material3.datetimepickers.common.domain.getDisplayName
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.common.ui.BidirectionalInfiniteListHandler
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerColors
@@ -89,9 +88,10 @@ import com.marosseleng.compose.material3.datetimepickers.date.domain.LocalDatePi
 import com.marosseleng.compose.material3.datetimepickers.date.domain.LocalDatePickerShapes
 import com.marosseleng.compose.material3.datetimepickers.date.domain.LocalDatePickerTypography
 import com.marosseleng.compose.material3.datetimepickers.date.domain.SelectionMode
+import com.marosseleng.compose.material3.datetimepickers.date.domain.getDaysToDisplay
+import com.marosseleng.compose.material3.datetimepickers.date.domain.getDisplayName
+import com.marosseleng.compose.material3.datetimepickers.date.domain.getYears
 import com.marosseleng.compose.material3.datetimepickers.time.domain.DayOfMonth
-import com.marosseleng.compose.material3.datetimepickers.time.domain.getRowsToDisplay
-import com.marosseleng.compose.material3.datetimepickers.time.domain.getYears
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
@@ -394,7 +394,7 @@ internal fun YearSelection(
     val lazyListState = rememberLazyListState()
 
     var initialLess by remember {
-        mutableStateOf(-1)
+        mutableStateOf(1)
     }
     var initialMore by remember {
         mutableStateOf(7)
@@ -456,7 +456,7 @@ internal fun YearSelection(
     BidirectionalInfiniteListHandler(
         listState = lazyListState,
         threshold = 2,
-        onLoadPrevious = { initialLess -= 5 },
+        onLoadPrevious = { initialLess += 5 },
         onLoadNext =  { initialMore += 5 },
     )
 }
@@ -599,10 +599,11 @@ internal fun Month(
             }
         }
 
-        for (week in getRowsToDisplay(month, globalFirstDay, today).chunked(7)) {
+        for (week in getDaysToDisplay(month, globalFirstDay).chunked(7)) {
             WeekOfMonth(
                 week = week,
                 onDayClick = onDayClick,
+                today = today,
                 modifier = Modifier.padding(vertical = 4.dp),
                 highlightToday = highlightToday,
                 showPreviousMonth = showPreviousMonth,
@@ -619,6 +620,7 @@ internal fun Month(
  *
  * @param week list of [DayOfMonth] to display
  * @param onDayClick called when a [DayOfMonth] is clicked
+ * @param today today
  * @param modifier Modifier
  * @param highlightToday whether to highlight today
  * @param showPreviousMonth whether to display the previous month
@@ -630,6 +632,7 @@ internal fun Month(
 internal fun WeekOfMonth(
     week: List<DayOfMonth>,
     onDayClick: (LocalDate) -> Unit,
+    today: LocalDate,
     modifier: Modifier = Modifier,
     highlightToday: Boolean = true,
     showPreviousMonth: Boolean = false,
@@ -705,6 +708,7 @@ internal fun WeekOfMonth(
                 CurrentMonthDay(
                     day = day,
                     onDayClick = onDayClick,
+                    isToday = day.actualDay == today,
                     highlightToday = highlightToday,
                     isSelected = day.actualDay == selectionFrom || day.actualDay == selectionTo,
                     isInSelectionRange = selectionFrom != null && selectionTo != null &&
@@ -810,6 +814,7 @@ internal fun NextMonthDay(day: DayOfMonth, onDayClick: (LocalDate) -> Unit, shou
  *
  * @param day a day to display
  * @param onDayClick called when [day] is clicked
+ * @param isToday whether or not [day] is today
  * @param highlightToday whether to highlight today
  * @param isSelected whether or not this [day] is selected
  * @param isInSelectionRange whether or not this [day] is in a selection range
@@ -818,32 +823,33 @@ internal fun NextMonthDay(day: DayOfMonth, onDayClick: (LocalDate) -> Unit, shou
 internal fun CurrentMonthDay(
     day: DayOfMonth,
     onDayClick: (LocalDate) -> Unit,
+    isToday: Boolean,
     highlightToday: Boolean,
     isSelected: Boolean,
     isInSelectionRange: Boolean,
 ) {
     val shape = when {
         isSelected -> LocalDatePickerShapes.current.currentMonthDaySelected
-        day.isToday && highlightToday -> LocalDatePickerShapes.current.currentMonthDayToday
+        isToday && highlightToday -> LocalDatePickerShapes.current.currentMonthDayToday
         else -> LocalDatePickerShapes.current.currentMonthDayUnselected
     }
     // By priority: Selected > In Range > Today > Unselected
     val textColor = when {
         isSelected -> LocalDatePickerColors.current.monthDayLabelSelectedTextColor
         isInSelectionRange -> LocalDatePickerColors.current.monthDayInRangeLabelTextColor
-        day.isToday && highlightToday -> LocalDatePickerColors.current.todayLabelTextColor
+        isToday && highlightToday -> LocalDatePickerColors.current.todayLabelTextColor
         else -> LocalDatePickerColors.current.monthDayLabelUnselectedTextColor
     }
 
     val backgroundColor = when {
         isSelected -> LocalDatePickerColors.current.monthDayLabelSelectedBackgroundColor
-        day.isToday && highlightToday -> LocalDatePickerColors.current.todayLabelBackgroundColor
+        isToday && highlightToday -> LocalDatePickerColors.current.todayLabelBackgroundColor
         else -> LocalDatePickerColors.current.monthDayLabelUnselectedBackgroundColor
     }
 
     val stroke: DatePickerStroke? = when {
         isSelected -> LocalDatePickerColors.current.monthDayLabelSelectedStroke
-        day.isToday && highlightToday -> LocalDatePickerColors.current.todayStroke
+        isToday && highlightToday -> LocalDatePickerColors.current.todayStroke
         else -> LocalDatePickerColors.current.monthDayLabelUnselectedStroke
     }
 

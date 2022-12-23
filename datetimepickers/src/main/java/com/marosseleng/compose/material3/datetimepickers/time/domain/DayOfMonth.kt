@@ -30,24 +30,14 @@ internal data class DayOfMonth(
     val actualDay: LocalDate,
     /**
      * Whether this day is from the previous month.
-     *
-     * TODO is this really the right place? - it probably is, because this is only a data holder to be displayed in UI.
      */
     val isPreviousMonth: Boolean,
     /**
      * Whether this day is from the currently displayed month.
-     *
-     * TODO is this really the right place? - it probably is, because this is only a data holder to be displayed in UI.
      */
     val isCurrentMonth: Boolean,
     /**
      * Whether this day is from the next month.
-     *
-     * TODO is this really the right place? - it probably is, because this is only a data holder to be displayed in UI.
      */
     val isNextMonth: Boolean,
-    /**
-     * Whether this day is today.
-     */
-    val isToday: Boolean,
 )

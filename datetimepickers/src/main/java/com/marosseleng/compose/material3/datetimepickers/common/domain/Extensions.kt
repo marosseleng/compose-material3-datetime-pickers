@@ -17,9 +17,6 @@
 package com.marosseleng.compose.material3.datetimepickers.common.domain
 
 import androidx.compose.ui.Modifier
-import java.time.YearMonth
-import java.time.format.TextStyle
-import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -53,13 +50,4 @@ public fun Modifier.applyIf(condition: Boolean, callback: Modifier.() -> Modifie
     } else {
         this
     }
-}
-
-/**
- * Formats the given [YearMonth] for usage in DatePicker.
- *
- * This method is definitely not ideal, because it does not year/month ordering of each Locale. But is enough for now.
- */
-public fun YearMonth.getDisplayName(locale: Locale): String {
-    return "${month.getDisplayName(TextStyle.FULL_STANDALONE, locale)}${Typography.nbsp}$year"
 }

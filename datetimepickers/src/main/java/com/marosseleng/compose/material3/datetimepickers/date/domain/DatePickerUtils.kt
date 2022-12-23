@@ -14,18 +14,20 @@
  *    limitations under the License.
  */
 
-package com.marosseleng.compose.material3.datetimepickers.time.domain
+package com.marosseleng.compose.material3.datetimepickers.date.domain
 
+import com.marosseleng.compose.material3.datetimepickers.time.domain.DayOfMonth
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.Year
 import java.time.YearMonth
 import kotlin.math.ceil
 
-// TODO: UNIT TESTS!!
-
 /**
- * Current year will be at coordinates [1;1].
+ * Returns the chunked list of years at [yearsPerRow] years per row.
+ *
+ * Tries to position the [currentYear] at the center of the second row.
+ * If there are not enough rows to position the [currentYear] on the second row, it is positioned on the first row.
+ * Horizontal position of [currentYear] is [yearsPerRow]/2.
  *
  * @param yearsPerRow how many years to get per row
  * @param rowsLess how many rows to load before the current row's list
@@ -41,15 +43,29 @@ internal fun getYears(
 ): List<List<Int>> {
     val result = mutableListOf<List<Int>>()
 
-    val startOfTheRow = (currentYear - 1)
+    val rightPadding = (yearsPerRow - 1) / 2
+    val leftPadding = if (yearsPerRow % 2 == 0) {
+        ((yearsPerRow - 1) / 2) + 1
+    } else {
+        rightPadding
+    }
 
-    for (row in (rowsLess..rowsMore)) {
-        val rowBeginning = startOfTheRow + (row * yearsPerRow)
-        val currentRow = mutableListOf<Int>()
-        (0 until yearsPerRow).forEach {
-            currentRow.add(rowBeginning + it)
-        }
-        result.add(currentRow)
+    val currentYearRowStart = currentYear - leftPadding
+    val currentYearRowEnd = currentYear + rightPadding
+
+    // previous years
+    if (rowsLess > 0) {
+        val previousYearsStart = currentYearRowStart - (rowsLess * yearsPerRow)
+        val previousYearsEndInclusive = currentYearRowStart - 1
+        result.addAll((previousYearsStart..previousYearsEndInclusive).chunked(yearsPerRow))
+    }
+    // current year row
+    result.add((currentYearRowStart..currentYearRowEnd).toList())
+    // following years
+    if (rowsMore > 0) {
+        val followingYearsStart = currentYearRowEnd + 1
+        val followingYearsEndInclusive = currentYearRowEnd + (rowsMore * yearsPerRow)
+        result.addAll((followingYearsStart..followingYearsEndInclusive).chunked(yearsPerRow))
     }
 
     return result
@@ -63,7 +79,7 @@ internal fun getYears(
  * @param today
  * @return list of rows to display
  */
-internal fun getRowsToDisplay(yearMonth: YearMonth, firstDayOfWeek: DayOfWeek, today: LocalDate): List<DayOfMonth> {
+internal fun getDaysToDisplay(yearMonth: YearMonth, firstDayOfWeek: DayOfWeek): List<DayOfMonth> {
     val firstDayLocalDate = yearMonth.atDay(1)
     val firstDay = firstDayLocalDate.dayOfWeek
 
@@ -85,7 +101,6 @@ internal fun getRowsToDisplay(yearMonth: YearMonth, firstDayOfWeek: DayOfWeek, t
                     isPreviousMonth = true,
                     isCurrentMonth = false,
                     isNextMonth = false,
-                    isToday = false,
                 )
             )
         }
@@ -99,7 +114,6 @@ internal fun getRowsToDisplay(yearMonth: YearMonth, firstDayOfWeek: DayOfWeek, t
                 isPreviousMonth = false,
                 isCurrentMonth = true,
                 isNextMonth = false,
-                isToday = localDateToAdd == today,
             )
         )
         localDateToAdd = localDateToAdd.plusDays(1L)
@@ -118,7 +132,6 @@ internal fun getRowsToDisplay(yearMonth: YearMonth, firstDayOfWeek: DayOfWeek, t
                 isPreviousMonth = false,
                 isCurrentMonth = false,
                 isNextMonth = true,
-                isToday = false,
             )
         )
     }
