@@ -131,7 +131,7 @@ public interface TimePickerColors {
  */
 @Immutable
 public data class TimePickerStroke(
-    public val thickness:Dp,
+    public val thickness: Dp,
     public val color: Color,
 )
 

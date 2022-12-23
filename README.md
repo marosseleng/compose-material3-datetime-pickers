@@ -4,11 +4,10 @@
 ![Maven Central](https://img.shields.io/maven-central/v/com.marosseleng.android/compose-material3-datetime-pickers)
 ![License](https://img.shields.io/github/license/marosseleng/compose-material3-datetime-pickers)
 
-A Jetpack Compose components with material3 support for date* & time picking.
-
-*Datepicker is currently a work in progress, but the time picker is ready for use!*
+Highly customizable Jetpack Compose components with material3 support for date & time picking.
 
 ![timepicker](docs/timepicker/resources/time-picker-night.png)
+![datepicker](docs/datepicker/resources/date-picker-night.png)
 
 ## Latest version
 
@@ -21,7 +20,7 @@ A Jetpack Compose components with material3 support for date* & time picking.
 #### Compose BOM version: `2022.12.00`
 For details of packages inside a BOM, download it's POM file from [Google's maven repository](https://maven.google.com/web/index.html?q=compose-bom#androidx.compose:compose-bom).
 
-#### Material3 version: `1.0.0`
+#### Material3 version: `1.0.1`
 
 ## Usage
 To use this library in your project, in your app module's `build.gradle.kts` add:
@@ -33,5 +32,6 @@ dependencies {
 ```
 
 #### For timepicker instructions see its [readme](docs/timepicker/README.md)
+#### For datepicker instructions see its [readme](docs/datepicker/README.md)
 
-[^1]: Date picker is still a work in progress.
+[^1]: Date picker for range selection is still a work in progress.

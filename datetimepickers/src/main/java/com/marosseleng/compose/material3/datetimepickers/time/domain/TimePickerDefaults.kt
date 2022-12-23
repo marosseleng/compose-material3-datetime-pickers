@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 
 /**
- * Object holding default values for [TimePicker].
+ * Object holding default values for TimePicker.
  */
 public object TimePickerDefaults {
 

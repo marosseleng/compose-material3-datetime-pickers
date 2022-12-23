@@ -14,19 +14,17 @@
  *    limitations under the License.
  */
 
-package com.marosseleng.compose.material3.datetimepicker
+package com.marosseleng.compose.material3.datetimepickers.date.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import java.time.YearMonth
+import java.time.format.TextStyle
+import java.util.Locale
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * Formats the given [YearMonth] for usage in DatePicker.
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * This method is definitely not ideal, because it does not year/month ordering of each Locale. But is enough for now.
  */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+public fun YearMonth.getDisplayName(locale: Locale): String {
+    return "${month.getDisplayName(TextStyle.FULL_STANDALONE, locale)}${Typography.nbsp}$year"
 }

@@ -14,19 +14,25 @@
  *    limitations under the License.
  */
 
-package com.marosseleng.compose.material3.datetimepickers
-
-import org.junit.Assert.assertEquals
-import org.junit.Test
+package com.marosseleng.compose.material3.datetimepickers.date.domain
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Represents the date picker mode.
  */
-public class ExampleUnitTest {
-    @Test
-    public fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+internal enum class SelectionMode {
+
+    /**
+     * Day selection.
+     */
+    DAY,
+
+    /**
+     * Month selection.
+     */
+    MONTH,
+
+    /**
+     * Year selection.
+     */
+    YEAR,
 }

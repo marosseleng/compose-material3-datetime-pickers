@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.junit5.plugin)
     `maven-publish`
     signing
 }
@@ -70,9 +71,10 @@ dependencies {
 
     debugImplementation(libs.bundles.compose.debug)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.compose.bom))
+    testImplementation(libs.bundles.junit5.implementation)
+    testRuntimeOnly(libs.junit5.engine)
 
+    androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test)
 }
 
