@@ -52,7 +52,7 @@ public class DatePickerUtilsTest {
     }
 
     @CartesianTest
-    public fun something(
+    public fun `getDaysToDisplay returns proper data`(
         @CartesianTest.Enum firstDayOfWeek: DayOfWeek,
         @IntRangeSource(from = 2010, to = 2030) year: Int,
         @CartesianTest.Enum month: Month,

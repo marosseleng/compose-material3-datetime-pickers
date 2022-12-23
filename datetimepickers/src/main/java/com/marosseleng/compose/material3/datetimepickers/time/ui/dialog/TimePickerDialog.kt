@@ -92,7 +92,6 @@ public fun TimePickerDialog(
         title = title,
         text = {
             TimePicker(
-                // TODO: shouldn't here be `time`?
                 initialTime = initialTime,
                 onTimeChange = { time = it },
                 colors = colors,
