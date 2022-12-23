@@ -33,6 +33,7 @@ jobs:
       with:
         arguments: build
     - name: Unit tests results
+      if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
         name: unit-tests-results
