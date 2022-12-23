@@ -24,6 +24,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Object holding default values for DatePicker.
+ */
 public object DatePickerDefaults {
     /**
      * Default colors definitions.
@@ -50,6 +53,8 @@ public object DatePickerDefaults {
             todayLabelTextColor = MaterialTheme.colorScheme.primary,
             todayLabelBackgroundColor = Color.Unspecified,
             todayStroke = DatePickerStroke(1.dp, MaterialTheme.colorScheme.primary),
+            yearMonthTextColor = MaterialTheme.colorScheme.onSurface,
+            previousNextMonthIconColor = MaterialTheme.colorScheme.onSurface,
             unselectedYearTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
             unselectedYearBackgroundColor = Color.Unspecified,
             unselectedYearStroke = null,
@@ -64,6 +69,9 @@ public object DatePickerDefaults {
             selectedMonthStroke = null,
         )
 
+    /**
+     * Default shapes definitions.
+     */
     public val shapes: DatePickerShapes
         @Composable
         @ReadOnlyComposable
@@ -88,6 +96,7 @@ public object DatePickerDefaults {
             headlineSingleSelection = MaterialTheme.typography.headlineLarge,
             weekDay = MaterialTheme.typography.bodySmall,
             day = MaterialTheme.typography.bodySmall,
+            monthYear = MaterialTheme.typography.labelLarge,
             year = MaterialTheme.typography.bodyLarge,
             month = MaterialTheme.typography.bodyLarge,
         )

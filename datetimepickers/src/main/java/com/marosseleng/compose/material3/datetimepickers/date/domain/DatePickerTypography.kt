@@ -20,12 +20,43 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.text.TextStyle
 
+/**
+ * Interface describing the typography used in DatePicker.
+ */
 public interface DatePickerTypography {
+    /**
+     * Text style of a single-day selection dialog's title. Usually the text "Select date"
+     */
     public val dialogSingleSelectionTitle: TextStyle
+
+    /**
+     * Text style of a single-day selection dialog's headline - description of the currently selected date.
+     */
     public val headlineSingleSelection: TextStyle
+
+    /**
+     * Text style of a weekday abbreviation.
+     */
     public val weekDay: TextStyle
+
+    /**
+     * Text style of a common day.
+     */
     public val day: TextStyle
+
+    /**
+     * Text style of a month-year dropdown.
+     */
+    public val monthYear: TextStyle
+
+    /**
+     * Text style of a year in the year selection.
+     */
     public val year: TextStyle
+
+    /**
+     * Text style of a month in the month selection.
+     */
     public val month: TextStyle
 }
 
@@ -34,6 +65,7 @@ internal data class DefaultDatePickerTypography(
     override val headlineSingleSelection: TextStyle,
     override val weekDay: TextStyle,
     override val day: TextStyle,
+    override val monthYear: TextStyle,
     override val year: TextStyle,
     override val month: TextStyle,
 ) : DatePickerTypography
@@ -44,6 +76,7 @@ internal val LocalDatePickerTypography: ProvidableCompositionLocal<DatePickerTyp
         headlineSingleSelection = TextStyle(),
         weekDay = TextStyle(),
         day = TextStyle(),
+        monthYear = TextStyle(),
         year = TextStyle(),
         month = TextStyle(),
     )

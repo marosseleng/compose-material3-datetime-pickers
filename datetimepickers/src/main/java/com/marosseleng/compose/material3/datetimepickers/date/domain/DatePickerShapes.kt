@@ -21,14 +21,43 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Shape
 
-// By priority: Selected > In Range > Today > Unselected
+/**
+ * Interface describing shapes used in DatePicker.
+ */
 public interface DatePickerShapes {
+    /**
+     * Shape of previous month's day.
+     */
     public val previousMonthDay: Shape
+
+    /**
+     * Shape of the current month's selected day.
+     */
     public val currentMonthDaySelected: Shape
+
+    /**
+     * Shape of today.
+     */
     public val currentMonthDayToday: Shape
+
+    /**
+     * Shape of the current month's unselected day.
+     */
     public val currentMonthDayUnselected: Shape
+
+    /**
+     * Shape of the next month's day.
+     */
     public val nextMonthDay: Shape
+
+    /**
+     * Shape of a year in the year selection.
+     */
     public val year: Shape
+
+    /**
+     * Shape of a month in the month selection.
+     */
     public val month: Shape
 }
 

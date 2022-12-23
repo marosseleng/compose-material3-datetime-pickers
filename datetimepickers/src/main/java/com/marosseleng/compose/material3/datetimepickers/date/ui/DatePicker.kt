@@ -49,7 +49,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -502,14 +501,14 @@ internal fun MonthYearSelection(
             Text(
                 modifier = Modifier,
                 text = currentYearMonth.getDisplayName(locale),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                style = LocalDatePickerTypography.current.monthYear,
+                color = LocalDatePickerColors.current.yearMonthTextColor,
             )
             Icon(
                 modifier = Modifier.rotate(iconRotation),
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = stringResource(id = R.string.datepicker_select_month_year),
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = LocalDatePickerColors.current.yearMonthTextColor,
             )
         }
         Row {
@@ -524,7 +523,7 @@ internal fun MonthYearSelection(
                     modifier = Modifier.size(24.dp),
                     imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = stringResource(R.string.datepicker_previous_month),
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = LocalDatePickerColors.current.previousNextMonthIconColor,
                 )
             }
             Box(
@@ -539,7 +538,7 @@ internal fun MonthYearSelection(
                     imageVector = Icons.Default.KeyboardArrowRight,
                     contentDescription = stringResource(R.string.datepicker_next_month),
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = LocalDatePickerColors.current.previousNextMonthIconColor,
                 )
             }
         }
