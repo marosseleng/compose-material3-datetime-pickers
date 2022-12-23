@@ -33,7 +33,7 @@ jobs:
       with:
         arguments: build
     - name: Unit tests results
-    uses: actions/upload-artifact@v3
-    with:
-      name: unit-tests-results
-      path: app/build/reports/tests/testDebugUnitTest/index.html
+      uses: actions/upload-artifact@v3
+      with:
+        name: unit-tests-results
+        path: app/build/reports/tests/testDebugUnitTest/index.html
