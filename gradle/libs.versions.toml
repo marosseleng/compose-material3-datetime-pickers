@@ -16,7 +16,7 @@ version-compose-bom = "2022.12.00"
 
 version-material3 = "1.0.1"
 
-version-junit5 = "5.8.2"
+version-junit5 = "5.9.1"
 version-junit5-pioneer = "2.0.0-RC1"
 version-junit4 = "4.13.2"
 version-androidx-junit-ext = "1.1.4"
@@ -49,10 +49,11 @@ compose-ui-test = { module = "androidx.compose.ui:ui-test-manifest" }
 
 material3 = { module = "androidx.compose.material3:material3", version.ref = "version-material3" }
 
-junit5-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "version-junit5" }
-junit5-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "version-junit5" }
+junit5-bom = { module = "org.junit:junit-bom", version.ref = "version-junit5" }
+junit5-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit5-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 junit5-pioneer = { module = "org.junit-pioneer:junit-pioneer", version.ref = "version-junit5-pioneer" }
-junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "version-junit5" }
 
 junit = { module = "junit:junit", version.ref = "version-junit4" }
 androidx-junit-ext = { module = "androidx.test.ext:junit", version.ref = "version-androidx-junit-ext" }
