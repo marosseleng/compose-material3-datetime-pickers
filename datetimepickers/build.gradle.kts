@@ -71,6 +71,7 @@ dependencies {
 
     debugImplementation(libs.bundles.compose.debug)
 
+    testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.bundles.junit5.implementation)
     testRuntimeOnly(libs.junit5.engine)
 
