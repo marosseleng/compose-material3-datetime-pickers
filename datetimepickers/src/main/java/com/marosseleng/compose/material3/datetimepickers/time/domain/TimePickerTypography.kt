@@ -56,22 +56,13 @@ public interface TimePickerTypography {
     public val dialNumber: TextStyle
 }
 
-internal data class DefaultTimePickerTypography(
-    override val digitsHour: TextStyle,
-    override val digitsColon: TextStyle,
-    override val digitsMinute: TextStyle,
-    override val am: TextStyle,
-    override val pm: TextStyle,
-    override val dialNumber: TextStyle,
-) : TimePickerTypography
-
 internal val LocalTimePickerTypography: ProvidableCompositionLocal<TimePickerTypography> = compositionLocalOf {
-    DefaultTimePickerTypography(
-        digitsHour = TextStyle(),
-        digitsColon = TextStyle(),
-        digitsMinute = TextStyle(),
-        am = TextStyle(),
-        pm = TextStyle(),
-        dialNumber = TextStyle(),
-    )
+    object : TimePickerTypography {
+        override val digitsHour: TextStyle = TextStyle()
+        override val digitsColon: TextStyle = TextStyle()
+        override val digitsMinute: TextStyle = TextStyle()
+        override val am: TextStyle = TextStyle()
+        override val pm: TextStyle = TextStyle()
+        override val dialNumber: TextStyle = TextStyle()
+    }
 }

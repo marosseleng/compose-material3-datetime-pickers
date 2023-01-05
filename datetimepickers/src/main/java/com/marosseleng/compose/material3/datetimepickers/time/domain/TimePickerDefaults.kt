@@ -20,6 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 
@@ -31,54 +33,84 @@ public object TimePickerDefaults {
     /**
      * Default colors definitions.
      */
-    public val colors: TimePickerColors
-        @Composable
-        @ReadOnlyComposable
-        get() = DefaultTimePickerColors(
-            clockDigitsSelectedBackgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.24f),
-            clockDigitsSelectedTextColor = MaterialTheme.colorScheme.primary,
-            clockDigitsSelectedBorderStroke = null,
-            clockDigitsUnselectedBackgroundColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f),
-            clockDigitsUnselectedTextColor = MaterialTheme.colorScheme.onSurface,
-            clockDigitsUnselectedBorderStroke = null,
-            clockDigitsColonTextColor = MaterialTheme.colorScheme.onSurface,
-            amPmSwitchFieldSelectedBackgroundColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.24f),
-            amPmSwitchFieldSelectedTextColor = MaterialTheme.colorScheme.tertiary,
-            amPmSwitchFieldUnselectedBackgroundColor = Color.Transparent,
-            amPmSwitchFieldUnselectedTextColor = MaterialTheme.colorScheme.onSurface,
-            amPmSwitchBorderDividerStroke = TimePickerStroke(Dp.Hairline, MaterialTheme.colorScheme.outline),
-            dialCenterColor = MaterialTheme.colorScheme.primary,
-            dialHandColor = MaterialTheme.colorScheme.primary,
-            dialBackgroundColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f),
-            dialNumberSelectedBackgroundColor = MaterialTheme.colorScheme.primary,
-            dialNumberSelectedTextColor = MaterialTheme.colorScheme.onPrimary,
-            dialNumberUnselectedBackgroundColor = Color.Transparent,
-            dialNumberUnselectedTextColor = MaterialTheme.colorScheme.onSurface,
-        )
+    @Composable
+    @ReadOnlyComposable
+    public fun colors(
+        clockDigitsSelectedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.24f),
+        clockDigitsSelectedTextColor: Color = MaterialTheme.colorScheme.primary,
+        clockDigitsSelectedBorderStroke: TimePickerStroke? = null,
+        clockDigitsUnselectedBackgroundColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f),
+        clockDigitsUnselectedTextColor: Color = MaterialTheme.colorScheme.onSurface,
+        clockDigitsUnselectedBorderStroke: TimePickerStroke? = null,
+        clockDigitsColonTextColor: Color = MaterialTheme.colorScheme.onSurface,
+        amPmSwitchFieldSelectedBackgroundColor: Color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.24f),
+        amPmSwitchFieldSelectedTextColor: Color = MaterialTheme.colorScheme.tertiary,
+        amPmSwitchFieldUnselectedBackgroundColor: Color = Color.Transparent,
+        amPmSwitchFieldUnselectedTextColor: Color = MaterialTheme.colorScheme.onSurface,
+        amPmSwitchBorderDividerStroke: TimePickerStroke? = TimePickerStroke(
+            Dp.Hairline,
+            MaterialTheme.colorScheme.outline
+        ),
+        dialCenterColor: Color = MaterialTheme.colorScheme.primary,
+        dialHandColor: Color = MaterialTheme.colorScheme.primary,
+        dialBackgroundColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.24f),
+        dialNumberSelectedBackgroundColor: Color = MaterialTheme.colorScheme.primary,
+        dialNumberSelectedTextColor: Color = MaterialTheme.colorScheme.onPrimary,
+        dialNumberUnselectedBackgroundColor: Color = Color.Transparent,
+        dialNumberUnselectedTextColor: Color = MaterialTheme.colorScheme.onSurface,
+    ): TimePickerColors = object : TimePickerColors {
+        override val clockDigitsSelectedBackgroundColor = clockDigitsSelectedBackgroundColor
+        override val clockDigitsSelectedTextColor = clockDigitsSelectedTextColor
+        override val clockDigitsSelectedBorderStroke = clockDigitsSelectedBorderStroke
+        override val clockDigitsUnselectedBackgroundColor = clockDigitsUnselectedBackgroundColor
+        override val clockDigitsUnselectedTextColor = clockDigitsUnselectedTextColor
+        override val clockDigitsUnselectedBorderStroke = clockDigitsUnselectedBorderStroke
+        override val clockDigitsColonTextColor = clockDigitsColonTextColor
+        override val amPmSwitchFieldSelectedBackgroundColor = amPmSwitchFieldSelectedBackgroundColor
+        override val amPmSwitchFieldSelectedTextColor = amPmSwitchFieldSelectedTextColor
+        override val amPmSwitchFieldUnselectedBackgroundColor = amPmSwitchFieldUnselectedBackgroundColor
+        override val amPmSwitchFieldUnselectedTextColor = amPmSwitchFieldUnselectedTextColor
+        override val amPmSwitchBorderDividerStroke = amPmSwitchBorderDividerStroke
+        override val dialCenterColor = dialCenterColor
+        override val dialHandColor = dialHandColor
+        override val dialBackgroundColor = dialBackgroundColor
+        override val dialNumberSelectedBackgroundColor = dialNumberSelectedBackgroundColor
+        override val dialNumberSelectedTextColor = dialNumberSelectedTextColor
+        override val dialNumberUnselectedBackgroundColor = dialNumberUnselectedBackgroundColor
+        override val dialNumberUnselectedTextColor = dialNumberUnselectedTextColor
+    }
 
     /**
      * Default shapes definitions.
      */
-    public val shapes: TimePickerShapes
-        @Composable
-        @ReadOnlyComposable
-        get() = DefaultTimePickerShapes(
-            clockDigitsShape = MaterialTheme.shapes.small,
-            amPmSwitchShape = MaterialTheme.shapes.small,
-        )
+    @Composable
+    @ReadOnlyComposable
+    public fun shapes(
+        clockDigitsShape: Shape = MaterialTheme.shapes.small,
+        amPmSwitchShape: Shape = MaterialTheme.shapes.small,
+    ): TimePickerShapes = object : TimePickerShapes {
+        override val clockDigitsShape = clockDigitsShape
+        override val amPmSwitchShape = amPmSwitchShape
+    }
 
     /**
      * Default typography definitions.
      */
-    public val typography: TimePickerTypography
-        @Composable
-        @ReadOnlyComposable
-        get() = DefaultTimePickerTypography(
-            digitsHour = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-            digitsColon = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-            digitsMinute = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-            am = MaterialTheme.typography.titleMedium,
-            pm = MaterialTheme.typography.titleMedium,
-            dialNumber = MaterialTheme.typography.titleSmall,
-        )
+    @Composable
+    @ReadOnlyComposable
+    public fun typography(
+        digitsHour: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+        digitsColon: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+        digitsMinute: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+        am: TextStyle = MaterialTheme.typography.titleMedium,
+        pm: TextStyle = MaterialTheme.typography.titleMedium,
+        dialNumber: TextStyle = MaterialTheme.typography.titleSmall,
+    ): TimePickerTypography = object : TimePickerTypography {
+        override val digitsHour = digitsHour
+        override val digitsColon = digitsColon
+        override val digitsMinute = digitsMinute
+        override val am = am
+        override val pm = pm
+        override val dialNumber = dialNumber
+    }
 }

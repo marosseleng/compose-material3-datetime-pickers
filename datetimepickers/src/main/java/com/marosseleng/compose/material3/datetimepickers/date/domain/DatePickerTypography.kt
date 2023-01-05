@@ -60,24 +60,14 @@ public interface DatePickerTypography {
     public val month: TextStyle
 }
 
-internal data class DefaultDatePickerTypography(
-    override val dialogSingleSelectionTitle: TextStyle,
-    override val headlineSingleSelection: TextStyle,
-    override val weekDay: TextStyle,
-    override val day: TextStyle,
-    override val monthYear: TextStyle,
-    override val year: TextStyle,
-    override val month: TextStyle,
-) : DatePickerTypography
-
 internal val LocalDatePickerTypography: ProvidableCompositionLocal<DatePickerTypography> = compositionLocalOf {
-    DefaultDatePickerTypography(
-        dialogSingleSelectionTitle = TextStyle(),
-        headlineSingleSelection = TextStyle(),
-        weekDay = TextStyle(),
-        day = TextStyle(),
-        monthYear = TextStyle(),
-        year = TextStyle(),
-        month = TextStyle(),
-    )
+    object : DatePickerTypography {
+        override val dialogSingleSelectionTitle: TextStyle = TextStyle()
+        override val headlineSingleSelection: TextStyle = TextStyle()
+        override val weekDay: TextStyle = TextStyle()
+        override val day: TextStyle = TextStyle()
+        override val monthYear: TextStyle = TextStyle()
+        override val year: TextStyle = TextStyle()
+        override val month: TextStyle = TextStyle()
+    }
 }

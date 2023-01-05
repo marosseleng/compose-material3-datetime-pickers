@@ -188,41 +188,6 @@ public interface DatePickerColors {
     public val selectedMonthStroke: DatePickerStroke?
 }
 
-public data class DefaultDatePickerColors(
-    override val weekDayLabelTextColor: Color,
-    override val previousMonthDayLabelTextColor: Color,
-    override val previousMonthDayLabelBackgroundColor: Color,
-    override val previousMonthDayLabelStroke: DatePickerStroke?,
-    override val nextMonthDayLabelTextColor: Color,
-    override val nextMonthDayLabelBackgroundColor: Color,
-    override val nextMonthDayLabelStroke: DatePickerStroke?,
-    override val monthDayLabelUnselectedTextColor: Color,
-    override val monthDayLabelUnselectedBackgroundColor: Color,
-    override val monthDayLabelUnselectedStroke: DatePickerStroke?,
-    override val monthDayLabelSelectedTextColor: Color,
-    override val monthDayLabelSelectedBackgroundColor: Color,
-    override val monthDayLabelSelectedStroke: DatePickerStroke?,
-    override val monthDayInRangeLabelTextColor: Color,
-    override val monthDayInRangeBackgroundColor: Color,
-    override val todayLabelTextColor: Color,
-    override val todayLabelBackgroundColor: Color,
-    override val todayStroke: DatePickerStroke,
-    override val yearMonthTextColor: Color,
-    override val previousNextMonthIconColor: Color,
-    override val unselectedYearTextColor: Color,
-    override val unselectedYearBackgroundColor: Color,
-    override val unselectedYearStroke: DatePickerStroke?,
-    override val selectedYearTextColor: Color,
-    override val selectedYearBackgroundColor: Color,
-    override val selectedYearStroke: DatePickerStroke?,
-    override val unselectedMonthTextColor: Color,
-    override val unselectedMonthBackgroundColor: Color,
-    override val unselectedMonthStroke: DatePickerStroke?,
-    override val selectedMonthTextColor: Color,
-    override val selectedMonthBackgroundColor: Color,
-    override val selectedMonthStroke: DatePickerStroke?,
-) : DatePickerColors
-
 /**
  * Simple structure for describing strokes.
  *
@@ -236,38 +201,38 @@ public data class DatePickerStroke(
 )
 
 internal val LocalDatePickerColors: ProvidableCompositionLocal<DatePickerColors> = compositionLocalOf {
-    DefaultDatePickerColors(
-        weekDayLabelTextColor = Color(0),
-        previousMonthDayLabelTextColor = Color(0),
-        previousMonthDayLabelBackgroundColor = Color(0),
-        previousMonthDayLabelStroke = null,
-        nextMonthDayLabelTextColor = Color(0),
-        nextMonthDayLabelBackgroundColor = Color(0),
-        nextMonthDayLabelStroke = null,
-        monthDayLabelUnselectedTextColor = Color(0),
-        monthDayLabelUnselectedBackgroundColor = Color(0),
-        monthDayLabelUnselectedStroke = null,
-        monthDayLabelSelectedTextColor = Color(0),
-        monthDayLabelSelectedBackgroundColor = Color(0),
-        monthDayLabelSelectedStroke = null,
-        monthDayInRangeLabelTextColor = Color(0),
-        monthDayInRangeBackgroundColor = Color(0),
-        todayLabelTextColor = Color(0),
-        todayLabelBackgroundColor = Color(0),
-        todayStroke = DatePickerStroke(0.dp, Color(0)),
-        yearMonthTextColor = Color(0),
-        previousNextMonthIconColor = Color(0),
-        unselectedYearTextColor = Color(0),
-        unselectedYearBackgroundColor = Color(0),
-        unselectedYearStroke = null,
-        selectedYearTextColor = Color(0),
-        selectedYearBackgroundColor = Color(0),
-        selectedYearStroke = null,
-        unselectedMonthTextColor = Color(0),
-        unselectedMonthBackgroundColor = Color(0),
-        unselectedMonthStroke = null,
-        selectedMonthTextColor = Color(0),
-        selectedMonthBackgroundColor = Color(0),
-        selectedMonthStroke = null,
-    )
+    object : DatePickerColors {
+        override val weekDayLabelTextColor: Color = Color.Transparent
+        override val previousMonthDayLabelTextColor: Color = Color.Transparent
+        override val previousMonthDayLabelBackgroundColor: Color = Color.Transparent
+        override val previousMonthDayLabelStroke: DatePickerStroke? = null
+        override val nextMonthDayLabelTextColor: Color = Color.Transparent
+        override val nextMonthDayLabelBackgroundColor: Color = Color.Transparent
+        override val nextMonthDayLabelStroke: DatePickerStroke? = null
+        override val monthDayLabelUnselectedTextColor: Color = Color.Transparent
+        override val monthDayLabelUnselectedBackgroundColor: Color = Color.Transparent
+        override val monthDayLabelUnselectedStroke: DatePickerStroke? = null
+        override val monthDayLabelSelectedTextColor: Color = Color.Transparent
+        override val monthDayLabelSelectedBackgroundColor: Color = Color.Transparent
+        override val monthDayLabelSelectedStroke: DatePickerStroke? = null
+        override val monthDayInRangeLabelTextColor: Color = Color.Transparent
+        override val monthDayInRangeBackgroundColor: Color = Color.Transparent
+        override val todayLabelTextColor: Color = Color.Transparent
+        override val todayLabelBackgroundColor: Color = Color.Transparent
+        override val todayStroke: DatePickerStroke = DatePickerStroke(thickness = 0.dp, Color.Transparent)
+        override val yearMonthTextColor: Color = Color.Transparent
+        override val previousNextMonthIconColor: Color = Color.Transparent
+        override val unselectedYearTextColor: Color = Color.Transparent
+        override val unselectedYearBackgroundColor: Color = Color.Transparent
+        override val unselectedYearStroke: DatePickerStroke? = null
+        override val selectedYearTextColor: Color = Color.Transparent
+        override val selectedYearBackgroundColor: Color = Color.Transparent
+        override val selectedYearStroke: DatePickerStroke? = null
+        override val unselectedMonthTextColor: Color = Color.Transparent
+        override val unselectedMonthBackgroundColor: Color = Color.Transparent
+        override val unselectedMonthStroke: DatePickerStroke? = null
+        override val selectedMonthTextColor: Color = Color.Transparent
+        override val selectedMonthBackgroundColor: Color = Color.Transparent
+        override val selectedMonthStroke: DatePickerStroke? = null
+    }
 }
