@@ -38,14 +38,9 @@ public interface TimePickerShapes {
     public val amPmSwitchShape: Shape
 }
 
-internal data class DefaultTimePickerShapes(
-    override val clockDigitsShape: Shape,
-    override val amPmSwitchShape: Shape,
-) : TimePickerShapes
-
 internal val LocalTimePickerShapes: ProvidableCompositionLocal<TimePickerShapes> = compositionLocalOf {
-    DefaultTimePickerShapes(
-        clockDigitsShape = CutCornerShape(4.dp),
-        amPmSwitchShape = CutCornerShape(4.dp),
-    )
+    object : TimePickerShapes {
+        override val clockDigitsShape: Shape = CutCornerShape(4.dp)
+        override val amPmSwitchShape: Shape = CutCornerShape(4.dp)
+    }
 }

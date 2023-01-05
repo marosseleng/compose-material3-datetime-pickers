@@ -16,10 +16,11 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.domain
 
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.unit.dp
 
 /**
  * Interface describing shapes used in DatePicker.
@@ -61,24 +62,14 @@ public interface DatePickerShapes {
     public val month: Shape
 }
 
-internal data class DefaultDatePickerShapes(
-    override val previousMonthDay: Shape,
-    override val currentMonthDaySelected: Shape,
-    override val currentMonthDayToday: Shape,
-    override val currentMonthDayUnselected: Shape,
-    override val nextMonthDay: Shape,
-    override val year: Shape,
-    override val month: Shape,
-) : DatePickerShapes
-
 internal val LocalDatePickerShapes: ProvidableCompositionLocal<DatePickerShapes> = compositionLocalOf {
-    DefaultDatePickerShapes(
-        previousMonthDay = CircleShape,
-        currentMonthDaySelected = CircleShape,
-        currentMonthDayToday = CircleShape,
-        currentMonthDayUnselected = CircleShape,
-        nextMonthDay = CircleShape,
-        year = CircleShape,
-        month = CircleShape,
-    )
+    object : DatePickerShapes {
+        override val previousMonthDay: Shape = CutCornerShape(4.dp)
+        override val currentMonthDaySelected: Shape = CutCornerShape(4.dp)
+        override val currentMonthDayToday: Shape = CutCornerShape(4.dp)
+        override val currentMonthDayUnselected: Shape = CutCornerShape(4.dp)
+        override val nextMonthDay: Shape = CutCornerShape(4.dp)
+        override val year: Shape = CutCornerShape(4.dp)
+        override val month: Shape = CutCornerShape(4.dp)
+    }
 }

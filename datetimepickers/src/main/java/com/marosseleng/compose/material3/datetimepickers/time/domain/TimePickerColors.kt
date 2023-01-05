@@ -135,48 +135,26 @@ public data class TimePickerStroke(
     public val color: Color,
 )
 
-internal data class DefaultTimePickerColors(
-    override val clockDigitsSelectedBackgroundColor: Color,
-    override val clockDigitsSelectedTextColor: Color,
-    override val clockDigitsSelectedBorderStroke: TimePickerStroke?,
-    override val clockDigitsUnselectedBackgroundColor: Color,
-    override val clockDigitsUnselectedTextColor: Color,
-    override val clockDigitsUnselectedBorderStroke: TimePickerStroke?,
-    override val clockDigitsColonTextColor: Color,
-    override val amPmSwitchFieldSelectedBackgroundColor: Color,
-    override val amPmSwitchFieldSelectedTextColor: Color,
-    override val amPmSwitchFieldUnselectedBackgroundColor: Color,
-    override val amPmSwitchFieldUnselectedTextColor: Color,
-    override val amPmSwitchBorderDividerStroke: TimePickerStroke?,
-    override val dialCenterColor: Color,
-    override val dialHandColor: Color,
-    override val dialBackgroundColor: Color,
-    override val dialNumberSelectedBackgroundColor: Color,
-    override val dialNumberSelectedTextColor: Color,
-    override val dialNumberUnselectedBackgroundColor: Color,
-    override val dialNumberUnselectedTextColor: Color,
-) : TimePickerColors
-
 internal val LocalTimePickerColors: ProvidableCompositionLocal<TimePickerColors> = compositionLocalOf {
-    DefaultTimePickerColors(
-        clockDigitsSelectedBackgroundColor = Color.Transparent,
-        clockDigitsSelectedTextColor = Color.Transparent,
-        clockDigitsSelectedBorderStroke = null,
-        clockDigitsUnselectedBackgroundColor = Color.Transparent,
-        clockDigitsUnselectedTextColor = Color.Transparent,
-        clockDigitsUnselectedBorderStroke = null,
-        clockDigitsColonTextColor = Color.Transparent,
-        amPmSwitchFieldSelectedBackgroundColor = Color.Transparent,
-        amPmSwitchFieldSelectedTextColor = Color.Transparent,
-        amPmSwitchFieldUnselectedBackgroundColor = Color.Transparent,
-        amPmSwitchFieldUnselectedTextColor = Color.Transparent,
-        amPmSwitchBorderDividerStroke = null,
-        dialCenterColor = Color.Transparent,
-        dialHandColor = Color.Transparent,
-        dialBackgroundColor = Color.Transparent,
-        dialNumberSelectedBackgroundColor = Color.Transparent,
-        dialNumberSelectedTextColor = Color.Transparent,
-        dialNumberUnselectedBackgroundColor = Color.Transparent,
-        dialNumberUnselectedTextColor = Color.Transparent,
-    )
+    object : TimePickerColors {
+        override val clockDigitsSelectedBackgroundColor: Color = Color.Transparent
+        override val clockDigitsSelectedTextColor: Color = Color.Transparent
+        override val clockDigitsSelectedBorderStroke: TimePickerStroke? = null
+        override val clockDigitsUnselectedBackgroundColor: Color = Color.Transparent
+        override val clockDigitsUnselectedTextColor: Color = Color.Transparent
+        override val clockDigitsUnselectedBorderStroke: TimePickerStroke? = null
+        override val clockDigitsColonTextColor: Color = Color.Transparent
+        override val amPmSwitchFieldSelectedBackgroundColor: Color = Color.Transparent
+        override val amPmSwitchFieldSelectedTextColor: Color = Color.Transparent
+        override val amPmSwitchFieldUnselectedBackgroundColor: Color = Color.Transparent
+        override val amPmSwitchFieldUnselectedTextColor: Color = Color.Transparent
+        override val amPmSwitchBorderDividerStroke: TimePickerStroke? = null
+        override val dialCenterColor: Color = Color.Transparent
+        override val dialHandColor: Color = Color.Transparent
+        override val dialBackgroundColor: Color = Color.Transparent
+        override val dialNumberSelectedBackgroundColor: Color = Color.Transparent
+        override val dialNumberSelectedTextColor: Color = Color.Transparent
+        override val dialNumberUnselectedBackgroundColor: Color = Color.Transparent
+        override val dialNumberUnselectedTextColor: Color = Color.Transparent
+    }
 }

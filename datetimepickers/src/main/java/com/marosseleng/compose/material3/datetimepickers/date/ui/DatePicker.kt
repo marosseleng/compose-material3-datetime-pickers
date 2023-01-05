@@ -128,9 +128,9 @@ public fun DatePickerDialog(
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
-    colors: DatePickerColors = DatePickerDefaults.colors,
-    shapes: DatePickerShapes = DatePickerDefaults.shapes,
-    typography: DatePickerTypography = DatePickerDefaults.typography,
+    colors: DatePickerColors = DatePickerDefaults.colors(),
+    shapes: DatePickerShapes = DatePickerDefaults.shapes(),
+    typography: DatePickerTypography = DatePickerDefaults.typography(),
     title: @Composable (() -> Unit)? = null,
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
@@ -220,9 +220,9 @@ internal fun ModalDatePicker(
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
-    colors: DatePickerColors = DatePickerDefaults.colors,
-    shapes: DatePickerShapes = DatePickerDefaults.shapes,
-    typography: DatePickerTypography = DatePickerDefaults.typography,
+    colors: DatePickerColors = DatePickerDefaults.colors(),
+    shapes: DatePickerShapes = DatePickerDefaults.shapes(),
+    typography: DatePickerTypography = DatePickerDefaults.typography(),
 ) {
     var yearMonth by rememberSaveable(selectedDate ?: today) {
         mutableStateOf(YearMonth.of(selectedDate?.year ?: today.year, selectedDate?.month ?: today.month))
