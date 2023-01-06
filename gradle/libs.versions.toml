@@ -4,6 +4,10 @@ version-android-library = "7.3.1"
 version-kotlin = "1.7.20"
 version-nexus-publish = "1.1.0"
 version-junit5-plugin = "1.8.2.1"
+# version-paparazzi = "1.1.0"
+version-paparazzi = "1.2.0-SNAPSHOT"
+# required until paparazzi gets decoupled from junit4
+version-test-parameter-injector = "1.10"
 
 version-androidx-core = "1.9.0"
 version-androidx-appcompat = "1.5.1"
@@ -53,9 +57,13 @@ junit5-bom = { module = "org.junit:junit-bom", version.ref = "version-junit5" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api" }
 junit5-params = { module = "org.junit.jupiter:junit-jupiter-params" }
 junit5-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+# for Paparazzi - junit4
+junit5-engine-vintage = { module = "org.junit.vintage:junit-vintage-engine" }
 junit5-pioneer = { module = "org.junit-pioneer:junit-pioneer", version.ref = "version-junit5-pioneer" }
 
 junit = { module = "junit:junit", version.ref = "version-junit4" }
+testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "version-test-parameter-injector" }
+
 androidx-junit-ext = { module = "androidx.test.ext:junit", version.ref = "version-androidx-junit-ext" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "version-androidx-espresso-core" }
 
@@ -67,6 +75,8 @@ androidx-base = ["androidx-core", "androidx-appcompat", "androidx-lifecycle", "a
 androidx-compose-ext = ["androidx-activity-compose"]
 
 junit5-implementation = ["junit5-api", "junit5-params", "junit5-pioneer"]
+junit5-engines = ["junit5-engine", "junit5-engine-vintage"]
+junit-old = ["junit", "testparameterinjector"]
 
 android-test = ["androidx-junit-ext", "espresso-core", "compose-junit"]
 
@@ -77,3 +87,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "version-k
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "version-kotlin" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "version-nexus-publish" }
 junit5-plugin = { id = "de.mannodermaus.android-junit5", version.ref = "version-junit5-plugin" }
+paparazzi = { id = "app.cash.paparazzi", version.ref = "version-paparazzi" }

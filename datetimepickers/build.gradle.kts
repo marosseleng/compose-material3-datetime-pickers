@@ -19,6 +19,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.junit5.plugin)
+    alias(libs.plugins.paparazzi)
     `maven-publish`
     signing
 }
@@ -29,17 +30,8 @@ android {
 
     defaultConfig {
         minSdk = 26
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -71,9 +63,10 @@ dependencies {
 
     debugImplementation(libs.bundles.compose.debug)
 
+    testImplementation(libs.bundles.junit.old)
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.bundles.junit5.implementation)
-    testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.bundles.junit5.engines)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test)

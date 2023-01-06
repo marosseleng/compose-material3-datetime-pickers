@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
     alias(libs.plugins.junit5.plugin) apply false
+    alias(libs.plugins.paparazzi) apply false
     // publish plugin has to be applied here
     alias(libs.plugins.nexus.publish) apply true
 }
