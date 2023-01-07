@@ -5,6 +5,8 @@ version-kotlin = "1.7.20"
 version-nexus-publish = "1.1.0"
 version-junit5-plugin = "1.8.2.1"
 
+version-desugaring = "1.2.2"
+
 version-androidx-core = "1.9.0"
 version-androidx-appcompat = "1.5.1"
 version-androidx-lifecycle = "2.5.1"
@@ -23,6 +25,7 @@ version-androidx-junit-ext = "1.1.4"
 version-androidx-espresso-core = "3.5.0"
 
 [libraries]
+desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "version-desugaring" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "version-androidx-core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "version-androidx-appcompat" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "version-androidx-lifecycle" }
