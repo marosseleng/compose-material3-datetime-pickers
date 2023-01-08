@@ -191,7 +191,7 @@ internal fun ModalDatePicker(
                         MonthSelection(
                             modifier = Modifier
                                 .heightIn(max = 336.dp),
-                            locale = LocalConfiguration.current.getDefaultLocale(),
+                            locale = locale,
                             selectedMonth = yearMonth.month,
                             onMonthClick = {
                                 yearMonth = YearMonth.of(yearMonth.year, it)
