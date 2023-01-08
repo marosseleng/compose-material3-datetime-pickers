@@ -16,7 +16,10 @@
 
 package com.marosseleng.compose.material3.datetimepickers.common.domain
 
+import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.ui.Modifier
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -36,7 +39,7 @@ internal fun Float.roundToNearest(increment: Float): Float {
 /**
  * Calls the given [callback] only if [obj] is not `null`.
  */
-public fun <T : Any?> Modifier.withNotNull(obj: T, callback: Modifier.(T & Any) -> Modifier): Modifier {
+internal fun <T : Any?> Modifier.withNotNull(obj: T, callback: Modifier.(T & Any) -> Modifier): Modifier {
     return if (obj == null) {
         this
     } else {
@@ -44,10 +47,17 @@ public fun <T : Any?> Modifier.withNotNull(obj: T, callback: Modifier.(T & Any) 
     }
 }
 
-public fun Modifier.applyIf(condition: Boolean, callback: Modifier.() -> Modifier): Modifier {
-    return if (condition) {
-        this.callback()
+/**
+ * Returns the preferred [Locale] for user-visible strings.
+ */
+internal fun Configuration.getDefaultLocale(): Locale {
+    return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        locale
     } else {
-        this
-    }
+        if (locales.isEmpty) {
+            Locale.getDefault()
+        } else {
+            locales.get(0)
+        }
+    } ?: Locale.getDefault()
 }
