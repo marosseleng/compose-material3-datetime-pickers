@@ -60,11 +60,8 @@ dependencies {
     coreLibraryDesugaring(libs.desugaring)
 
     implementation(libs.material3)
-
     implementation(platform(libs.compose.bom))
-
     implementation(libs.bundles.compose.library)
-
     debugImplementation(libs.bundles.compose.debug)
 
     testImplementation(platform(libs.junit5.bom))
