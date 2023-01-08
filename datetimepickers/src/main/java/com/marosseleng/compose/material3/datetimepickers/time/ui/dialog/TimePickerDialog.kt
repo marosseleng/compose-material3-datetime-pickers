@@ -32,10 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.DialogProperties
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerColors
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerDefaults
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerShapes
@@ -43,6 +45,7 @@ import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerT
 import com.marosseleng.compose.material3.datetimepickers.time.domain.noSeconds
 import com.marosseleng.compose.material3.datetimepickers.time.ui.TimePicker
 import java.time.LocalTime
+import java.util.Locale
 
 /**
  * Dialog containing time picker. This is an example minimal implementations.
@@ -61,6 +64,7 @@ public fun TimePickerDialog(
     onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
     initialTime: LocalTime = LocalTime.now().noSeconds(),
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
@@ -98,6 +102,7 @@ public fun TimePickerDialog(
             TimePicker(
                 initialTime = initialTime,
                 onTimeChange = { time = it },
+                locale = locale,
                 is24HourFormat = is24HourFormat,
                 colors = colors,
                 shapes = shapes,

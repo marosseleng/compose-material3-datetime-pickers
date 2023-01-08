@@ -44,10 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.time.domain.AmPmMode
 import com.marosseleng.compose.material3.datetimepickers.time.domain.ClockDialMode
@@ -76,6 +78,7 @@ public fun HorizontalTimePicker(
     initialTime: LocalTime,
     onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
@@ -130,6 +133,7 @@ public fun HorizontalTimePicker(
                             onTimeChange(newTime)
                         }
                     },
+                    locale = locale,
                 )
                 Crossfade(
                     modifier = Modifier.padding(start = 64.dp, top = 8.dp, bottom = 24.dp),
@@ -208,6 +212,7 @@ internal fun VerticalClockDigits(
     onMinuteClick: () -> Unit,
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
 ) {
     val selectedFieldColor = LocalTimePickerColors.current.clockDigitsSelectedBackgroundColor
@@ -287,6 +292,7 @@ internal fun VerticalClockDigits(
                     amPmMode = amPmMode,
                     onAmClick = onAmClick,
                     onPmClick = onPmClick,
+                    locale = locale,
                     modifier = Modifier.padding(top = 12.dp),
                 )
             }
@@ -315,16 +321,17 @@ public fun VerticalDivider(
 
 
 /**
- * Vertical AM/PM switch for use in vertical layout.
+ * Horizontal AM/PM switch for use in horizontal layout.
  */
 @Composable
 internal fun HorizontalAmPmSwitch(
     amPmMode: AmPmMode,
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
 ) {
-    val amPmStrings = DateFormatSymbols.getInstance(Locale.getDefault()).amPmStrings
+    val amPmStrings = DateFormatSymbols.getInstance(locale).amPmStrings
     val selectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedBackgroundColor
     val selectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedTextColor
     val unselectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedBackgroundColor
