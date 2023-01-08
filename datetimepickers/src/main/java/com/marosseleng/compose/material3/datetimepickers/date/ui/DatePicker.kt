@@ -211,7 +211,7 @@ internal fun ModalDatePicker(
  *
  * @param selectedMonth the currently selected [Month]
  * @param onMonthClick called when a month is clicked
-§ * @param locale [Locale] for formatting [selectedMonth] and other [Month]s
+ * @param locale [Locale] for formatting [selectedMonth] and other [Month]s
  * @param modifier a [Modifier]
  */
 @Composable
