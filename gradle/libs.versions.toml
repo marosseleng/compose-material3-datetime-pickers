@@ -19,7 +19,7 @@ version-material3 = "1.0.1"
 version-junit5 = "5.9.1"
 version-junit5-pioneer = "2.0.0-RC1"
 version-junit4 = "4.13.2"
-version-androidx-junit-ext = "1.1.4"
+version-androidx-junit-ext = "1.1.5"
 version-androidx-espresso-core = "3.5.0"
 
 [libraries]
