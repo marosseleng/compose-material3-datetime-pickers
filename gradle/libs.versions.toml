@@ -68,9 +68,6 @@ androidx-compose-ext = ["androidx-activity-compose"]
 junit5-implementation = ["junit5-api", "junit5-params", "junit5-pioneer"]
 # Compose UI test bundle
 android-test = ["compose-junit"]
-# testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
-
-android-test = ["androidx-junit-ext", "espresso-core", "compose-junit"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "version-android-application" }
