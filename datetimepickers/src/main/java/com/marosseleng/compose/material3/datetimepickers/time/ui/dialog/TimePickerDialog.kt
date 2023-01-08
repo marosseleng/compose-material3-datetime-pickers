@@ -16,6 +16,7 @@
 
 package com.marosseleng.compose.material3.datetimepickers.time.ui.dialog
 
+import android.text.format.DateFormat
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.DialogProperties
@@ -50,6 +52,7 @@ import java.time.LocalTime
  * @param onDismissRequest called when user wants to dismiss the dialog without selecting the time.
  * @param onTimeChange called when user taps the confirmation button.
  * @param initialTime initial time to show in the picker.
+ * @param is24HourFormat whether or not the time picker should be shown in 24-hour format.
  */
 @ExperimentalMaterial3Api
 @Composable
@@ -58,6 +61,7 @@ public fun TimePickerDialog(
     onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
     initialTime: LocalTime = LocalTime.now().noSeconds(),
+    is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
     typography: TimePickerTypography = TimePickerDefaults.typography,
@@ -94,6 +98,7 @@ public fun TimePickerDialog(
             TimePicker(
                 initialTime = initialTime,
                 onTimeChange = { time = it },
+                is24HourFormat = is24HourFormat,
                 colors = colors,
                 shapes = shapes,
                 typography = typography,
