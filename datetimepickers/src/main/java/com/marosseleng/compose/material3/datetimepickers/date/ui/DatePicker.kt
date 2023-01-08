@@ -149,6 +149,7 @@ internal fun ModalDatePicker(
                     }
                 },
                 onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
+                locale = locale,
                 modifier = Modifier.offset(x = -16.dp),
             )
 
@@ -210,15 +211,15 @@ internal fun ModalDatePicker(
  *
  * @param selectedMonth the currently selected [Month]
  * @param onMonthClick called when a month is clicked
+§ * @param locale [Locale] for formatting [selectedMonth] and other [Month]s
  * @param modifier a [Modifier]
- * @param locale [Locale] for formatting [selectedMonth] and other [Month]s
  */
 @Composable
 internal fun MonthSelection(
     selectedMonth: Month,
     onMonthClick: (Month) -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = LocalConfiguration.current.getDefaultLocale()
 ) {
     val months by remember(Unit) {
         mutableStateOf(Month.values().map { it.getDisplayName(TextStyle.FULL_STANDALONE, locale) })
@@ -288,7 +289,7 @@ internal fun MonthSelection(
 internal fun YearSelection(
     selectedYear: Int,
     onYearClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -368,8 +369,8 @@ internal fun YearSelection(
  * @param onPreviousMonthClick called when clicked on the "previous month" arrow
  * @param onMonthClick called when clicked on the current month
  * @param onNextMonthClick called when clicked on the "next month" arrow
- * @param modifier a [Modifier]
  * @param locale [Locale] for formatting [currentYearMonth]
+ * @param modifier a [Modifier]
  */
 @Composable
 internal fun MonthYearSelection(
@@ -378,8 +379,8 @@ internal fun MonthYearSelection(
     onPreviousMonthClick: () -> Unit,
     onMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = LocalConfiguration.current.getDefaultLocale()
 ) {
     val iconRotation by animateFloatAsState(targetValue = if (dropdownOpen) 0F else 180f)
 
@@ -451,8 +452,8 @@ internal fun MonthYearSelection(
  *
  * @param month a [Month] to display
  * @param onDayClick called when a day is clicked within this [Month]
- * @param modifier a [Modifier]
  * @param locale [Locale] which to take first day of week from
+ * @param modifier a [Modifier]
  * @param today today
  * @param showDaysAbbreviations whether to show the row with day names abbreviations atop the grid
  */
@@ -460,8 +461,8 @@ internal fun MonthYearSelection(
 internal fun Month(
     month: YearMonth,
     onDayClick: (LocalDate) -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
