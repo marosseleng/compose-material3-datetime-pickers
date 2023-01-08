@@ -16,7 +16,6 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.ui
 
-import android.text.format.DateUtils
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -32,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -46,12 +46,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -61,7 +57,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -70,12 +65,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import com.marosseleng.compose.material3.datetimepickers.R
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.common.ui.BidirectionalInfiniteListHandler
@@ -96,7 +88,6 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
@@ -155,7 +146,9 @@ internal fun ModalDatePicker(
                         SelectionMode.DAY
                     }
                 },
-                onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) })
+                onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
+                modifier = Modifier.offset(x = -16.dp),
+            )
 
             Crossfade(
                 modifier = Modifier
@@ -361,7 +354,7 @@ internal fun YearSelection(
         listState = lazyListState,
         threshold = 2,
         onLoadPrevious = { initialLess += 5 },
-        onLoadNext =  { initialMore += 5 },
+        onLoadNext = { initialMore += 5 },
     )
 }
 
@@ -403,13 +396,15 @@ internal fun MonthYearSelection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier,
+                modifier = Modifier.padding(start = 16.dp),
                 text = currentYearMonth.getDisplayName(locale),
                 style = LocalDatePickerTypography.current.monthYear,
                 color = LocalDatePickerColors.current.yearMonthTextColor,
             )
             Icon(
-                modifier = Modifier.rotate(iconRotation),
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .rotate(iconRotation),
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = stringResource(id = R.string.datepicker_select_month_year),
                 tint = LocalDatePickerColors.current.yearMonthTextColor,
