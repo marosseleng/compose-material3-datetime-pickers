@@ -150,7 +150,7 @@ internal fun ModalDatePicker(
                 },
                 onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
                 locale = locale,
-                modifier = Modifier.offset(x = -16.dp),
+                modifier = Modifier,
             )
 
             Crossfade(
@@ -392,6 +392,7 @@ internal fun MonthYearSelection(
     ) {
         Row(
             modifier = Modifier
+                .offset(x = -16.dp)
                 .height(32.dp)
                 .clip(RoundedCornerShape(percent = 50))
                 .clickable(onClick = onMonthClick),
