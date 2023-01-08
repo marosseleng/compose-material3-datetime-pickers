@@ -65,10 +65,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.marosseleng.compose.material3.datetimepickers.R
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.common.ui.BidirectionalInfiniteListHandler
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerColors
@@ -111,7 +113,7 @@ internal fun ModalDatePicker(
     selectedDate: LocalDate?,
     onDayClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault(),
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
@@ -189,7 +191,7 @@ internal fun ModalDatePicker(
                         MonthSelection(
                             modifier = Modifier
                                 .heightIn(max = 336.dp),
-                            locale = Locale.getDefault(),
+                            locale = LocalConfiguration.current.getDefaultLocale(),
                             selectedMonth = yearMonth.month,
                             onMonthClick = {
                                 yearMonth = YearMonth.of(yearMonth.year, it)
@@ -216,7 +218,7 @@ internal fun MonthSelection(
     selectedMonth: Month,
     onMonthClick: (Month) -> Unit,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault()
+    locale: Locale = LocalConfiguration.current.getDefaultLocale()
 ) {
     val months by remember(Unit) {
         mutableStateOf(Month.values().map { it.getDisplayName(TextStyle.FULL_STANDALONE, locale) })
@@ -377,7 +379,7 @@ internal fun MonthYearSelection(
     onMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault()
+    locale: Locale = LocalConfiguration.current.getDefaultLocale()
 ) {
     val iconRotation by animateFloatAsState(targetValue = if (dropdownOpen) 0F else 180f)
 
@@ -459,7 +461,7 @@ internal fun Month(
     month: YearMonth,
     onDayClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault(),
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
@@ -487,7 +489,7 @@ internal fun Month(
                         contentAlignment = Alignment.Center
                     ) {
                         val dayAbbr = DayOfWeek.of(((globalFirstDayIndex - 1 + dayIndex) % 7) + 1)
-                            .getDisplayName(TextStyle.NARROW, Locale.getDefault())
+                            .getDisplayName(TextStyle.NARROW, locale)
                         Text(
                             text = dayAbbr,
                             style = LocalDatePickerTypography.current.weekDay,

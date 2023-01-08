@@ -44,10 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.time.domain.AmPmMode
 import com.marosseleng.compose.material3.datetimepickers.time.domain.ClockDialMode
@@ -63,7 +65,6 @@ import com.marosseleng.compose.material3.datetimepickers.time.ui.dialog.TimePick
 import java.text.DateFormatSymbols
 import java.time.LocalTime
 import java.util.Calendar
-import java.util.Locale
 
 /**
  * A horizontal layout for time picker.
@@ -324,7 +325,7 @@ internal fun HorizontalAmPmSwitch(
     onPmClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val amPmStrings = DateFormatSymbols.getInstance(Locale.getDefault()).amPmStrings
+    val amPmStrings = DateFormatSymbols.getInstance(LocalConfiguration.current.getDefaultLocale()).amPmStrings
     val selectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedBackgroundColor
     val selectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedTextColor
     val unselectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedBackgroundColor

@@ -56,10 +56,12 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.roundToNearest
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.time.domain.AmPmMode
@@ -75,7 +77,6 @@ import com.marosseleng.compose.material3.datetimepickers.time.domain.getHour
 import java.text.DateFormatSymbols
 import java.time.LocalTime
 import java.util.Calendar
-import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.roundToInt
@@ -321,7 +322,7 @@ internal fun VerticalAmPmSwitch(
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
 ) {
-    val amPmStrings = DateFormatSymbols.getInstance(Locale.getDefault()).amPmStrings
+    val amPmStrings = DateFormatSymbols.getInstance(LocalConfiguration.current.getDefaultLocale()).amPmStrings
     val selectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedBackgroundColor
     val selectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedTextColor
     val unselectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedBackgroundColor
