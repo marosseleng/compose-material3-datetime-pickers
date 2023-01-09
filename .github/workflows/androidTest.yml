@@ -15,6 +15,7 @@ jobs:
     strategy:
       matrix:
         api-level: [21, 33]
+        target: [google_apis]
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -51,7 +52,7 @@ jobs:
         uses: ReactiveCircus/android-emulator-runner@v2.27.0
         with:
           api-level: ${{ matrix.api-level }}
-          target: google_apis
+          target: ${{ matrix.target }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
