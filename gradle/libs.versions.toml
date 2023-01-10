@@ -9,6 +9,8 @@ version-paparazzi = "1.2.0-SNAPSHOT"
 # required until paparazzi gets decoupled from junit4
 version-test-parameter-injector = "1.10"
 
+version-desugaring = "1.2.2"
+
 version-androidx-core = "1.9.0"
 version-androidx-appcompat = "1.5.1"
 version-androidx-lifecycle = "2.5.1"
@@ -20,13 +22,12 @@ version-compose-bom = "2022.12.00"
 
 version-material3 = "1.0.1"
 
-version-junit5 = "5.9.1"
+version-junit5 = "5.9.2"
 version-junit5-pioneer = "2.0.0-RC1"
 version-junit4 = "4.13.2"
-version-androidx-junit-ext = "1.1.4"
-version-androidx-espresso-core = "3.5.0"
 
 [libraries]
+desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "version-desugaring" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "version-androidx-core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "version-androidx-appcompat" }
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "version-androidx-lifecycle" }
@@ -64,21 +65,18 @@ junit5-pioneer = { module = "org.junit-pioneer:junit-pioneer", version.ref = "ve
 junit = { module = "junit:junit", version.ref = "version-junit4" }
 testparameterinjector = { module = "com.google.testparameterinjector:test-parameter-injector", version.ref = "version-test-parameter-injector" }
 
-androidx-junit-ext = { module = "androidx.test.ext:junit", version.ref = "version-androidx-junit-ext" }
-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "version-androidx-espresso-core" }
-
 [bundles]
 compose = ["compose-compiler", "compose-ui", "compose-ui-util", "compose-foundation", "compose-foundation-layout", "compose-runtime", "compose-runtime-livedata", "compose-material-icons", "compose-material-icons-extended", "compose-animation", "compose-animation-core", "compose-ui-tooling-preview"]
 compose-library = ["compose-compiler", "compose-ui", "compose-ui-util", "compose-foundation", "compose-foundation-layout", "compose-runtime", "compose-animation", "compose-animation-core", "compose-ui-tooling-preview"]
 compose-debug = ["compose-ui-tooling", "compose-ui-test"]
 androidx-base = ["androidx-core", "androidx-appcompat", "androidx-lifecycle", "androidx-lifecycle-livedata"]
 androidx-compose-ext = ["androidx-activity-compose"]
-
+# Junit Jupiter bundle
 junit5-implementation = ["junit5-api", "junit5-params", "junit5-pioneer"]
 junit5-engines = ["junit5-engine", "junit5-engine-vintage"]
 junit-old = ["junit", "testparameterinjector"]
-
-android-test = ["androidx-junit-ext", "espresso-core", "compose-junit"]
+# Compose UI test bundle
+android-test = ["compose-junit"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "version-android-application" }

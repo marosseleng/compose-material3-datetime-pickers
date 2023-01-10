@@ -56,10 +56,14 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.roundToNearest
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.time.domain.AmPmMode
@@ -84,10 +88,11 @@ import kotlin.math.sqrt
 /**
  * Displays a time picker.
  *
- * @param modifier [Modifier] passed from parent.
- * @param is24HourFormat whether or not the time picker should be shown in 24-hour format.
- * @param time time to display.
+ * @param initialTime initial time to display.
  * @param onTimeChange function called each time the time is changed.
+ * @param modifier [Modifier] passed from parent.
+ * @param locale [Locale] used to translate AM/PM strings
+ * @param is24HourFormat whether or not the time picker should be shown in 24-hour format.
  */
 @ExperimentalMaterial3Api
 @Composable
@@ -95,6 +100,7 @@ public fun TimePicker(
     initialTime: LocalTime,
     onTimeChange: (LocalTime) -> Unit,
     modifier: Modifier = Modifier,
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
     colors: TimePickerColors = TimePickerDefaults.colors,
     shapes: TimePickerShapes = TimePickerDefaults.shapes,
@@ -150,6 +156,7 @@ public fun TimePicker(
                             onTimeChange(newTime)
                         }
                     },
+                    locale = locale,
                 )
                 Crossfade(
                     modifier = Modifier
@@ -228,6 +235,7 @@ internal fun HorizontalClockDigits(
     onMinuteClick: () -> Unit,
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
 ) {
     val selectedFieldColor = LocalTimePickerColors.current.clockDigitsSelectedBackgroundColor
@@ -250,6 +258,9 @@ internal fun HorizontalClockDigits(
         ) {
             Box(
                 modifier = Modifier
+                    .semantics {
+                        selected = selectedMode.isHours
+                    }
                     .size(width = 96.dp, height = 80.dp)
                     .clip(shape = clockDigitsShape)
                     .background(if (selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
@@ -283,6 +294,9 @@ internal fun HorizontalClockDigits(
             }
             Box(
                 modifier = Modifier
+                    .semantics {
+                        selected = !selectedMode.isHours
+                    }
                     .size(width = 96.dp, height = 80.dp)
                     .clip(shape = clockDigitsShape)
                     .background(if (!selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
@@ -306,6 +320,7 @@ internal fun HorizontalClockDigits(
                     amPmMode = amPmMode,
                     onAmClick = onAmClick,
                     onPmClick = onPmClick,
+                    locale = locale,
                 )
             }
         }
@@ -320,8 +335,9 @@ internal fun VerticalAmPmSwitch(
     amPmMode: AmPmMode,
     onAmClick: () -> Unit,
     onPmClick: () -> Unit,
+    locale: Locale,
 ) {
-    val amPmStrings = DateFormatSymbols.getInstance(Locale.getDefault()).amPmStrings
+    val amPmStrings = DateFormatSymbols.getInstance(locale).amPmStrings
     val selectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedBackgroundColor
     val selectedFontColor = LocalTimePickerColors.current.amPmSwitchFieldSelectedTextColor
     val unselectedFieldColor = LocalTimePickerColors.current.amPmSwitchFieldUnselectedBackgroundColor
@@ -343,6 +359,9 @@ internal fun VerticalAmPmSwitch(
     ) {
         Box(
             modifier = Modifier
+                .semantics {
+                    selected = amPmMode == AmPmMode.AM
+                }
                 .weight(1f)
                 .fillMaxWidth()
                 .background(if (amPmMode == AmPmMode.AM) selectedFieldColor else unselectedFieldColor)
@@ -361,6 +380,9 @@ internal fun VerticalAmPmSwitch(
         }
         Box(
             modifier = Modifier
+                .semantics {
+                    selected = amPmMode == AmPmMode.PM
+                }
                 .weight(1f)
                 .fillMaxWidth()
                 .background(if (amPmMode == AmPmMode.PM) selectedFieldColor else unselectedFieldColor)

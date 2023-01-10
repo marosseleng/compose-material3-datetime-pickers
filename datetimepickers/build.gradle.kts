@@ -29,10 +29,13 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 21
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -55,12 +58,11 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugaring)
+
     implementation(libs.material3)
-
     implementation(platform(libs.compose.bom))
-
     implementation(libs.bundles.compose.library)
-
     debugImplementation(libs.bundles.compose.debug)
 
     testImplementation(libs.bundles.junit.old)
@@ -81,7 +83,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.marosseleng.android"
             artifactId = "compose-material3-datetime-pickers"
-            version = "0.2.0"
+            version = "0.3.0"
 
             afterEvaluate {
                 from(components["release"])

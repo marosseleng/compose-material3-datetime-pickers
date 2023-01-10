@@ -16,7 +16,6 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.ui
 
-import android.text.format.DateUtils
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -32,6 +31,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
@@ -46,12 +46,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
@@ -61,7 +57,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
@@ -70,13 +65,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import com.marosseleng.compose.material3.datetimepickers.R
+import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
 import com.marosseleng.compose.material3.datetimepickers.common.ui.BidirectionalInfiniteListHandler
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerColors
@@ -96,106 +90,9 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
-import java.time.ZoneId
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
-
-/**
- * Displays the datepicker dialog for a single date election.
- *
- * @param onDismissRequest called when user wants to dismiss the dialog without selecting the time
- * @param onDateChange called when user selects the date and taps the positive button
- * @param modifier a [Modifier]
- * @param initialDate initial [LocalDate] to select or null
- * @param locale a [Locale] instance for displayed texts, such as Months names
- * @param today today
- * @param showDaysAbbreviations whether or not to show the row with days' abbreviations atop the day grid
- * @param highlightToday whether or not to highlight today
- * @param colors [DatePickerColors] to use
- * @param shapes [DatePickerShapes] to use
- * @param typography [DatePickerTypography] to use
- * @param title title of the dialog
- */
-@ExperimentalComposeUiApi
-@Composable
-public fun DatePickerDialog(
-    onDismissRequest: () -> Unit,
-    onDateChange: (LocalDate) -> Unit,
-    modifier: Modifier = Modifier,
-    initialDate: LocalDate? = null,
-    locale: Locale = Locale.getDefault(),
-    today: LocalDate = LocalDate.now(),
-    showDaysAbbreviations: Boolean = true,
-    highlightToday: Boolean = true,
-    colors: DatePickerColors = DatePickerDefaults.colors,
-    shapes: DatePickerShapes = DatePickerDefaults.shapes,
-    typography: DatePickerTypography = DatePickerDefaults.typography,
-    title: @Composable (() -> Unit)? = null,
-    shape: Shape = AlertDialogDefaults.shape,
-    containerColor: Color = AlertDialogDefaults.containerColor,
-    iconContentColor: Color = AlertDialogDefaults.iconContentColor,
-    titleContentColor: Color = AlertDialogDefaults.titleContentColor,
-    textContentColor: Color = AlertDialogDefaults.textContentColor,
-    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
-    properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
-) {
-    var date: LocalDate? by rememberSaveable(initialDate) {
-        mutableStateOf(initialDate)
-    }
-
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(onClick = { date?.also(onDateChange) }, enabled = date != null) {
-                Text(stringResource(id = android.R.string.ok))
-            }
-        },
-        modifier = modifier,
-        dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text(stringResource(id = android.R.string.cancel))
-            }
-        },
-        title = {
-            ProvideTextStyle(value = typography.dialogSingleSelectionTitle) {
-                title?.invoke()
-            }
-
-            val dateSeconds = date?.atStartOfDay(ZoneId.systemDefault())?.toEpochSecond()
-            if (dateSeconds != null) {
-                val formatted = DateUtils.formatDateTime(
-                    LocalContext.current,
-                    dateSeconds * 1000,
-                    DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_WEEKDAY or
-                            DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                )
-                Text(text = formatted, style = typography.headlineSingleSelection, modifier = Modifier.padding(top = 36.dp))
-            }
-        },
-        text = {
-            ModalDatePicker(
-                selectedDate = date,
-                onDayClick = { date = it },
-                modifier = Modifier,
-                locale = locale,
-                today = today,
-                showDaysAbbreviations = showDaysAbbreviations,
-                highlightToday = highlightToday,
-                colors = colors,
-                shapes = shapes,
-                typography = typography,
-            )
-        },
-        shape = shape,
-        containerColor = containerColor,
-        iconContentColor = iconContentColor,
-        titleContentColor = titleContentColor,
-        textContentColor = textContentColor,
-        tonalElevation = tonalElevation,
-        properties = properties,
-    )
-}
 
 /**
  * Core composable, representing the Modal datepicker.
@@ -216,7 +113,7 @@ internal fun ModalDatePicker(
     selectedDate: LocalDate?,
     onDayClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault(),
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
@@ -251,7 +148,10 @@ internal fun ModalDatePicker(
                         SelectionMode.DAY
                     }
                 },
-                onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) })
+                onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
+                locale = locale,
+                modifier = Modifier,
+            )
 
             Crossfade(
                 modifier = Modifier
@@ -292,7 +192,7 @@ internal fun ModalDatePicker(
                         MonthSelection(
                             modifier = Modifier
                                 .heightIn(max = 336.dp),
-                            locale = Locale.getDefault(),
+                            locale = locale,
                             selectedMonth = yearMonth.month,
                             onMonthClick = {
                                 yearMonth = YearMonth.of(yearMonth.year, it)
@@ -311,15 +211,15 @@ internal fun ModalDatePicker(
  *
  * @param selectedMonth the currently selected [Month]
  * @param onMonthClick called when a month is clicked
- * @param modifier a [Modifier]
  * @param locale [Locale] for formatting [selectedMonth] and other [Month]s
+ * @param modifier a [Modifier]
  */
 @Composable
 internal fun MonthSelection(
     selectedMonth: Month,
     onMonthClick: (Month) -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault()
 ) {
     val months by remember(Unit) {
         mutableStateOf(Month.values().map { it.getDisplayName(TextStyle.FULL_STANDALONE, locale) })
@@ -389,7 +289,7 @@ internal fun MonthSelection(
 internal fun YearSelection(
     selectedYear: Int,
     onYearClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
 
@@ -457,7 +357,7 @@ internal fun YearSelection(
         listState = lazyListState,
         threshold = 2,
         onLoadPrevious = { initialLess += 5 },
-        onLoadNext =  { initialMore += 5 },
+        onLoadNext = { initialMore += 5 },
     )
 }
 
@@ -469,8 +369,8 @@ internal fun YearSelection(
  * @param onPreviousMonthClick called when clicked on the "previous month" arrow
  * @param onMonthClick called when clicked on the current month
  * @param onNextMonthClick called when clicked on the "next month" arrow
- * @param modifier a [Modifier]
  * @param locale [Locale] for formatting [currentYearMonth]
+ * @param modifier a [Modifier]
  */
 @Composable
 internal fun MonthYearSelection(
@@ -479,8 +379,8 @@ internal fun MonthYearSelection(
     onPreviousMonthClick: () -> Unit,
     onMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault()
 ) {
     val iconRotation by animateFloatAsState(targetValue = if (dropdownOpen) 0F else 180f)
 
@@ -492,6 +392,7 @@ internal fun MonthYearSelection(
     ) {
         Row(
             modifier = Modifier
+                .offset(x = -16.dp)
                 .height(32.dp)
                 .clip(RoundedCornerShape(percent = 50))
                 .clickable(onClick = onMonthClick),
@@ -499,13 +400,15 @@ internal fun MonthYearSelection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                modifier = Modifier,
+                modifier = Modifier.padding(start = 16.dp),
                 text = currentYearMonth.getDisplayName(locale),
                 style = LocalDatePickerTypography.current.monthYear,
                 color = LocalDatePickerColors.current.yearMonthTextColor,
             )
             Icon(
-                modifier = Modifier.rotate(iconRotation),
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .rotate(iconRotation),
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = stringResource(id = R.string.datepicker_select_month_year),
                 tint = LocalDatePickerColors.current.yearMonthTextColor,
@@ -550,8 +453,8 @@ internal fun MonthYearSelection(
  *
  * @param month a [Month] to display
  * @param onDayClick called when a day is clicked within this [Month]
- * @param modifier a [Modifier]
  * @param locale [Locale] which to take first day of week from
+ * @param modifier a [Modifier]
  * @param today today
  * @param showDaysAbbreviations whether to show the row with day names abbreviations atop the grid
  */
@@ -559,8 +462,8 @@ internal fun MonthYearSelection(
 internal fun Month(
     month: YearMonth,
     onDayClick: (LocalDate) -> Unit,
+    locale: Locale,
     modifier: Modifier = Modifier,
-    locale: Locale = Locale.getDefault(),
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
     highlightToday: Boolean = true,
@@ -588,7 +491,7 @@ internal fun Month(
                         contentAlignment = Alignment.Center
                     ) {
                         val dayAbbr = DayOfWeek.of(((globalFirstDayIndex - 1 + dayIndex) % 7) + 1)
-                            .getDisplayName(TextStyle.NARROW, Locale.getDefault())
+                            .getDisplayName(TextStyle.NARROW, locale)
                         Text(
                             text = dayAbbr,
                             style = LocalDatePickerTypography.current.weekDay,
