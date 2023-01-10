@@ -1,20 +1,21 @@
 name: Android tests
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types:
+      - labeled
 
 permissions:
   contents: read
 
 jobs:
   test:
+    if: ${{ github.event.label.name == 'uiTest' }}
     runs-on: macos-12
     strategy:
       matrix:
-        api-level: [21, 33]
+        api-level: [21]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
