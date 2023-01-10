@@ -59,6 +59,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
@@ -256,6 +258,9 @@ internal fun HorizontalClockDigits(
         ) {
             Box(
                 modifier = Modifier
+                    .semantics {
+                        selected = selectedMode.isHours
+                    }
                     .size(width = 96.dp, height = 80.dp)
                     .clip(shape = clockDigitsShape)
                     .background(if (selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
@@ -289,6 +294,9 @@ internal fun HorizontalClockDigits(
             }
             Box(
                 modifier = Modifier
+                    .semantics {
+                        selected = !selectedMode.isHours
+                    }
                     .size(width = 96.dp, height = 80.dp)
                     .clip(shape = clockDigitsShape)
                     .background(if (!selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
@@ -351,6 +359,9 @@ internal fun VerticalAmPmSwitch(
     ) {
         Box(
             modifier = Modifier
+                .semantics {
+                    selected = amPmMode == AmPmMode.AM
+                }
                 .weight(1f)
                 .fillMaxWidth()
                 .background(if (amPmMode == AmPmMode.AM) selectedFieldColor else unselectedFieldColor)
@@ -369,6 +380,9 @@ internal fun VerticalAmPmSwitch(
         }
         Box(
             modifier = Modifier
+                .semantics {
+                    selected = amPmMode == AmPmMode.PM
+                }
                 .weight(1f)
                 .fillMaxWidth()
                 .background(if (amPmMode == AmPmMode.PM) selectedFieldColor else unselectedFieldColor)

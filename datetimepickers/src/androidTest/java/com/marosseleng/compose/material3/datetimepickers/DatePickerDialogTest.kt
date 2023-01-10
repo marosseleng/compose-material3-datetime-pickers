@@ -36,10 +36,11 @@ import java.time.Month
 public class DatePickerDialogTest {
 
     @get:Rule
-    public val rule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> = createAndroidComposeRule()
+    public val rule: AndroidComposeTestRule<ActivityScenarioRule<ComponentActivity>, ComponentActivity> =
+        createAndroidComposeRule()
 
     @Test
-    public fun datePickerDialogConfirmDate() {
+    public fun datePickerDialogConfirmDate(): Unit = with(rule) {
         val today = LocalDate.of(2023, Month.JANUARY, 1)
         val daysToAdd = 13
         val monthsToAdd = 18
@@ -50,7 +51,7 @@ public class DatePickerDialogTest {
             .minusMonths(monthsToSubtract.toLong())
         var selectedDate: LocalDate? = null
 
-        rule.setContent {
+        setContent {
             MaterialTheme {
                 DatePickerDialog(
                     onDismissRequest = { selectedDate = null },
@@ -63,29 +64,29 @@ public class DatePickerDialogTest {
             }
         }
 
-        val nextMonthBox = hasClickAction() and hasContentDescription(rule.activity.getString(R.string.datepicker_next_month))
+        val nextMonthBox = hasClickAction() and hasContentDescription(activity.getString(R.string.datepicker_next_month))
         repeat(monthsToAdd) {
-            rule.onNode(nextMonthBox).performClick()
+            onNode(nextMonthBox).performClick()
         }
 
-        val previousMonthBox = hasClickAction() and hasContentDescription(rule.activity.getString(R.string.datepicker_previous_month))
+        val previousMonthBox = hasClickAction() and hasContentDescription(activity.getString(R.string.datepicker_previous_month))
         repeat(monthsToSubtract) {
-            rule.onNode(previousMonthBox).performClick()
+            onNode(previousMonthBox).performClick()
         }
 
         val dayBox = hasClickAction() and hasText(expectedDate.dayOfMonth.toString())
 
-        rule.onNode(dayBox).performClick()
+        onNode(dayBox).performClick()
 
-        val positiveButton = hasClickAction() and hasText(rule.activity.getString(android.R.string.ok))
+        val positiveButton = hasClickAction() and hasText(activity.getString(android.R.string.ok))
 
-        rule.onNode(positiveButton).performClick()
+        onNode(positiveButton).performClick()
 
         assert(expectedDate == selectedDate)
     }
 
     @Test
-    public fun datePickerDialogCancelDate() {
+    public fun datePickerDialogCancelDate(): Unit = with(rule) {
         val today = LocalDate.of(2023, Month.JANUARY, 1)
         val daysToAdd = 13
         val monthsToAdd = 18
@@ -94,9 +95,9 @@ public class DatePickerDialogTest {
             .plusDays(daysToAdd.toLong())
             .plusMonths(monthsToAdd.toLong())
             .minusMonths(monthsToSubtract.toLong())
-        var selectedDate: LocalDate? = null
+        var selectedDate: LocalDate? = LocalDate.of(9999, Month.DECEMBER, 31)
 
-        rule.setContent {
+        setContent {
             MaterialTheme {
                 DatePickerDialog(
                     onDismissRequest = { selectedDate = null },
@@ -109,23 +110,23 @@ public class DatePickerDialogTest {
             }
         }
 
-        val nextMonthBox = hasClickAction() and hasContentDescription(rule.activity.getString(R.string.datepicker_next_month))
+        val nextMonthBox = hasClickAction() and hasContentDescription(activity.getString(R.string.datepicker_next_month))
         repeat(monthsToAdd) {
-            rule.onNode(nextMonthBox).performClick()
+            onNode(nextMonthBox).performClick()
         }
 
-        val previousMonthBox = hasClickAction() and hasContentDescription(rule.activity.getString(R.string.datepicker_previous_month))
+        val previousMonthBox = hasClickAction() and hasContentDescription(activity.getString(R.string.datepicker_previous_month))
         repeat(monthsToSubtract) {
-            rule.onNode(previousMonthBox).performClick()
+            onNode(previousMonthBox).performClick()
         }
 
         val dayBox = hasClickAction() and hasText(expectedDate.dayOfMonth.toString())
 
-        rule.onNode(dayBox).performClick()
+        onNode(dayBox).performClick()
 
-        val negativeButton = hasClickAction() and hasText(rule.activity.getString(android.R.string.cancel))
+        val negativeButton = hasClickAction() and hasText(activity.getString(android.R.string.cancel))
 
-        rule.onNode(negativeButton).performClick()
+        onNode(negativeButton).performClick()
 
         assert(selectedDate == null)
     }
