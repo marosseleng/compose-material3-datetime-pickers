@@ -107,7 +107,7 @@ class MainActivity : ComponentActivity() {
                                         setSelectedDate(it)
                                         isDateDialogShown = false
                                     },
-                                    title = { Text(text = "Select time") },
+                                    title = { Text(text = "Select date") },
                                 )
                             }
                             Text(

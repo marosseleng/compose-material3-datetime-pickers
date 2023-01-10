@@ -28,19 +28,13 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -63,12 +57,11 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugaring)
+
     implementation(libs.material3)
-
     implementation(platform(libs.compose.bom))
-
     implementation(libs.bundles.compose.library)
-
     debugImplementation(libs.bundles.compose.debug)
 
     testImplementation(platform(libs.junit5.bom))

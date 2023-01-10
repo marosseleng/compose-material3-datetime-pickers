@@ -26,24 +26,18 @@ android {
 
     defaultConfig {
         applicationId = "com.marosseleng.compose.material3.datetimepicker.demo"
-        minSdk = 26
+        minSdk = 21
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -64,23 +58,13 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugaring)
+
     implementation(project(":datetimepickers"))
-
     implementation(libs.bundles.androidx.base)
-
     implementation(libs.material3)
-
     implementation(platform(libs.compose.bom))
-
     implementation(libs.bundles.compose)
-
     debugImplementation(libs.bundles.compose.debug)
-
     implementation(libs.bundles.androidx.compose.ext)
-
-
-    testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.bundles.android.test)
-    debugImplementation(libs.bundles.compose.debug)
 }
