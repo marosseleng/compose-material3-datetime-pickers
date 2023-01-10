@@ -81,7 +81,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.marosseleng.android"
             artifactId = "compose-material3-datetime-pickers"
-            version = "0.2.0"
+            version = "0.3.0"
 
             afterEvaluate {
                 from(components["release"])
