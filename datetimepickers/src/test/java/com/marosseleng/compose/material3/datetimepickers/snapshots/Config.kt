@@ -21,5 +21,5 @@ import app.cash.paparazzi.DeviceConfig
 public enum class Config(
     public val deviceConfig: DeviceConfig,
 ) {
-    PIXEL_4A(DeviceConfig.PIXEL_4A),
+    PIXEL_6_PRO(DeviceConfig.PIXEL_6_PRO),
 }

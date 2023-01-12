@@ -37,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.DialogProperties
-import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerColors
 import com.marosseleng.compose.material3.datetimepickers.time.domain.TimePickerDefaults
@@ -118,18 +117,5 @@ public fun TimePickerDialog(
         textContentColor = textContentColor,
         tonalElevation = tonalElevation,
         properties = properties,
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@ShowkaseComposable(name = "TimePickerDialog", group = "timepicker")
-@Composable
-internal fun TimePickerDialogPreview() {
-    TimePickerDialog(
-        onDismissRequest = {},
-        onTimeChange = {},
-        initialTime = LocalTime.of(8, 9, 0, 0),
-        is24HourFormat = false,
-        title = { Text(text = "Select time") },
     )
 }
