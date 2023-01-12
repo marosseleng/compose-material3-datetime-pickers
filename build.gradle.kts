@@ -37,7 +37,7 @@ subprojects {
         useJUnitPlatform()
         testLogging {
             if (System.getenv("CI") == "true") {
-                events(TestLogEvent.FAILED, TestLogEvent.SKIPPED, TestLogEvent.PASSED)
+                events(TestLogEvent.FAILED, TestLogEvent.SKIPPED)
             }
             exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
         }
