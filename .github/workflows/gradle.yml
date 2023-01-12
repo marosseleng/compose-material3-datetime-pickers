@@ -33,8 +33,26 @@ jobs:
       with:
         arguments: build
     - name: Unit tests results
-      if: ${{ always() }}
+      if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
         name: unit-tests-results
         path: datetimepickers/build/reports/tests/testDebugUnitTest
+    - name: Process failed screenshot tests
+      if: ${{ failure() }}
+      id: failed-screenshots
+      run: "./.github/workflows/scripts/process_failed_screenshots.sh"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+        PR_BRANCH: ${{ github.head_ref }}
+    - name: Comment PR if screenshot tests failed
+      uses: octokit/request-action@v2.0.0
+      if: always() && steps.failed-screenshots.outputs.PR_COMMENT
+      with:
+        route: POST /repos/:repo/issues/:issue_number/comments
+        repo: ${{ github.repository }}
+        issue_number: ${{ steps.failed-screenshots.outputs.PR_NUMBER }}
+        body: ${{ steps.failed-screenshots.outputs.PR_COMMENT }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
