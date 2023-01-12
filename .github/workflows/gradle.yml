@@ -31,7 +31,7 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: build
+        arguments: build datetimepickers:verifyPaparazziDebug
     - name: Unit tests results
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
