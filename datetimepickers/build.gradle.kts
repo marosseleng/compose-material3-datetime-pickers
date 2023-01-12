@@ -18,6 +18,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.junit5.plugin)
     alias(libs.plugins.paparazzi)
     `maven-publish`
@@ -64,6 +65,9 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose.library)
     debugImplementation(libs.bundles.compose.debug)
+
+    implementation(libs.showkase)
+    kapt(libs.showkase.processor)
 
     testImplementation(libs.bundles.junit.old)
     testImplementation(platform(libs.junit5.bom))

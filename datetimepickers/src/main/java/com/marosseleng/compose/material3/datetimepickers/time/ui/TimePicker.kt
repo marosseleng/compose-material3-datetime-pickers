@@ -63,6 +63,7 @@ import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.roundToNearest
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
@@ -325,6 +326,17 @@ internal fun HorizontalClockDigits(
             }
         }
     }
+}
+
+@ShowkaseComposable(name = "VerticalAmPnSwitch", group = "datepicker", heightDp = 84)
+@Composable
+internal fun VerticalAmPmSwitchPreview() {
+    VerticalAmPmSwitch(
+        amPmMode = AmPmMode.AM,
+        onAmClick = {},
+        onPmClick = {},
+        locale = LocalConfiguration.current.getDefaultLocale(),
+    )
 }
 
 /**

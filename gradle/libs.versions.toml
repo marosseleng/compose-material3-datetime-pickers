@@ -6,8 +6,6 @@ version-nexus-publish = "1.1.0"
 version-junit5-plugin = "1.8.2.1"
 # version-paparazzi = "1.1.0"
 version-paparazzi = "1.2.0-SNAPSHOT"
-# required until paparazzi gets decoupled from junit4
-version-test-parameter-injector = "1.10"
 
 version-desugaring = "1.2.2"
 
@@ -22,9 +20,13 @@ version-compose-bom = "2023.01.00"
 
 version-material3 = "1.0.1"
 
+version-showkase = "1.0.0-beta17"
+
 version-junit5 = "5.9.2"
 version-junit5-pioneer = "2.0.0-RC1"
 version-junit4 = "4.13.2"
+# required until paparazzi gets decoupled from junit4
+version-test-parameter-injector = "1.10"
 
 [libraries]
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "version-desugaring" }
@@ -53,6 +55,9 @@ compose-junit = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-manifest" }
 
 material3 = { module = "androidx.compose.material3:material3", version.ref = "version-material3" }
+
+showkase = { module = "com.airbnb.android:showkase", version.ref = "version-showkase" }
+showkase-processor = { module = "com.airbnb.android:showkase-processor", version.ref = "version-showkase" }
 
 junit5-bom = { module = "org.junit:junit-bom", version.ref = "version-junit5" }
 junit5-api = { module = "org.junit.jupiter:junit-jupiter-api" }
@@ -83,6 +88,7 @@ android-application = { id = "com.android.application", version.ref = "version-a
 android-library = { id = "com.android.library", version.ref = "version-android-library" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "version-kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "version-kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "version-kotlin" }
 nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "version-nexus-publish" }
 junit5-plugin = { id = "de.mannodermaus.android-junit5", version.ref = "version-junit5-plugin" }
 paparazzi = { id = "app.cash.paparazzi", version.ref = "version-paparazzi" }

@@ -69,6 +69,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.marosseleng.compose.material3.datetimepickers.R
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.common.domain.withNotNull
@@ -276,6 +277,12 @@ internal fun MonthSelection(
             }
         }
     }
+}
+
+@ShowkaseComposable(name = "YearSelection", group = "datepicker", heightDp = 360, widthDp = 360)
+@Composable
+internal fun YearSelectionPreview() {
+    YearSelection(selectedYear = 2023, onYearClick = {})
 }
 
 /**

@@ -38,6 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerColors
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerDefaults
@@ -45,6 +46,7 @@ import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerS
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerTypography
 import com.marosseleng.compose.material3.datetimepickers.date.ui.ModalDatePicker
 import java.time.LocalDate
+import java.time.Month
 import java.time.ZoneId
 import java.util.Locale
 
@@ -144,3 +146,17 @@ public fun DatePickerDialog(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
+@ShowkaseComposable(name = "DatePickerDialog", group = "datepicker")
+@Composable
+internal fun DatePickerDialogPreview() {
+    DatePickerDialog(
+        onDismissRequest = {},
+        onDateChange = {},
+        initialDate = LocalDate.of(2023, Month.FEBRUARY, 28),
+        today = LocalDate.of(2023, Month.FEBRUARY, 23),
+        showDaysAbbreviations = true,
+        highlightToday = true,
+        title = { Text("Select date") },
+    )
+}
