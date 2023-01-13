@@ -1,6 +1,6 @@
 [versions]
 version-android-application = "7.3.1"
-version-android-library = "7.3.1"
+version-android-library = "7.4.0"
 version-kotlin = "1.7.20"
 version-nexus-publish = "1.1.0"
 version-junit5-plugin = "1.8.2.1"
