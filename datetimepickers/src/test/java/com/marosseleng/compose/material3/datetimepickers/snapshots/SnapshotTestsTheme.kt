@@ -41,12 +41,12 @@ internal fun SnapshotTestTheme(
         colorScheme = if (darkTheme) darkColorScheme() else lightColorScheme(),
     ) {
         CompositionLocalProvider(
-            LocalTimePickerColors provides TimePickerDefaults.colors,
-            LocalTimePickerShapes provides TimePickerDefaults.shapes,
-            LocalTimePickerTypography provides TimePickerDefaults.typography,
-            LocalDatePickerColors provides DatePickerDefaults.colors,
-            LocalDatePickerShapes provides DatePickerDefaults.shapes,
-            LocalDatePickerTypography provides DatePickerDefaults.typography,
+            LocalTimePickerColors provides TimePickerDefaults.colors(),
+            LocalTimePickerShapes provides TimePickerDefaults.shapes(),
+            LocalTimePickerTypography provides TimePickerDefaults.typography(),
+            LocalDatePickerColors provides DatePickerDefaults.colors(),
+            LocalDatePickerShapes provides DatePickerDefaults.shapes(),
+            LocalDatePickerTypography provides DatePickerDefaults.typography(),
             LocalInspectionMode provides true,
             content = content,
         )

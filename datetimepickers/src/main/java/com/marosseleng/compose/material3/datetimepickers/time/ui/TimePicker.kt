@@ -102,9 +102,9 @@ public fun TimePicker(
     modifier: Modifier = Modifier,
     locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
-    colors: TimePickerColors = TimePickerDefaults.colors,
-    shapes: TimePickerShapes = TimePickerDefaults.shapes,
-    typography: TimePickerTypography = TimePickerDefaults.typography,
+    colors: TimePickerColors = TimePickerDefaults.colors(),
+    shapes: TimePickerShapes = TimePickerDefaults.shapes(),
+    typography: TimePickerTypography = TimePickerDefaults.typography(),
 ) {
     var time: LocalTime by rememberSaveable {
         mutableStateOf(initialTime)
