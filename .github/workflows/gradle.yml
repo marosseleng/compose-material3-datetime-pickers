@@ -45,4 +45,4 @@ jobs:
         path: |
           datetimepickers/build/reports/tests/testDebugUnitTest
           datetimepickers/build/reports/paparazzi
-          /datetimepickers/build/distributions/paparazzi-out.zip
+          datetimepickers/build/distributions/paparazzi-out.zip
