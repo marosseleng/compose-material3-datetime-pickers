@@ -31,41 +31,12 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: build datetimepickers:verifyPaparazziDebug
+        arguments: testDebug
     - name: Unit tests results
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
         name: unit-tests-results
-        path: datetimepickers/build/reports/tests/testDebugUnitTest
-    - name: Process failed screenshot tests
-      if: ${{ failure() }}
-      id: failed-screenshots
-      run: |
-        chmod +x ./.github/workflows/scripts/process_failed_screenshots.sh
-        ./.github/workflows/scripts/process_failed_screenshots.sh
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-        PR_BRANCH: ${{ github.head_ref }}
-#    - name: Comment PR if screenshot tests failed
-#      uses: octokit/request-action@v2
-#      if: always() && steps.failed-screenshots.outputs.PR_COMMENT
-#      with:
-#        route: POST /repos/${{ github.repository }}/issues/${{ steps.failed-screenshots.outputs.PR_NUMBER }}/comments
-#        body: ${{ steps.failed-screenshots.outputs.PR_COMMENT }}
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Comment PR if screenshot tests failed
-      uses: actions/github-script@v6
-      if: always() && steps.failed-screenshots.outputs.PR_COMMENT
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: ${{ steps.failed-screenshots.outputs.PR_COMMENT }}
-          })
+        path: |
+          datetimepickers/build/reports/tests/testDebugUnitTest
+          datetimepickers/build/reports/paparazzi
