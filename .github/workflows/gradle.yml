@@ -41,7 +41,10 @@ jobs:
     - name: Process failed screenshot tests
       if: ${{ failure() }}
       id: failed-screenshots
-      run: "./.github/workflows/scripts/process_failed_screenshots.sh"
+      run: |
+        chmod +x ./.github/workflows/scripts/process_failed_screenshots.sh
+        ./.github/workflows/scripts/process_failed_screenshots.sh
+      shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
