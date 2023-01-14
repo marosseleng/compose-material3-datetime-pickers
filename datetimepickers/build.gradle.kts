@@ -141,3 +141,8 @@ tasks.register<Zip>("generateZippedArtifact") {
     from(publishTask.map { it.repository.url })
     archiveFileName.set("library.zip")
 }
+
+tasks.register<Zip>("zipPaparazziFailuresDebug") {
+    from("out/failures")
+    archiveFileName.set("paparazzi-out.zip")
+}

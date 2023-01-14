@@ -32,7 +32,12 @@ jobs:
       uses: gradle/gradle-build-action@v2
       with:
         arguments: build datetimepickers:verifyPaparazziDebug
-    - name: Unit tests results
+    - name: Zip paparazzi failures
+      uses: gradle/gradle-build-action@v2
+      if: ${{ failure() }}
+      with:
+        arguments: datetimepickers:zipPaparazziFailuresDebug
+    - name: Upload tests results
       uses: actions/upload-artifact@v3
       if: ${{ failure() }}
       with:
@@ -40,4 +45,4 @@ jobs:
         path: |
           datetimepickers/build/reports/tests/testDebugUnitTest
           datetimepickers/build/reports/paparazzi
-          datetimepickers/out
+          /datetimepickers/build/distributions/paparazzi-out.zip
