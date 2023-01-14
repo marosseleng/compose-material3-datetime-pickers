@@ -31,12 +31,13 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: testDebug
+        arguments: build datetimepickers:verifyPaparazziDebug
     - name: Unit tests results
-      if: ${{ failure() }}
       uses: actions/upload-artifact@v3
+      if: ${{ failure() }}
       with:
-        name: unit-tests-results
+        name: tests-results
         path: |
           datetimepickers/build/reports/tests/testDebugUnitTest
           datetimepickers/build/reports/paparazzi
+          datetimepickers/out/failures
