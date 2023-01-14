@@ -18,7 +18,9 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.junit5.plugin)
+    alias(libs.plugins.paparazzi)
     `maven-publish`
     signing
 }
@@ -28,19 +30,13 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -63,17 +59,20 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugaring)
+
     implementation(libs.material3)
-
     implementation(platform(libs.compose.bom))
-
     implementation(libs.bundles.compose.library)
-
     debugImplementation(libs.bundles.compose.debug)
 
+    implementation(libs.showkase)
+    kapt(libs.showkase.processor)
+
+    testImplementation(libs.bundles.junit.old)
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.bundles.junit5.implementation)
-    testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.bundles.junit5.engines)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test)
@@ -88,7 +87,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.marosseleng.android"
             artifactId = "compose-material3-datetime-pickers"
-            version = "0.2.0"
+            version = "0.3.0"
 
             afterEvaluate {
                 from(components["release"])
@@ -141,4 +140,9 @@ tasks.register<Zip>("generateZippedArtifact") {
     val publishTask = tasks.named("publishReleasePublicationToProjectRepositoryRepository", PublishToMavenRepository::class.java)
     from(publishTask.map { it.repository.url })
     archiveFileName.set("library.zip")
+}
+
+tasks.register<Zip>("zipPaparazziFailuresDebug") {
+    from("out/failures")
+    archiveFileName.set("paparazzi-out.zip")
 }

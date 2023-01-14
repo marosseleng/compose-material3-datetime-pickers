@@ -42,6 +42,7 @@ hs_err_pid*
 .idea/**/libraries
 cmake-build-*/
 .idea/**/mongoSettings.xml
+.idea/**/deploymentTargetDropDown.xml
 *.iws
 out/
 .idea_modules/
