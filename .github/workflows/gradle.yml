@@ -49,13 +49,23 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
         PR_BRANCH: ${{ github.head_ref }}
+#    - name: Comment PR if screenshot tests failed
+#      uses: octokit/request-action@v2
+#      if: always() && steps.failed-screenshots.outputs.PR_COMMENT
+#      with:
+#        route: POST /repos/${{ github.repository }}/issues/${{ steps.failed-screenshots.outputs.PR_NUMBER }}/comments
+#        body: ${{ steps.failed-screenshots.outputs.PR_COMMENT }}
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Comment PR if screenshot tests failed
-      uses: octokit/request-action@v2.0.0
+      uses: actions/github-script@v6
       if: always() && steps.failed-screenshots.outputs.PR_COMMENT
       with:
-        route: POST /repos/:repo/issues/:issue_number/comments
-        repo: ${{ github.repository }}
-        issue_number: ${{ steps.failed-screenshots.outputs.PR_NUMBER }}
-        body: ${{ steps.failed-screenshots.outputs.PR_COMMENT }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: {{ steps.failed-screenshots.outputs.PR_COMMENT }}
+          })
