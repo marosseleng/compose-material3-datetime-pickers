@@ -40,4 +40,4 @@ jobs:
         path: |
           datetimepickers/build/reports/tests/testDebugUnitTest
           datetimepickers/build/reports/paparazzi
-          datetimepickers/out/failures
+          datetimepickers/out
