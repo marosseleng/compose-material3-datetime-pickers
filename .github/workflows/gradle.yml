@@ -31,10 +31,18 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: build
-    - name: Unit tests results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v3
+        arguments: build datetimepickers:verifyPaparazziDebug
+    - name: Zip paparazzi failures
+      uses: gradle/gradle-build-action@v2
+      if: ${{ failure() }}
       with:
-        name: unit-tests-results
-        path: datetimepickers/build/reports/tests/testDebugUnitTest
+        arguments: datetimepickers:zipPaparazziFailuresDebug
+    - name: Upload tests results
+      uses: actions/upload-artifact@v3
+      if: ${{ failure() }}
+      with:
+        name: tests-results
+        path: |
+          datetimepickers/build/reports/tests/testDebugUnitTest
+          datetimepickers/build/reports/paparazzi
+          datetimepickers/build/distributions/paparazzi-out.zip

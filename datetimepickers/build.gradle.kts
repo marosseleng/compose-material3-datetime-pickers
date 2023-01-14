@@ -18,7 +18,9 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.junit5.plugin)
+    alias(libs.plugins.paparazzi)
     `maven-publish`
     signing
 }
@@ -64,9 +66,13 @@ dependencies {
     implementation(libs.bundles.compose.library)
     debugImplementation(libs.bundles.compose.debug)
 
+    implementation(libs.showkase)
+    kapt(libs.showkase.processor)
+
+    testImplementation(libs.bundles.junit.old)
     testImplementation(platform(libs.junit5.bom))
     testImplementation(libs.bundles.junit5.implementation)
-    testRuntimeOnly(libs.junit5.engine)
+    testRuntimeOnly(libs.bundles.junit5.engines)
 
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.bundles.android.test)
@@ -134,4 +140,9 @@ tasks.register<Zip>("generateZippedArtifact") {
     val publishTask = tasks.named("publishReleasePublicationToProjectRepositoryRepository", PublishToMavenRepository::class.java)
     from(publishTask.map { it.repository.url })
     archiveFileName.set("library.zip")
+}
+
+tasks.register<Zip>("zipPaparazziFailuresDebug") {
+    from("out/failures")
+    archiveFileName.set("paparazzi-out.zip")
 }
