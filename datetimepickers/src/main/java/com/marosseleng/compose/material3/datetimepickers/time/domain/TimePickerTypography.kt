@@ -26,6 +26,11 @@ import androidx.compose.ui.text.TextStyle
 public interface TimePickerTypography {
 
     /**
+     * Text style of the title of TimePickerDialog.
+     */
+    public val dialogTitle: TextStyle
+
+    /**
      * Text style of "hour" digit box.
      */
     public val digitsHour: TextStyle
@@ -58,6 +63,7 @@ public interface TimePickerTypography {
 
 internal val LocalTimePickerTypography: ProvidableCompositionLocal<TimePickerTypography> = compositionLocalOf {
     object : TimePickerTypography {
+        override val dialogTitle: TextStyle = TextStyle()
         override val digitsHour: TextStyle = TextStyle()
         override val digitsColon: TextStyle = TextStyle()
         override val digitsMinute: TextStyle = TextStyle()

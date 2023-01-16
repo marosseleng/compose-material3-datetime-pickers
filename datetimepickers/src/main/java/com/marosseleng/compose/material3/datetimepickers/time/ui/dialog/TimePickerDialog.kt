@@ -22,6 +22,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -69,7 +70,6 @@ public fun TimePickerDialog(
     colors: TimePickerColors = TimePickerDefaults.colors(),
     shapes: TimePickerShapes = TimePickerDefaults.shapes(),
     typography: TimePickerTypography = TimePickerDefaults.typography(),
-    icon: @Composable (() -> Unit)? = null,
     title: @Composable (() -> Unit)? = null,
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
@@ -96,8 +96,12 @@ public fun TimePickerDialog(
                 Text(stringResource(id = android.R.string.cancel))
             }
         },
-        icon = icon,
-        title = title,
+        icon = null,
+        title = {
+            ProvideTextStyle(value = typography.dialogTitle) {
+                title?.invoke()
+            }
+        },
         text = {
             TimePicker(
                 initialTime = initialTime,

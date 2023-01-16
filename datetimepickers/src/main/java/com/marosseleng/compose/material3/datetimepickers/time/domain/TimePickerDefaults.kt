@@ -99,13 +99,15 @@ public object TimePickerDefaults {
     @Composable
     @ReadOnlyComposable
     public fun typography(
-        digitsHour: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-        digitsColon: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
-        digitsMinute: TextStyle = MaterialTheme.typography.displayMedium.copy(textAlign = TextAlign.Center),
+        dialogTitle: TextStyle = MaterialTheme.typography.labelMedium,
+        digitsHour: TextStyle = MaterialTheme.typography.displayLarge.copy(textAlign = TextAlign.Center),
+        digitsColon: TextStyle = MaterialTheme.typography.displayLarge.copy(textAlign = TextAlign.Center),
+        digitsMinute: TextStyle = MaterialTheme.typography.displayLarge.copy(textAlign = TextAlign.Center),
         am: TextStyle = MaterialTheme.typography.titleMedium,
         pm: TextStyle = MaterialTheme.typography.titleMedium,
         dialNumber: TextStyle = MaterialTheme.typography.titleSmall,
     ): TimePickerTypography = object : TimePickerTypography {
+        override val dialogTitle = dialogTitle
         override val digitsHour = digitsHour
         override val digitsColon = digitsColon
         override val digitsMinute = digitsMinute
