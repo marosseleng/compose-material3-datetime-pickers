@@ -22,6 +22,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -65,6 +66,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -93,6 +95,7 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
+import kotlin.math.sign
 
 /**
  * Core composable, representing the Modal datepicker.
@@ -168,6 +171,8 @@ internal fun ModalDatePicker(
                             month = yearMonth,
                             today = today,
                             locale = locale,
+                            onSwipeLeftRight = { yearMonth = yearMonth.minusMonths(1L) },
+                            onSwipeRightLeft = { yearMonth = yearMonth.plusMonths(1L) },
                             onDayClick = onDayClick,
                             showDaysAbbreviations = showDaysAbbreviations,
                             highlightToday = highlightToday,
@@ -454,6 +459,8 @@ internal fun MonthYearSelection(
  * @param month a [Month] to display
  * @param onDayClick called when a day is clicked within this [Month]
  * @param locale [Locale] which to take first day of week from
+ * @param onSwipeLeftRight called when user performs a horizontal swipe from left to right
+ * @param onSwipeRightLeft called when user performs a horizontal swipe from right to left
  * @param modifier a [Modifier]
  * @param today today
  * @param showDaysAbbreviations whether to show the row with day names abbreviations atop the grid
@@ -463,6 +470,8 @@ internal fun Month(
     month: YearMonth,
     onDayClick: (LocalDate) -> Unit,
     locale: Locale,
+    onSwipeRightLeft: () -> Unit,
+    onSwipeLeftRight: () -> Unit,
     modifier: Modifier = Modifier,
     today: LocalDate = LocalDate.now(),
     showDaysAbbreviations: Boolean = true,
@@ -475,8 +484,28 @@ internal fun Month(
     val globalFirstDay = WeekFields.of(locale).firstDayOfWeek
     val globalFirstDayIndex = globalFirstDay.value
 
+    var scrollDirectionFloat: Float by remember {
+        mutableStateOf(0f)
+    }
+    val scrollDirectionInt: Int by remember {
+        derivedStateOf { scrollDirectionFloat.toInt() }
+    }
+
     Column(
         modifier = modifier
+            .pointerInput(Unit) {
+                detectHorizontalDragGestures(
+                    onDragEnd = {
+                        when (scrollDirectionInt) {
+                            -1 -> onSwipeRightLeft()
+                            1 -> onSwipeLeftRight()
+                        }
+                    },
+                    onHorizontalDrag = { _, amount ->
+                        scrollDirectionFloat = sign(amount)
+                    }
+                )
+            }
             .verticalScroll(rememberScrollState())
     ) {
 
