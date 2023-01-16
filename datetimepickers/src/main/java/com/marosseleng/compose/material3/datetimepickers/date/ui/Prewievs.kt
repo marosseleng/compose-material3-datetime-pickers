@@ -64,12 +64,14 @@ internal fun MonthPreview() {
         month = YearMonth.of(2023, java.time.Month.FEBRUARY),
         onDayClick = {},
         locale = LocalConfiguration.current.getDefaultLocale(),
+        onSwipeRightLeft = {},
+        onSwipeLeftRight = {},
         today = LocalDate.of(2023, java.time.Month.FEBRUARY, 21),
         showDaysAbbreviations = true,
         highlightToday = true,
         showPreviousMonth = true,
         showNextMonth = true,
         selectionFrom = LocalDate.of(2023, java.time.Month.FEBRUARY, 4),
-        selectionTo = LocalDate.of(2023, java.time.Month.FEBRUARY, 17)
+        selectionTo = LocalDate.of(2023, java.time.Month.FEBRUARY, 17),
     )
 }
