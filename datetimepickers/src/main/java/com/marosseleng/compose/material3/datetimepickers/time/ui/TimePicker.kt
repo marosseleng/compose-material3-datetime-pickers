@@ -261,7 +261,10 @@ internal fun HorizontalClockDigits(
                     .semantics {
                         selected = selectedMode.isHours
                     }
-                    .size(width = 96.dp, height = 80.dp)
+                    .size(
+                        width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
+                        height = 80.dp,
+                    )
                     .clip(shape = clockDigitsShape)
                     .background(if (selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
                     .withNotNull(if (selectedMode.isHours) selectedFieldStroke else deselectedFieldStroke) { stroke ->
@@ -297,7 +300,10 @@ internal fun HorizontalClockDigits(
                     .semantics {
                         selected = !selectedMode.isHours
                     }
-                    .size(width = 96.dp, height = 80.dp)
+                    .size(
+                        width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
+                        height = 80.dp,
+                    )
                     .clip(shape = clockDigitsShape)
                     .background(if (!selectedMode.isHours) selectedFieldColor else deselectedFieldColor)
                     .withNotNull(if (!selectedMode.isHours) selectedFieldStroke else deselectedFieldStroke) { stroke ->
