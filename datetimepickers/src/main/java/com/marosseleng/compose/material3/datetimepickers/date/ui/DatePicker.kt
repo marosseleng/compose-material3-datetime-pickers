@@ -40,6 +40,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -70,6 +71,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.marosseleng.compose.material3.datetimepickers.R
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
@@ -265,9 +268,10 @@ internal fun MonthSelection(
                                 border(it.thickness, it.color)
                             }
                             .background(backgroundColor)
-                            .clickable {
-                                onMonthClick(Month.of(month + 1))
-                            },
+                            .selectable(
+                                selected = month == selectedMonth.value - 1,
+                                onClick = { onMonthClick(Month.of(month + 1)) },
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -342,9 +346,10 @@ internal fun YearSelection(
                                 border(it.thickness, it.color)
                             }
                             .background(backgroundColor)
-                            .clickable {
-                                onYearClick(year)
-                            },
+                            .selectable(
+                                selected = year == selectedYear,
+                                onClick = { onYearClick(year) },
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
@@ -508,7 +513,6 @@ internal fun Month(
             }
             .verticalScroll(rememberScrollState())
     ) {
-
         if (showDaysAbbreviations) {
             Row(
                 modifier = Modifier
@@ -673,15 +677,15 @@ internal fun Day(
     backgroundColor: Color,
     stroke: DatePickerStroke?,
     shape: Shape,
+    modifier: Modifier,
 ) {
     if (!shouldBeDisplayed) {
         Box(
-            modifier = Modifier.size(40.dp),
+            modifier = modifier,
         )
     } else {
         Box(
-            modifier = Modifier
-                .size(40.dp)
+            modifier = modifier
                 .clip(shape)
                 .withNotNull(stroke) {
                     border(it.thickness, it.color, shape)
@@ -718,6 +722,7 @@ internal fun PreviousMonthDay(day: DayOfMonth, onDayClick: (LocalDate) -> Unit, 
         backgroundColor = LocalDatePickerColors.current.previousMonthDayLabelBackgroundColor,
         stroke = LocalDatePickerColors.current.previousMonthDayLabelStroke,
         shape = LocalDatePickerShapes.current.previousMonthDay,
+        modifier = Modifier.size(40.dp),
     )
 }
 
@@ -738,6 +743,7 @@ internal fun NextMonthDay(day: DayOfMonth, onDayClick: (LocalDate) -> Unit, shou
         backgroundColor = LocalDatePickerColors.current.nextMonthDayLabelBackgroundColor,
         stroke = LocalDatePickerColors.current.previousMonthDayLabelStroke,
         shape = LocalDatePickerShapes.current.nextMonthDay,
+        modifier = Modifier.size(40.dp),
     )
 }
 
@@ -793,5 +799,8 @@ internal fun CurrentMonthDay(
         backgroundColor = backgroundColor,
         stroke = stroke,
         shape = shape,
+        modifier = Modifier
+            .size(40.dp)
+            .semantics { selected = isSelected },
     )
 }

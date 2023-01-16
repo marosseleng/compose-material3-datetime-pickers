@@ -256,15 +256,10 @@ internal fun HorizontalClockDigits(
         Row(
             modifier = Modifier
                 .selectableGroup()
-                .height(intrinsicSize = IntrinsicSize.Max)
+                .height(intrinsicSize = IntrinsicSize.Max),
         ) {
             Box(
                 modifier = Modifier
-                    .selectable(
-                        selected = selectedMode.isHours,
-                        role = Role.RadioButton,
-                        onClick = onHourClick,
-                    )
                     .size(
                         width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
                         height = 80.dp,
@@ -276,7 +271,12 @@ internal fun HorizontalClockDigits(
                             border = BorderStroke(stroke.thickness, stroke.color),
                             shape = clockDigitsShape,
                         )
-                    },
+                    }
+                    .selectable(
+                        selected = selectedMode.isHours,
+                        role = Role.RadioButton,
+                        onClick = onHourClick,
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -300,11 +300,6 @@ internal fun HorizontalClockDigits(
             }
             Box(
                 modifier = Modifier
-                    .selectable(
-                        selected = !selectedMode.isHours,
-                        role = Role.RadioButton,
-                        onClick = onMinuteClick,
-                    )
                     .size(
                         width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
                         height = 80.dp,
@@ -316,7 +311,12 @@ internal fun HorizontalClockDigits(
                             border = BorderStroke(stroke.thickness, stroke.color),
                             shape = clockDigitsShape,
                         )
-                    },
+                    }
+                    .selectable(
+                        selected = !selectedMode.isHours,
+                        role = Role.RadioButton,
+                        onClick = onMinuteClick,
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -356,7 +356,6 @@ internal fun VerticalAmPmSwitch(
 
     Column(
         modifier = Modifier
-            .selectableGroup()
             .padding(start = 12.dp)
             .fillMaxHeight()
             .width(52.dp)
@@ -367,6 +366,7 @@ internal fun VerticalAmPmSwitch(
                     shape = amPmSwitchShape,
                 )
             }
+            .selectableGroup()
     ) {
         Box(
             modifier = Modifier
@@ -392,15 +392,15 @@ internal fun VerticalAmPmSwitch(
         }
         Box(
             modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .background(if (amPmMode == AmPmMode.PM) selectedFieldColor else unselectedFieldColor)
+                .clickable(onClick = onPmClick)
                 .selectable(
                     selected = amPmMode == AmPmMode.PM,
                     role = Role.RadioButton,
                     onClick = onPmClick,
-                )
-                .weight(1f)
-                .fillMaxWidth()
-                .background(if (amPmMode == AmPmMode.PM) selectedFieldColor else unselectedFieldColor)
-                .clickable(onClick = onPmClick),
+                ),
         ) {
             Text(
                 modifier = Modifier
