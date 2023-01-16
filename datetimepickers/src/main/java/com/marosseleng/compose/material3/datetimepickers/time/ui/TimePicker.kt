@@ -36,6 +36,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -59,8 +61,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.selected
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
@@ -254,13 +255,11 @@ internal fun HorizontalClockDigits(
     ) {
         Row(
             modifier = Modifier
-                .height(intrinsicSize = IntrinsicSize.Max)
+                .selectableGroup()
+                .height(intrinsicSize = IntrinsicSize.Max),
         ) {
             Box(
                 modifier = Modifier
-                    .semantics {
-                        selected = selectedMode.isHours
-                    }
                     .size(
                         width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
                         height = 80.dp,
@@ -273,7 +272,11 @@ internal fun HorizontalClockDigits(
                             shape = clockDigitsShape,
                         )
                     }
-                    .clickable(onClick = onHourClick),
+                    .selectable(
+                        selected = selectedMode.isHours,
+                        role = Role.RadioButton,
+                        onClick = onHourClick,
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -297,9 +300,6 @@ internal fun HorizontalClockDigits(
             }
             Box(
                 modifier = Modifier
-                    .semantics {
-                        selected = !selectedMode.isHours
-                    }
                     .size(
                         width = if (amPmMode == AmPmMode.NONE) 112.dp else 96.dp,
                         height = 80.dp,
@@ -312,7 +312,11 @@ internal fun HorizontalClockDigits(
                             shape = clockDigitsShape,
                         )
                     }
-                    .clickable(onClick = onMinuteClick),
+                    .selectable(
+                        selected = !selectedMode.isHours,
+                        role = Role.RadioButton,
+                        onClick = onMinuteClick,
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -362,16 +366,18 @@ internal fun VerticalAmPmSwitch(
                     shape = amPmSwitchShape,
                 )
             }
+            .selectableGroup()
     ) {
         Box(
             modifier = Modifier
-                .semantics {
-                    selected = amPmMode == AmPmMode.AM
-                }
+                .selectable(
+                    selected = amPmMode == AmPmMode.AM,
+                    role = Role.RadioButton,
+                    onClick = onAmClick,
+                )
                 .weight(1f)
                 .fillMaxWidth()
-                .background(if (amPmMode == AmPmMode.AM) selectedFieldColor else unselectedFieldColor)
-                .clickable(onClick = onAmClick),
+                .background(if (amPmMode == AmPmMode.AM) selectedFieldColor else unselectedFieldColor),
         ) {
             Text(
                 modifier = Modifier
@@ -386,13 +392,15 @@ internal fun VerticalAmPmSwitch(
         }
         Box(
             modifier = Modifier
-                .semantics {
-                    selected = amPmMode == AmPmMode.PM
-                }
                 .weight(1f)
                 .fillMaxWidth()
                 .background(if (amPmMode == AmPmMode.PM) selectedFieldColor else unselectedFieldColor)
-                .clickable(onClick = onPmClick),
+                .clickable(onClick = onPmClick)
+                .selectable(
+                    selected = amPmMode == AmPmMode.PM,
+                    role = Role.RadioButton,
+                    onClick = onPmClick,
+                ),
         ) {
             Text(
                 modifier = Modifier
