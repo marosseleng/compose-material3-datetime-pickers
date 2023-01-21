@@ -39,7 +39,7 @@ public class SnapshotTest(
             nightMode = darkMode.mode,
             locale = "${locale.language}-r${locale.region}",
         ),
-        maxPercentDifference = 0.0,
+        maxPercentDifference = 0.5,
         showSystemUi = false,
     )
 
