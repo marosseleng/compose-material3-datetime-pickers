@@ -2,21 +2,16 @@
 
 A highly customizable time picker for Jetpack Compose. Material3 theme-compatible.
 
-![demo-video](resources/time-picker-demo.gif)
+<img src="resources/time-picker-demo.gif" height="400px"/>
+
+## Contents
+* [Usage](#usage)
+* [Customization](#customization)
 
 ## Usage
 
-A base composable `fun TimePicker()` displays the time picker. It is recommended to wrap the time picker in an `(Alert)Dialog` composable.
+Minimal working example of a timepicker dialog usage (see below for parameter descriptions):
 
-An example of such usage can be seen in `fun TimePickerDialog()`.
-
-There are 2 mandatory parameters for `TimePickerDialog`:
-
-- `onDismissRequest`: called when user wants to dismiss the dialog without selecting the time;
-- `onTimeChange`: called when user taps the confirmation button, the parameter is the `LocalTime` representing the selected time.
-
-Example of `TimePickerDialog` usage:
-    
 ```kotlin
 var isDialogShown: Boolean by rememberSaveable {
     mutableStateOf(false)
@@ -37,24 +32,63 @@ if (isDialogShown) {
 }
 ```
 
-## Customization
-The time picker is a highly customizable component. It allows to customize colors, shapes and typography.
-You can pass custom shapes of the digit-box as well as the AM/PM box:
+`TimePickerDialog` with all parameters:
+```kotlin
+@Composable
+fun TimePickerDialog(
+    onDismissRequest: () -> Unit,
+    onTimeChange: (LocalTime) -> Unit,
+    modifier: Modifier = Modifier,
+    initialTime: LocalTime = LocalTime.now().noSeconds(),
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
+    is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
+    colors: TimePickerColors = TimePickerDefaults.colors(),
+    shapes: TimePickerShapes = TimePickerDefaults.shapes(),
+    typography: TimePickerTypography = TimePickerDefaults.typography(),
+    title: @Composable (() -> Unit)? = null,
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = AlertDialogDefaults.containerColor,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+    properties: DialogProperties = DialogProperties(),
+)
+```
+* `onDismissRequest` - called when the dialog should be dismissed without user selecting a value
+* `onTimeChange` - called when user selected a value, passing it as a parameter
+* `modifier` - a `Modifier` for the root `@Composable`
+* `initialTime` - an initially-selected `LocalTime`
+* `locale` - `java.util.Locale` used to display user-visible strings, such as AM/PM strings
+* `is24HourFormat` - whether or not to show the 24-hour picker
+* `colors` - an instance of `TimePickerColors` used to theme the component (see below for more info)
+* `shapes` - an instance of `TimePickerShapes` used to theme the component (see below for more info)
+* `typography` - an instance of `TimePickerTypography` used to theme the component (see below for more info)
+* `title` - a `@Composable` slot for the dialog title - usually `{ Text("Select time") }` or similar
+* `shape` - the shape of the `AlertDialog`
+* `containerColor` - the container color of the `AlertDialog`
+* `tonalElevation` - the tonal elevation of the `AlertDialog`
+* `properties` - `DialogProperties` of the `AlertDialog`
 
-_It is not recommended to pass an anonymous instance of `TimePickerShapes`. Instead, create an implementation separately and use that to prevent creating a new instance each time the component is recomposed._
+## Customization
+Timepicker dialog provides several ways of customizing its looks. Starting with `is24HourFormat`, continuing to the more complex combination of different `Color`, `Shape` and `Typography`.
+
+Timepicker dialog offers **out-of-the-box support for light/dark theming** and [Material You dynamic colors](https://m3.material.io/styles/color/dynamic-color/overview), as long as your `MaterialTheme` is defined correctly.
+
+The components use the design tokens that reference attributes from the `MaterialTheme`.
+
+For example, passing
 
 ```kotlin
 TimePickerDialog(
     // ...
-    shapes = object : TimePickerShapes {
-        override val clockDigitsShape: Shape
-            get() = CutCornerShape(topStart = 16.dp, topEnd = 3.dp, bottomStart = 0.dp, bottomEnd = 24.dp)
-        override val amPmSwitchShape: Shape
-            get() = CircleShape
-    }
+    shapes = TimePickerDefaults.shapes(
+        clockDigitsShape = CutCornerShape(topStart = 16.dp, topEnd = 3.dp, bottomStart = 0.dp, bottomEnd = 24.dp),
+        amPmSwitchShape = CircleShape,
+    ),
 )
 ```
 produces
-![custom-shapes](resources/time-picker-day-custom-shapes.png)
+
+<img src="resources/time-picker-day-custom-shapes.png" heigh="400px"/>
+
+In the similar way you can customize `colors`, `typography`, and even the looks of the `AlertDialog` itself.
 
 For default values see [TimePickerDefaults](../../datetimepickers/src/main/java/com/marosseleng/compose/material3/datetimepickers/time/domain/TimePickerDefaults.kt).

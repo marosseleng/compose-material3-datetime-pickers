@@ -2,20 +2,15 @@
 
 A highly customizable date picker for Jetpack Compose. Material3 theme-compatible.
 
-![demo-video](resources/date-picker-demo.gif)
+<img src="resources/date-picker-demo.gif" height="400px"/>
+
+## Contents
+* [Usage](#usage)
+* [Customization](#customization)
 
 ## Usage
 
-Currently, only a modal date picker with single date selection is implemented. Modal date input and picker for range selection are planned. Docked date picker is currently not planned.
-
-To display a date picker dialog, call `fun DatePickerDialog()` from your composable.
-
-There are 2 mandatory parameters for `DatePickerDialog`:
-
-- `onDismissRequest`: called when user wants to dismiss the dialog without selecting the date;
-- `onDateChange`: called when user taps the confirmation button, the parameter is the `LocalDate` representing the selected date.
-
-Example of `DatePickerDialog` usage:
+Minimal working example of a datepicker dialog usage (see below for parameter descriptions):
 
 ```kotlin
 var isDialogShown: Boolean by rememberSaveable {
@@ -37,23 +32,68 @@ if (isDialogShown) {
 }
 ```
 
-## Customization
-Similarly to the time picker, the majority of date picker looks can be customized. Custom colors, shapes and typography can be passed and applied.
+`DatePickerDialog` with all parameters:
+```kotlin
+@Composable
+fun DatePickerDialog(
+    onDismissRequest: () -> Unit,
+    onDateChange: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+    initialDate: LocalDate? = null,
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
+    today: LocalDate = LocalDate.now(),
+    showDaysAbbreviations: Boolean = true,
+    highlightToday: Boolean = true,
+    colors: DatePickerColors = DatePickerDefaults.colors(),
+    shapes: DatePickerShapes = DatePickerDefaults.shapes(),
+    typography: DatePickerTypography = DatePickerDefaults.typography(),
+    title: @Composable (() -> Unit)? = null,
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = AlertDialogDefaults.containerColor,
+    titleContentColor: Color = AlertDialogDefaults.titleContentColor,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+    properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
+)
+```
+* `onDismissRequest` - called when the dialog should be dismissed without user selecting a value
+* `onDateChange` - called when user selected a value, passing it as a parameter 
+* `modifier` - a `Modifier` for the root `@Composable`
+* `initialDate` - an initially-selected `LocalDate` or `null`
+* `locale` - `java.util.Locale` used to display user-visible strings, such as names of days and months
+* `today` - `LocalDate` representing today
+* `showDaysAbbreviations` - whether or not show row with days abbreviations above the day grid
+* `highlightToday` - whether or not highlight today in the day grid
+* `colors` - an instance of `DatePickerColors` used to theme the component (see below for more info)
+* `shapes` - an instance of `DatePickerShapes` used to theme the component (see below for more info)
+* `typography` - an instance of `DatePickerTypography` used to theme the component (see below for more info)
+* `title` - a `@Composable` slot for the dialog title - usually `{ Text("Select date") }` or similar
+* `shape` - the shape of the `AlertDialog`
+* `containerColor` - the container color of the `AlertDialog`
+* `tonalElevation` - the tonal elevation of the `AlertDialog`
+* `properties` - `DialogProperties` of the `AlertDialog`
 
-For example:
+## Customization
+Datepicker dialog provides several ways of customizing its looks. From small details controlled by `showDaysAbbreviations` and `highlightToday` to the more complex combination of different `Color`, `Shape` and `Typography`.
+
+Datepicker dialog offers **out-of-the-box support for light/dark theming** and [Material You dynamic colors](https://m3.material.io/styles/color/dynamic-color/overview), as long as your `MaterialTheme` is defined correctly.
+
+The components use the design tokens that reference attributes from the `MaterialTheme`.
+
+For example, passing
 
 ```kotlin
-
-// ...
-shapes = object : DatePickerShapes {
-    // ... other shape definitions
-    override val currentMonthDaySelected: Shape
-        get() = CutCornerShape(percent = 40)
-    override val currentMonthDayToday: Shape
-        get() = RoundedCornerShape(4.dp)
-}
+DatePickerDialog(
+    // ...
+    shapes = DatePickerDefaults.shapes(
+        currentMonthDaySelected = CutCornerShape(percent = 40),
+        currentMonthDayToday = RoundedCornerShape(4.dp),
+    ),
+)
 ```
 produces
-![custom-shapes](resources/date-picker-night-custom-shapes.png)
+
+<img src="resources/date-picker-night-custom-shapes.png" height="400px"/>
+
+In the similar way you can customize `colors`, `typography`, and even the looks of the `AlertDialog` itself.
 
 For default values see [DatePickerDefaults](../../datetimepickers/src/main/java/com/marosseleng/compose/material3/datetimepickers/date/domain/DatePickerDefaults.kt).
