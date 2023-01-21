@@ -16,6 +16,7 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.ui
 
+import android.text.format.DateUtils
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -49,6 +50,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -69,6 +71,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.selected
@@ -95,6 +98,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
+import java.time.ZoneId
 import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
@@ -118,6 +122,7 @@ import kotlin.math.sign
 internal fun ModalDatePicker(
     selectedDate: LocalDate?,
     onDayClick: (LocalDate) -> Unit,
+    title: @Composable (() -> Unit)?,
     modifier: Modifier = Modifier,
     locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     today: LocalDate = LocalDate.now(),
@@ -143,6 +148,7 @@ internal fun ModalDatePicker(
             modifier = modifier
                 .widthIn(max = 280.dp)
         ) {
+            ModalDatePickerHeader(date = selectedDate, title = title)
             MonthYearSelection(
                 currentYearMonth = yearMonth,
                 dropdownOpen = mode == SelectionMode.DAY,
@@ -156,7 +162,7 @@ internal fun ModalDatePicker(
                 },
                 onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
                 locale = locale,
-                modifier = Modifier,
+                modifier = Modifier.padding(top = 28.dp),
             )
 
             Crossfade(
@@ -211,6 +217,27 @@ internal fun ModalDatePicker(
                 }
             }
         }
+    }
+}
+
+@Composable
+internal fun ModalDatePickerHeader(date: LocalDate?, title: @Composable (() -> Unit)?) {
+    ProvideTextStyle(value = LocalDatePickerTypography.current.dialogSingleSelectionTitle) {
+        title?.invoke()
+    }
+    val dateSeconds = date?.atStartOfDay(ZoneId.systemDefault())?.toEpochSecond()
+    if (dateSeconds != null) {
+        val formatted = DateUtils.formatDateTime(
+            LocalContext.current,
+            dateSeconds * 1000,
+            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_WEEKDAY or
+                    DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
+        )
+        Text(
+            text = formatted,
+            style = LocalDatePickerTypography.current.headlineSingleSelection,
+            modifier = Modifier.padding(top = 36.dp),
+        )
     }
 }
 
