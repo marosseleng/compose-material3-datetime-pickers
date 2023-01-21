@@ -248,21 +248,25 @@ internal fun ModalDatePickerHeader(date: LocalDate?, title: @Composable (() -> U
             style = LocalDatePickerTypography.current.headlineSingleSelection,
             modifier = Modifier.padding(top = 36.dp),
         )
-        Divider(
-            modifier = Modifier
-                .layout { measurable, constraints ->
-                    val placeable = measurable.measure(
-                        constraints.copy(
-                            // ignore dialog padding, divider should span the full width
-                            maxWidth = constraints.maxWidth + 48.dp.roundToPx(),
+        LocalDatePickerColors.current.dialogDividerStroke?.also { stroke ->
+            Divider(
+                thickness = stroke.thickness,
+                color = stroke.color,
+                modifier = Modifier
+                    .layout { measurable, constraints ->
+                        val placeable = measurable.measure(
+                            constraints.copy(
+                                // ignore dialog padding, divider should span the full width
+                                maxWidth = constraints.maxWidth + 48.dp.roundToPx(),
+                            )
                         )
-                    )
-                    layout(placeable.width, placeable.height) {
-                        placeable.place(0, 0)
+                        layout(placeable.width, placeable.height) {
+                            placeable.place(0, 0)
+                        }
                     }
-                }
-                .padding(top = 12.dp)
-        )
+                    .padding(top = 12.dp),
+            )
+        }
     }
 }
 

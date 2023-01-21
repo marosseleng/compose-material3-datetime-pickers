@@ -39,6 +39,11 @@ public interface DatePickerColors {
     public val headlineSingleSelectionTextColor: Color
 
     /**
+     * Color of the divider in a dialog
+     */
+    public val dialogDividerStroke: DatePickerStroke?
+
+    /**
      * Text color of a weekday abbreviation.
      */
     public val weekDayLabelTextColor: Color
@@ -215,6 +220,7 @@ internal val LocalDatePickerColors: ProvidableCompositionLocal<DatePickerColors>
     object : DatePickerColors {
         override val dialogSingleSelectionTitleTextColor: Color = Color.Transparent
         override val headlineSingleSelectionTextColor: Color = Color.Transparent
+        override val dialogDividerStroke: DatePickerStroke? = null
         override val weekDayLabelTextColor: Color = Color.Transparent
         override val previousMonthDayLabelTextColor: Color = Color.Transparent
         override val previousMonthDayLabelBackgroundColor: Color = Color.Transparent

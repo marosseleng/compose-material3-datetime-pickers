@@ -24,6 +24,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -38,6 +39,10 @@ public object DatePickerDefaults {
     public fun colors(
         dialogSingleSelectionTitleTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         headlineSingleSelectionTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+        dialogDividerStroke: DatePickerStroke? = DatePickerStroke(
+            thickness = Dp.Companion.Hairline,
+            color = MaterialTheme.colorScheme.outlineVariant
+        ),
         weekDayLabelTextColor: Color = MaterialTheme.colorScheme.onSurface,
         previousMonthDayLabelTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         previousMonthDayLabelBackgroundColor: Color = Color.Unspecified,
@@ -73,6 +78,7 @@ public object DatePickerDefaults {
     ): DatePickerColors = object : DatePickerColors {
         override val dialogSingleSelectionTitleTextColor: Color = dialogSingleSelectionTitleTextColor
         override val headlineSingleSelectionTextColor: Color = headlineSingleSelectionTextColor
+        override val dialogDividerStroke: DatePickerStroke? = dialogDividerStroke
         override val weekDayLabelTextColor = weekDayLabelTextColor
         override val previousMonthDayLabelTextColor = previousMonthDayLabelTextColor
         override val previousMonthDayLabelBackgroundColor = previousMonthDayLabelBackgroundColor
