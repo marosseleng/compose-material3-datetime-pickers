@@ -41,7 +41,8 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Surface
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -100,6 +101,7 @@ import kotlin.math.sqrt
 public fun TimePicker(
     initialTime: LocalTime,
     onTimeChange: (LocalTime) -> Unit,
+    title: @Composable (() -> Unit)?,
     modifier: Modifier = Modifier,
     locale: Locale = LocalConfiguration.current.getDefaultLocale(),
     is24HourFormat: Boolean = DateFormat.is24HourFormat(LocalContext.current),
@@ -131,96 +133,110 @@ public fun TimePicker(
         LocalTimePickerShapes provides shapes,
         LocalTimePickerTypography provides typography,
     ) {
-        Surface(modifier = modifier) {
-            Column(
+        Column(
+            modifier = modifier
+        ) {
+            TimePickerHeader(title = title)
+            HorizontalClockDigits(
                 modifier = Modifier
-            ) {
-                HorizontalClockDigits(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    time = time,
-                    selectedMode = selectedMode,
-                    amPmMode = amPmMode,
-                    onHourClick = { selectedMode = hourFormat },
-                    onMinuteClick = { selectedMode = ClockDialMode.Minutes },
-                    onAmClick = {
-                        if (amPmMode == AmPmMode.PM) {
-                            val newTime = LocalTime.of(time.hour - 12, time.minute)
-                            time = newTime
-                            onTimeChange(newTime)
-                        }
-                    },
-                    onPmClick = {
-                        if (amPmMode == AmPmMode.AM) {
-                            val newTime = LocalTime.of(time.hour + 12, time.minute)
-                            time = newTime
-                            onTimeChange(newTime)
-                        }
-                    },
-                    locale = locale,
-                )
-                Crossfade(
-                    modifier = Modifier
-                        .padding(top = 36.dp)
-                        .align(Alignment.CenterHorizontally),
-                    targetState = selectedMode
-                ) { dialMode ->
-                    when (dialMode) {
-                        is ClockDialMode.Minutes -> {
-                            MinutesDial(
-                                value = time.minute,
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                time = time,
+                selectedMode = selectedMode,
+                amPmMode = amPmMode,
+                onHourClick = { selectedMode = hourFormat },
+                onMinuteClick = { selectedMode = ClockDialMode.Minutes },
+                onAmClick = {
+                    if (amPmMode == AmPmMode.PM) {
+                        val newTime = LocalTime.of(time.hour - 12, time.minute)
+                        time = newTime
+                        onTimeChange(newTime)
+                    }
+                },
+                onPmClick = {
+                    if (amPmMode == AmPmMode.AM) {
+                        val newTime = LocalTime.of(time.hour + 12, time.minute)
+                        time = newTime
+                        onTimeChange(newTime)
+                    }
+                },
+                locale = locale,
+            )
+            Crossfade(
+                modifier = Modifier
+                    .padding(top = 36.dp)
+                    .align(Alignment.CenterHorizontally),
+                targetState = selectedMode
+            ) { dialMode ->
+                when (dialMode) {
+                    is ClockDialMode.Minutes -> {
+                        MinutesDial(
+                            value = time.minute,
+                            onValueChange = {
+                                val newTime = LocalTime.of(time.hour, it)
+                                time = newTime
+                                onTimeChange(newTime)
+                            },
+                        )
+                    }
+
+                    is ClockDialMode.Hours -> {
+                        if (dialMode.is24HourFormat) {
+                            Hour24Dial(
+                                value = time.getHour(in24HourFormat = true),
                                 onValueChange = {
-                                    val newTime = LocalTime.of(time.hour, it)
+                                    val newTime = LocalTime.of(it, time.minute)
                                     time = newTime
                                     onTimeChange(newTime)
                                 },
+                                onTouchStop = {
+                                    selectedMode = ClockDialMode.Minutes
+                                },
                             )
-                        }
-
-                        is ClockDialMode.Hours -> {
-                            if (dialMode.is24HourFormat) {
-                                Hour24Dial(
-                                    value = time.getHour(in24HourFormat = true),
-                                    onValueChange = {
-                                        val newTime = LocalTime.of(it, time.minute)
-                                        time = newTime
-                                        onTimeChange(newTime)
-                                    },
-                                    onTouchStop = {
-                                        selectedMode = ClockDialMode.Minutes
-                                    },
-                                )
-                            } else {
-                                Hour12Dial(
-                                    value = time.getHour(in24HourFormat = false),
-                                    onValueChange = {
-                                        val hour = if (amPmMode == AmPmMode.AM) {
-                                            if (it == 12) {
-                                                0
-                                            } else {
-                                                it
-                                            }
+                        } else {
+                            Hour12Dial(
+                                value = time.getHour(in24HourFormat = false),
+                                onValueChange = {
+                                    val hour = if (amPmMode == AmPmMode.AM) {
+                                        if (it == 12) {
+                                            0
                                         } else {
-                                            if (it == 12) {
-                                                it
-                                            } else {
-                                                it + 12
-                                            }
+                                            it
                                         }
-                                        val newTime = LocalTime.of(hour, time.minute)
-                                        time = newTime
-                                        onTimeChange(newTime)
-                                    },
-                                    onTouchStop = {
-                                        selectedMode = ClockDialMode.Minutes
-                                    },
-                                )
-                            }
+                                    } else {
+                                        if (it == 12) {
+                                            it
+                                        } else {
+                                            it + 12
+                                        }
+                                    }
+                                    val newTime = LocalTime.of(hour, time.minute)
+                                    time = newTime
+                                    onTimeChange(newTime)
+                                },
+                                onTouchStop = {
+                                    selectedMode = ClockDialMode.Minutes
+                                },
+                            )
                         }
                     }
                 }
             }
         }
+    }
+}
+
+/**
+ * Wraps the time picker dialog header.
+ */
+@Composable
+internal fun TimePickerHeader(title: @Composable (() -> Unit)?) {
+    val mergedStyle = LocalTextStyle.current.merge(LocalTimePickerTypography.current.dialogTitle)
+    CompositionLocalProvider(
+        LocalTextStyle provides mergedStyle,
+        LocalContentColor provides LocalTimePickerColors.current.dialogTitleTextColor,
+    ) {
+        title?.invoke()
     }
 }
 

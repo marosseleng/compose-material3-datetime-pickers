@@ -27,6 +27,22 @@ import androidx.compose.ui.unit.dp
  * Interface describing colors used in DatePicker.
  */
 public interface DatePickerColors {
+
+    /**
+     * Text color of the single-date selection dialog. Usually text "select date"
+     */
+    public val dialogSingleSelectionTitleTextColor: Color
+
+    /**
+     * Text color of the selected date in the dialog.
+     */
+    public val headlineSingleSelectionTextColor: Color
+
+    /**
+     * Color of the divider in a dialog
+     */
+    public val dialogDividerStroke: DatePickerStroke?
+
     /**
      * Text color of a weekday abbreviation.
      */
@@ -202,6 +218,9 @@ public data class DatePickerStroke(
 
 internal val LocalDatePickerColors: ProvidableCompositionLocal<DatePickerColors> = compositionLocalOf {
     object : DatePickerColors {
+        override val dialogSingleSelectionTitleTextColor: Color = Color.Transparent
+        override val headlineSingleSelectionTextColor: Color = Color.Transparent
+        override val dialogDividerStroke: DatePickerStroke? = null
         override val weekDayLabelTextColor: Color = Color.Transparent
         override val previousMonthDayLabelTextColor: Color = Color.Transparent
         override val previousMonthDayLabelBackgroundColor: Color = Color.Transparent

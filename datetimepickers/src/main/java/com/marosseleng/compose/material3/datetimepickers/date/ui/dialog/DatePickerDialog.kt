@@ -16,11 +16,8 @@
 
 package com.marosseleng.compose.material3.datetimepickers.date.ui.dialog
 
-import android.text.format.DateUtils
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -33,10 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.marosseleng.compose.material3.datetimepickers.common.domain.getDefaultLocale
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerColors
@@ -45,7 +40,6 @@ import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerS
 import com.marosseleng.compose.material3.datetimepickers.date.domain.DatePickerTypography
 import com.marosseleng.compose.material3.datetimepickers.date.ui.ModalDatePicker
 import java.time.LocalDate
-import java.time.ZoneId
 import java.util.Locale
 
 /**
@@ -81,9 +75,7 @@ public fun DatePickerDialog(
     title: @Composable (() -> Unit)? = null,
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
-    iconContentColor: Color = AlertDialogDefaults.iconContentColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
-    textContentColor: Color = AlertDialogDefaults.textContentColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
     properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
 ) {
@@ -104,26 +96,13 @@ public fun DatePickerDialog(
                 Text(stringResource(id = android.R.string.cancel))
             }
         },
-        title = {
-            ProvideTextStyle(value = typography.dialogSingleSelectionTitle) {
-                title?.invoke()
-            }
-
-            val dateSeconds = date?.atStartOfDay(ZoneId.systemDefault())?.toEpochSecond()
-            if (dateSeconds != null) {
-                val formatted = DateUtils.formatDateTime(
-                    LocalContext.current,
-                    dateSeconds * 1000,
-                    DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_WEEKDAY or
-                            DateUtils.FORMAT_SHOW_WEEKDAY or DateUtils.FORMAT_NO_YEAR or DateUtils.FORMAT_ABBREV_MONTH
-                )
-                Text(text = formatted, style = typography.headlineSingleSelection, modifier = Modifier.padding(top = 36.dp))
-            }
-        },
+        title = null,
+        icon = null,
         text = {
             ModalDatePicker(
                 selectedDate = date,
                 onDayClick = { date = it },
+                title = title,
                 modifier = Modifier,
                 locale = locale,
                 today = today,
@@ -136,9 +115,7 @@ public fun DatePickerDialog(
         },
         shape = shape,
         containerColor = containerColor,
-        iconContentColor = iconContentColor,
         titleContentColor = titleContentColor,
-        textContentColor = textContentColor,
         tonalElevation = tonalElevation,
         properties = properties,
     )
