@@ -6,11 +6,11 @@
 
 Highly customizable Jetpack Compose components with material3 support for date & time picking.
 
-<img src="docs/datepicker/resources/date-picker-dialog.png" height="400px"/>
-<img src="docs/timepicker/resources/time-picker-dialog.png" height="400px"/>
+<img src="docs/datepicker/resources/date-picker-dialog.png" height="400px"/><img src="docs/timepicker/resources/time-picker-dialog.png" height="400px"/>
 
 ## Contents
 * [Latest version](#latest-version)
+* [Versions](#versions)
 * [Usage](#usage)
   * [Single-date Datepicker](#single-date-datepicker)
   * [Timepicker](#timepicker)
