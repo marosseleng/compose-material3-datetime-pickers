@@ -49,8 +49,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -70,6 +72,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -162,7 +165,7 @@ internal fun ModalDatePicker(
                 },
                 onNextMonthClick = { yearMonth = yearMonth.plusMonths(1L) },
                 locale = locale,
-                modifier = Modifier.padding(top = 28.dp),
+                modifier = Modifier.padding(top = 16.dp),
             )
 
             Crossfade(
@@ -220,9 +223,16 @@ internal fun ModalDatePicker(
     }
 }
 
+/**
+ * Displays the header for modal date picker.
+ */
 @Composable
 internal fun ModalDatePickerHeader(date: LocalDate?, title: @Composable (() -> Unit)?) {
-    ProvideTextStyle(value = LocalDatePickerTypography.current.dialogSingleSelectionTitle) {
+    val mergedTextStyle = LocalTextStyle.current.merge(LocalDatePickerTypography.current.dialogSingleSelectionTitle)
+    CompositionLocalProvider(
+        LocalTextStyle provides mergedTextStyle,
+        LocalContentColor provides LocalDatePickerColors.current.dialogSingleSelectionTitleTextColor,
+    ) {
         title?.invoke()
     }
     val dateSeconds = date?.atStartOfDay(ZoneId.systemDefault())?.toEpochSecond()
@@ -237,6 +247,21 @@ internal fun ModalDatePickerHeader(date: LocalDate?, title: @Composable (() -> U
             text = formatted,
             style = LocalDatePickerTypography.current.headlineSingleSelection,
             modifier = Modifier.padding(top = 36.dp),
+        )
+        Divider(
+            modifier = Modifier
+                .layout { measurable, constraints ->
+                    val placeable = measurable.measure(
+                        constraints.copy(
+                            // ignore dialog padding, divider should span the full width
+                            maxWidth = constraints.maxWidth + 48.dp.roundToPx(),
+                        )
+                    )
+                    layout(placeable.width, placeable.height) {
+                        placeable.place(0, 0)
+                    }
+                }
+                .padding(top = 12.dp)
         )
     }
 }

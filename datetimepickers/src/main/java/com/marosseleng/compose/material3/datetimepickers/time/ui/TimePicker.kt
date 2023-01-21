@@ -41,7 +41,8 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -135,9 +136,7 @@ public fun TimePicker(
         Column(
             modifier = modifier
         ) {
-            ProvideTextStyle(value = LocalTimePickerTypography.current.dialogTitle) {
-                title?.invoke()
-            }
+            TimePickerHeader(title = title)
             HorizontalClockDigits(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -224,6 +223,20 @@ public fun TimePicker(
                 }
             }
         }
+    }
+}
+
+/**
+ * Wraps the time picker dialog header.
+ */
+@Composable
+internal fun TimePickerHeader(title: @Composable (() -> Unit)?) {
+    val mergedStyle = LocalTextStyle.current.merge(LocalTimePickerTypography.current.dialogTitle)
+    CompositionLocalProvider(
+        LocalTextStyle provides mergedStyle,
+        LocalContentColor provides LocalTimePickerColors.current.dialogTitleTextColor,
+    ) {
+        title?.invoke()
     }
 }
 

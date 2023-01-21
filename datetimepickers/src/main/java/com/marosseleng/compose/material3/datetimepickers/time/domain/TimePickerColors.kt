@@ -28,6 +28,11 @@ import androidx.compose.ui.unit.Dp
 public interface TimePickerColors {
 
     /**
+     * Text color of dialog title. Usually text "select time".
+     */
+    public val dialogTitleTextColor: Color
+
+    /**
      * Background color of the selected digit box.
      */
     public val clockDigitsSelectedBackgroundColor: Color
@@ -137,6 +142,7 @@ public data class TimePickerStroke(
 
 internal val LocalTimePickerColors: ProvidableCompositionLocal<TimePickerColors> = compositionLocalOf {
     object : TimePickerColors {
+        override val dialogTitleTextColor: Color = Color.Transparent
         override val clockDigitsSelectedBackgroundColor: Color = Color.Transparent
         override val clockDigitsSelectedTextColor: Color = Color.Transparent
         override val clockDigitsSelectedBorderStroke: TimePickerStroke? = null

@@ -36,6 +36,8 @@ public object DatePickerDefaults {
     @Composable
     @ReadOnlyComposable
     public fun colors(
+        dialogSingleSelectionTitleTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+        headlineSingleSelectionTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         weekDayLabelTextColor: Color = MaterialTheme.colorScheme.onSurface,
         previousMonthDayLabelTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         previousMonthDayLabelBackgroundColor: Color = Color.Unspecified,
@@ -54,8 +56,8 @@ public object DatePickerDefaults {
         todayLabelTextColor: Color = MaterialTheme.colorScheme.primary,
         todayLabelBackgroundColor: Color = Color.Unspecified,
         todayStroke: DatePickerStroke = DatePickerStroke(1.dp, MaterialTheme.colorScheme.primary),
-        yearMonthTextColor: Color = MaterialTheme.colorScheme.onSurface,
-        previousNextMonthIconColor: Color = MaterialTheme.colorScheme.onSurface,
+        yearMonthTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+        previousNextMonthIconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         unselectedYearTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         unselectedYearBackgroundColor: Color = Color.Unspecified,
         unselectedYearStroke: DatePickerStroke? = null,
@@ -69,6 +71,8 @@ public object DatePickerDefaults {
         selectedMonthBackgroundColor: Color = MaterialTheme.colorScheme.primary,
         selectedMonthStroke: DatePickerStroke? = null,
     ): DatePickerColors = object : DatePickerColors {
+        override val dialogSingleSelectionTitleTextColor: Color = dialogSingleSelectionTitleTextColor
+        override val headlineSingleSelectionTextColor: Color = headlineSingleSelectionTextColor
         override val weekDayLabelTextColor = weekDayLabelTextColor
         override val previousMonthDayLabelTextColor = previousMonthDayLabelTextColor
         override val previousMonthDayLabelBackgroundColor = previousMonthDayLabelBackgroundColor
