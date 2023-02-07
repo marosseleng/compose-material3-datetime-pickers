@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.marosseleng.compose.material3.datetimepicker.demo.ui.theme.ComposeMaterial3DatetimePickerTheme
 import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePickerDialog
+import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DateRangePickerDialog
 import com.marosseleng.compose.material3.datetimepickers.time.domain.noSeconds
 import com.marosseleng.compose.material3.datetimepickers.time.ui.dialog.TimePickerDialog
 import java.time.LocalDate
@@ -116,6 +117,39 @@ class MainActivity : ComponentActivity() {
                             )
                             FilledTonalButton(onClick = { isDateDialogShown = true }) {
                                 Text("Click me to change date")
+                            }
+                        }
+                        Column(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            var isDateDialogShown: Boolean by rememberSaveable {
+                                mutableStateOf(false)
+                            }
+                            val (selectedStartDate, setSelectedStartDate) = rememberSaveable {
+                                mutableStateOf(LocalDate.now())
+                            }
+                            val (selectedEndDate, setSelectedEndDate) = rememberSaveable {
+                                mutableStateOf(LocalDate.now())
+                            }
+                            if (isDateDialogShown) {
+                                DateRangePickerDialog(
+                                    onDismissRequest = { isDateDialogShown = false },
+                                    onDateChange = { start, end ->
+                                        setSelectedStartDate(start)
+                                        setSelectedEndDate(end)
+                                        isDateDialogShown = false
+                                    },
+                                    title = { Text(text = "Select date") },
+                                )
+                            }
+                            Text(
+                                text = "Selected Date Range: $selectedStartDate - $selectedEndDate",
+                                style = MaterialTheme.typography.displaySmall,
+                            )
+                            FilledTonalButton(onClick = { isDateDialogShown = true }) {
+                                Text("Click me to change range")
                             }
                         }
                     }

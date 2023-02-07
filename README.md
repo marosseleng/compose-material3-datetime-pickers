@@ -13,6 +13,7 @@ Highly customizable Jetpack Compose components with material3 support for date &
 * [Versions](#versions)
 * [Usage](#usage)
   * [Single-date Datepicker](#single-date-datepicker)
+  * [Range Datepicker](#range-datepicker)
   * [Timepicker](#timepicker)
   * [Java 8 and desugaring](#java-8-and-desugaring)
 * [Contributing](#contributing)
@@ -66,6 +67,37 @@ fun DatePickerDialog(
 There are only 2 required parameters:
 * `onDismissRequest` - called when the dialog should be dismissed without user selecting a value
 * `onDateChange` - called when user selected a value, passing it as a parameter
+
+It is, however, recommended to also fill the `title` parameter, as it provides the title for the dialog.
+
+Remaining parameters as well as the customization guide is described in the separate [README](docs/datepicker/README.md).
+### Range Datepicker
+To display a rangepicker dialog for a rangedate selection, just call
+```kotlin
+@Composable
+fun DateRangePickerDialog(
+    onDismissRequest: () -> Unit,
+    onDateChange: (LocalDate,LocaleDate) -> Unit,
+    modifier: Modifier = Modifier,
+    initialDate: LocalDate? = null,
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
+    today: LocalDate = LocalDate.now(),
+    showDaysAbbreviations: Boolean = true,
+    highlightToday: Boolean = true,
+    colors: DatePickerColors = DatePickerDefaults.colors(),
+    shapes: DatePickerShapes = DatePickerDefaults.shapes(),
+    typography: DatePickerTypography = DatePickerDefaults.typography(),
+    title: @Composable (() -> Unit)? = null,
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = AlertDialogDefaults.containerColor,
+    titleContentColor: Color = AlertDialogDefaults.titleContentColor,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+    properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
+)
+```
+There are only 2 required parameters:
+* `onDismissRequest` - called when the dialog should be dismissed without user selecting a value
+* `onDateChange` - called when user selected a range, passing it as a parameter
 
 It is, however, recommended to also fill the `title` parameter, as it provides the title for the dialog.
 

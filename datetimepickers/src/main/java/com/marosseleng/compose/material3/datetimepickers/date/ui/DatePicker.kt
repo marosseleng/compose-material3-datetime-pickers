@@ -124,6 +124,7 @@ import kotlin.math.sign
 @Composable
 internal fun ModalDatePicker(
     selectedDate: LocalDate?,
+    selectedEndDate: LocalDate?,
     onDayClick: (LocalDate) -> Unit,
     title: @Composable (() -> Unit)?,
     modifier: Modifier = Modifier,
@@ -179,7 +180,7 @@ internal fun ModalDatePicker(
                             modifier = Modifier
                                 .padding(top = 16.dp),
                             selectionFrom = selectedDate,
-                            selectionTo = selectedDate,
+                            selectionTo = selectedEndDate,
                             month = yearMonth,
                             today = today,
                             locale = locale,

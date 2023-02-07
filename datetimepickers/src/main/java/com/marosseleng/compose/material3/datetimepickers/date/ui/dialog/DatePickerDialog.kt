@@ -101,7 +101,100 @@ public fun DatePickerDialog(
         text = {
             ModalDatePicker(
                 selectedDate = date,
+                selectedEndDate = date,
                 onDayClick = { date = it },
+                title = title,
+                modifier = Modifier,
+                locale = locale,
+                today = today,
+                showDaysAbbreviations = showDaysAbbreviations,
+                highlightToday = highlightToday,
+                colors = colors,
+                shapes = shapes,
+                typography = typography,
+            )
+        },
+        shape = shape,
+        containerColor = containerColor,
+        titleContentColor = titleContentColor,
+        tonalElevation = tonalElevation,
+        properties = properties,
+    )
+}
+
+/**
+ * Displays the datepicker dialog for a single date election.
+ *
+ * @param onDismissRequest called when user wants to dismiss the dialog without selecting the time
+ * @param onDateChange called when user selects the range and taps the positive button
+ * @param modifier a [Modifier]
+ * @param initialDate initial [LocalDate] to select or null
+ * @param locale a [Locale] instance for displayed texts, such as Months names
+ * @param today today
+ * @param showDaysAbbreviations whether or not to show the row with days' abbreviations atop the day grid
+ * @param highlightToday whether or not to highlight today
+ * @param colors [DatePickerColors] to use
+ * @param shapes [DatePickerShapes] to use
+ * @param typography [DatePickerTypography] to use
+ * @param title title of the dialog
+ */
+@ExperimentalComposeUiApi
+@Composable
+public fun DateRangePickerDialog(
+    onDismissRequest: () -> Unit,
+    onDateChange: (LocalDate, LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
+    initialDate: LocalDate? = null,
+    locale: Locale = LocalConfiguration.current.getDefaultLocale(),
+    today: LocalDate = LocalDate.now(),
+    showDaysAbbreviations: Boolean = true,
+    highlightToday: Boolean = true,
+    colors: DatePickerColors = DatePickerDefaults.colors(),
+    shapes: DatePickerShapes = DatePickerDefaults.shapes(),
+    typography: DatePickerTypography = DatePickerDefaults.typography(),
+    title: @Composable (() -> Unit)? = null,
+    shape: Shape = AlertDialogDefaults.shape,
+    containerColor: Color = AlertDialogDefaults.containerColor,
+    titleContentColor: Color = AlertDialogDefaults.titleContentColor,
+    tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
+    properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
+) {
+    var startDate: LocalDate? by rememberSaveable(initialDate) {
+        mutableStateOf(initialDate)
+    }
+
+    var endDate: LocalDate? by rememberSaveable(initialDate) {
+        mutableStateOf(initialDate)
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(
+                onClick = { onDateChange(startDate!!, endDate ?: startDate!!) },
+                enabled = startDate != null && endDate != null
+            ) {
+                Text(stringResource(id = android.R.string.ok))
+            }
+        },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(stringResource(id = android.R.string.cancel))
+            }
+        },
+        title = null,
+        icon = null,
+        text = {
+            ModalDatePicker(
+                selectedDate = startDate,
+                selectedEndDate = endDate,
+                onDayClick = {
+                    if (startDate == null || endDate != null || startDate?.isAfter(it)==true) {
+                        startDate = it
+                        endDate = null
+                    } else endDate = it
+                },
                 title = title,
                 modifier = Modifier,
                 locale = locale,
