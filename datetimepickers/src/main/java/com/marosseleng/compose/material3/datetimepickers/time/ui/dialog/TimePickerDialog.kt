@@ -83,13 +83,19 @@ public fun TimePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { onTimeChange(time) }) {
-                Text(stringResource(id = android.R.string.ok))
+                Text(
+                    text = stringResource(id = android.R.string.ok),
+                    color = colors.dialogButtonTextColor,
+                )
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(stringResource(id = android.R.string.cancel))
+                Text(
+                    text = stringResource(id = android.R.string.cancel),
+                    color = colors.dialogButtonTextColor,
+                )
             }
         },
         icon = null,
