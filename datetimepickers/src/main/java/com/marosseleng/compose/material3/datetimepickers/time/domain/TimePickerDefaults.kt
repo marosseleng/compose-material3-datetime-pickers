@@ -36,6 +36,7 @@ public object TimePickerDefaults {
     @Composable
     @ReadOnlyComposable
     public fun colors(
+        dialogButtonTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         dialogTitleTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         clockDigitsSelectedBackgroundColor: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.24f),
         clockDigitsSelectedTextColor: Color = MaterialTheme.colorScheme.primary,
@@ -60,6 +61,7 @@ public object TimePickerDefaults {
         dialNumberUnselectedBackgroundColor: Color = Color.Transparent,
         dialNumberUnselectedTextColor: Color = MaterialTheme.colorScheme.onSurface,
     ): TimePickerColors = object : TimePickerColors {
+        override val dialogButtonTextColor: Color = dialogButtonTextColor
         override val dialogTitleTextColor: Color = dialogTitleTextColor
         override val clockDigitsSelectedBackgroundColor = clockDigitsSelectedBackgroundColor
         override val clockDigitsSelectedTextColor = clockDigitsSelectedTextColor
