@@ -37,6 +37,7 @@ public object DatePickerDefaults {
     @Composable
     @ReadOnlyComposable
     public fun colors(
+        dialogButtonTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         dialogSingleSelectionTitleTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         headlineSingleSelectionTextColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
         dialogDividerStroke: DatePickerStroke? = DatePickerStroke(
@@ -76,6 +77,8 @@ public object DatePickerDefaults {
         selectedMonthBackgroundColor: Color = MaterialTheme.colorScheme.primary,
         selectedMonthStroke: DatePickerStroke? = null,
     ): DatePickerColors = object : DatePickerColors {
+        override val dialogButtonTextColor: Color
+            get() = TODO("Not yet implemented")
         override val dialogSingleSelectionTitleTextColor: Color = dialogSingleSelectionTitleTextColor
         override val headlineSingleSelectionTextColor: Color = headlineSingleSelectionTextColor
         override val dialogDividerStroke: DatePickerStroke? = dialogDividerStroke
