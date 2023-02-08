@@ -77,8 +77,7 @@ public object DatePickerDefaults {
         selectedMonthBackgroundColor: Color = MaterialTheme.colorScheme.primary,
         selectedMonthStroke: DatePickerStroke? = null,
     ): DatePickerColors = object : DatePickerColors {
-        override val dialogButtonTextColor: Color
-            get() = TODO("Not yet implemented")
+        override val dialogButtonTextColor: Color = dialogButtonTextColor
         override val dialogSingleSelectionTitleTextColor: Color = dialogSingleSelectionTitleTextColor
         override val headlineSingleSelectionTextColor: Color = headlineSingleSelectionTextColor
         override val dialogDividerStroke: DatePickerStroke? = dialogDividerStroke
