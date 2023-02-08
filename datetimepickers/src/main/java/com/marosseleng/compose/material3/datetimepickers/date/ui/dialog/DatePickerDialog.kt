@@ -87,13 +87,19 @@ public fun DatePickerDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = { date?.also(onDateChange) }, enabled = date != null) {
-                Text(stringResource(id = android.R.string.ok))
+                Text(
+                    text = stringResource(id = android.R.string.ok),
+                    color = colors.dialogButtonTextColor,
+                )
             }
         },
         modifier = modifier,
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text(stringResource(id = android.R.string.cancel))
+                Text(
+                    text = stringResource(id = android.R.string.cancel),
+                    color = colors.dialogButtonTextColor,
+                )
             }
         },
         title = null,
