@@ -95,6 +95,7 @@ import com.marosseleng.compose.material3.datetimepickers.date.domain.LocalDatePi
 import com.marosseleng.compose.material3.datetimepickers.date.domain.SelectionMode
 import com.marosseleng.compose.material3.datetimepickers.date.domain.getDaysToDisplay
 import com.marosseleng.compose.material3.datetimepickers.date.domain.getDisplayName
+import com.marosseleng.compose.material3.datetimepickers.date.domain.getWeekdays
 import com.marosseleng.compose.material3.datetimepickers.date.domain.getYears
 import com.marosseleng.compose.material3.datetimepickers.time.domain.DayOfMonth
 import java.time.DayOfWeek
@@ -570,25 +571,7 @@ internal fun Month(
             .verticalScroll(rememberScrollState())
     ) {
         if (showDaysAbbreviations) {
-            Row(
-                modifier = Modifier
-            ) {
-                for (dayIndex in 0 until 7) {
-                    Box(
-                        modifier = Modifier
-                            .size(40.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        val dayAbbr = DayOfWeek.of(((globalFirstDayIndex - 1 + dayIndex) % 7) + 1)
-                            .getDisplayName(TextStyle.NARROW, locale)
-                        Text(
-                            text = dayAbbr,
-                            style = LocalDatePickerTypography.current.weekDay,
-                            color = LocalDatePickerColors.current.weekDayLabelTextColor,
-                        )
-                    }
-                }
-            }
+            DaysAbbreviationsRow(globalFirstDayIndex = globalFirstDayIndex, locale = locale)
         }
 
         for (week in getDaysToDisplay(month, globalFirstDay).chunked(7)) {
@@ -603,6 +586,41 @@ internal fun Month(
                 selectionFrom = selectionFrom,
                 selectionTo = selectionTo,
             )
+        }
+    }
+}
+
+/**
+ * Displays the row of boxes containing the abbreviations of days names.
+ *
+ * @param globalFirstDayIndex index of the first day of the week.
+ * @param locale desired [Locale].
+ * @param modifier a [Modifier].
+ */
+@Composable
+internal fun DaysAbbreviationsRow(globalFirstDayIndex: Int, locale: Locale, modifier: Modifier = Modifier) {
+    val names = remember(locale) {
+        getWeekdays(locale)
+    }
+    Row(
+        modifier = modifier
+    ) {
+        for (dayIndex in 0 until 7) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                val dayOfWeek = DayOfWeek.of(((globalFirstDayIndex - 1 + dayIndex) % 7) + 1)
+                val dayAbbr = names.getOrElse(dayOfWeek) {
+                    dayOfWeek.getDisplayName(TextStyle.NARROW, locale)
+                }
+                Text(
+                    text = dayAbbr,
+                    style = LocalDatePickerTypography.current.weekDay,
+                    color = LocalDatePickerColors.current.weekDayLabelTextColor,
+                )
+            }
         }
     }
 }
