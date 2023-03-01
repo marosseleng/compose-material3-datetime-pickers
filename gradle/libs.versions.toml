@@ -2,7 +2,7 @@
 version-android-application = "7.4.2"
 version-android-library = "7.4.2"
 version-kotlin = "1.8.10"
-version-nexus-publish = "1.1.0"
+version-nexus-publish = "1.2.0"
 version-junit5-plugin = "1.8.2.1"
 version-paparazzi = "1.2.0"
 
