@@ -18,6 +18,8 @@ package com.marosseleng.compose.material3.datetimepickers.date.ui.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -57,6 +59,7 @@ import java.util.Locale
  * @param shapes [DatePickerShapes] to use
  * @param typography [DatePickerTypography] to use
  * @param title title of the dialog
+ * @param buttonColors colors of dialog buttons
  */
 @ExperimentalComposeUiApi
 @Composable
@@ -73,6 +76,7 @@ public fun DatePickerDialog(
     shapes: DatePickerShapes = DatePickerDefaults.shapes(),
     typography: DatePickerTypography = DatePickerDefaults.typography(),
     title: @Composable (() -> Unit)? = null,
+    buttonColors: ButtonColors = ButtonDefaults.textButtonColors(),
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
@@ -86,13 +90,20 @@ public fun DatePickerDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { date?.also(onDateChange) }, enabled = date != null) {
+            TextButton(
+                colors = buttonColors,
+                onClick = { date?.also(onDateChange) },
+                enabled = date != null,
+            ) {
                 Text(stringResource(id = android.R.string.ok))
             }
         },
         modifier = modifier,
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
+            TextButton(
+                colors = buttonColors,
+                onClick = onDismissRequest,
+            ) {
                 Text(stringResource(id = android.R.string.cancel))
             }
         },

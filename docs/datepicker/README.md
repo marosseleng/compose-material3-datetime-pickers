@@ -48,6 +48,7 @@ fun DatePickerDialog(
     shapes: DatePickerShapes = DatePickerDefaults.shapes(),
     typography: DatePickerTypography = DatePickerDefaults.typography(),
     title: @Composable (() -> Unit)? = null,
+    buttonColors: ButtonColors = ButtonDefaults.textButtonColors(),
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
     titleContentColor: Color = AlertDialogDefaults.titleContentColor,
@@ -67,6 +68,7 @@ fun DatePickerDialog(
 * `shapes` - an instance of `DatePickerShapes` used to theme the component (see below for more info)
 * `typography` - an instance of `DatePickerTypography` used to theme the component (see below for more info)
 * `title` - a `@Composable` slot for the dialog title - usually `{ Text("Select date") }` or similar
+* `buttonColors` - an instance of Material's `ButtonColors` to customize the appearance of dialog buttons
 * `shape` - the shape of the `AlertDialog`
 * `containerColor` - the container color of the `AlertDialog`
 * `tonalElevation` - the tonal elevation of the `AlertDialog`
@@ -97,3 +99,15 @@ produces
 In the similar way you can customize `colors`, `typography`, and even the looks of the `AlertDialog` itself.
 
 For default values see [DatePickerDefaults](../../datetimepickers/src/main/java/com/marosseleng/compose/material3/datetimepickers/date/domain/DatePickerDefaults.kt).
+
+### Dialog button colors
+Newly, there is a possibility to alter dialog buttons' colors using the `buttonColors` parameter. Simply pass an instance of `ButtonColors`:
+```kotlin
+DatePickerDialog(
+    //...,
+    buttonColors = ButtonDefaults.textButtonColors(
+        contentColor = yourDesiredColor,
+    ),
+    //...,
+)
+```
