@@ -22,6 +22,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.marosseleng.compose.material3.datetimepicker.demo.ui.theme.ComposeMaterial3DatetimePickerTheme
 import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePickerDialog
@@ -77,7 +79,8 @@ class MainActivity : ComponentActivity() {
                                         setSelectedTime(it)
                                         isTimeDialogShown = false
                                     },
-                                    title = { Text(text = "Select time") }
+                                    title = { Text(text = "Select time") },
+                                    buttonColors = ButtonDefaults.textButtonColors(contentColor = Color.Red),
                                 )
                             }
                             Text(
@@ -108,6 +111,7 @@ class MainActivity : ComponentActivity() {
                                         isDateDialogShown = false
                                     },
                                     title = { Text(text = "Select date") },
+                                    buttonColors = ButtonDefaults.textButtonColors(contentColor = Color.Green),
                                 )
                             }
                             Text(

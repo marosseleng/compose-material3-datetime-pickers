@@ -21,6 +21,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -56,6 +58,11 @@ import java.util.Locale
  * @param onTimeChange called when user taps the confirmation button.
  * @param initialTime initial time to show in the picker.
  * @param is24HourFormat whether or not the time picker should be shown in 24-hour format.
+ * @param colors [TimePickerColors] to use
+ * @param shapes [TimePickerShapes] to use
+ * @param typography [TimePickerTypography] to use
+ * @param title title of the dialog
+ * @param buttonColors colors of dialog buttons.
  */
 @ExperimentalMaterial3Api
 @Composable
@@ -70,6 +77,7 @@ public fun TimePickerDialog(
     shapes: TimePickerShapes = TimePickerDefaults.shapes(),
     typography: TimePickerTypography = TimePickerDefaults.typography(),
     title: @Composable (() -> Unit)? = null,
+    buttonColors: ButtonColors = ButtonDefaults.textButtonColors(),
     shape: Shape = AlertDialogDefaults.shape,
     containerColor: Color = AlertDialogDefaults.containerColor,
     tonalElevation: Dp = AlertDialogDefaults.TonalElevation,
@@ -82,13 +90,19 @@ public fun TimePickerDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            TextButton(onClick = { onTimeChange(time) }) {
+            TextButton(
+                colors = buttonColors,
+                onClick = { onTimeChange(time) },
+            ) {
                 Text(stringResource(id = android.R.string.ok))
             }
         },
         modifier = modifier,
         dismissButton = {
-            TextButton(onClick = onDismissRequest) {
+            TextButton(
+                colors = buttonColors,
+                onClick = onDismissRequest,
+            ) {
                 Text(stringResource(id = android.R.string.cancel))
             }
         },
