@@ -15,7 +15,7 @@ version-androidx-lifecycle = "2.6.0"
 version-androidx-activity-compose = "1.6.1"
 
 version-compose-compiler = "1.4.3"
-version-compose-bom = "2023.01.00"
+version-compose-bom = "2023.03.00"
 
 version-material3 = "1.0.1"
 
