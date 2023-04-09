@@ -20,7 +20,7 @@ import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 
-private val zhCnWeekdays: Map<DayOfWeek, String> = mapOf(
+private val zhWeekdays: Map<DayOfWeek, String> = mapOf(
     DayOfWeek.MONDAY to "\u4e00",
     DayOfWeek.TUESDAY to "\u4e8c",
     DayOfWeek.WEDNESDAY to "\u4e09",
@@ -40,7 +40,7 @@ private fun localeWeekdays(locale: Locale): Map<DayOfWeek, String> {
  */
 internal fun getWeekdays(locale: Locale): Map<DayOfWeek, String> {
     return when {
-        locale.language == "zh" && locale.country == "CN" -> zhCnWeekdays
+        locale.language == "zh" -> zhWeekdays
         else -> localeWeekdays(locale)
     }
 }
