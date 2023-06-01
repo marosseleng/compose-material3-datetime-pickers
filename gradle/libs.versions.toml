@@ -19,7 +19,7 @@ version-compose-bom = "2023.05.01"
 
 version-material3 = "1.1.0"
 
-version-showkase = "1.0.0-beta17"
+version-showkase = "1.0.0-kotlin1.5.30-1"
 
 version-junit5 = "5.9.3"
 version-junit5-pioneer = "2.0.1"
