@@ -4,7 +4,7 @@ version-android-library = "8.0.2"
 version-kotlin = "1.8.21"
 version-nexus-publish = "1.3.0"
 version-junit5-plugin = "1.9.3.0"
-version-paparazzi = "1.2.0"
+version-paparazzi = "1.3.0"
 
 version-desugaring = "2.0.3"
 
