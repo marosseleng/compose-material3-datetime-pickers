@@ -21,7 +21,7 @@ version-material3 = "1.1.1"
 
 version-showkase = "1.0.0-beta17"
 
-version-junit5 = "5.9.3"
+version-junit5 = "5.10.0"
 version-junit5-pioneer = "2.0.1"
 version-junit4 = "4.13.2"
 # required until paparazzi gets decoupled from junit4
