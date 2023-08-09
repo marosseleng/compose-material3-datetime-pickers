@@ -12,7 +12,7 @@ permissions:
 jobs:
   test:
     if: ${{ github.event.label.name == 'uiTest' }}
-    runs-on: macos-12
+    runs-on: macos-13
     strategy:
       matrix:
         api-level: [21]
